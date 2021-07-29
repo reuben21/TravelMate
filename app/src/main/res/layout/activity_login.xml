@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".authentication.LoginActivity">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/list_selector"
         android:orientation="horizontal"
         android:paddingTop="100dp"
         android:paddingHorizontal="30dp"
