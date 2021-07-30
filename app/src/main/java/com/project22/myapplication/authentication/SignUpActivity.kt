@@ -1,21 +1,19 @@
 package com.project22.myapplication.authentication
 
-import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.project22.myapplication.R
-import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_sign_up.*
 
-class LoginActivity : AppCompatActivity() {
+
+class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-        registerButton.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
-        }
+        setContentView(R.layout.activity_sign_up)
 
         try {
             // TODO :- To Hide the Toolbar which Comes by Default
@@ -35,7 +33,10 @@ class LoginActivity : AppCompatActivity() {
             )
         }
 
-        toolbar_back_to_overviewScreen.setNavigationOnClickListener { onBackPressed() }
+        // TODO :- To go back to Login Screen
+        toolbar_back_to_Login.setNavigationOnClickListener { onBackPressed() }
+
+
 
     }
 

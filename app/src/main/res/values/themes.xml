@@ -39,6 +39,14 @@
         <item name="colorOnPrimary">@color/primaryTextColor</item>
     </style>
 
+    <style name="Theme.TravelMate.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.TravelMate.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.TravelMate.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>
