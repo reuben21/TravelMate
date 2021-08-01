@@ -4,8 +4,10 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_login.*
 
@@ -34,6 +36,12 @@ class LoginActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+
+        loginButton.setOnClickListener {
+            Log.d("INPUT EMAIL",inputEmail.text.toString())
+//            startActivity(Intent(this, MainActivity::class.java))
+        }
+
 
         toolbar_back_to_overviewScreen.setNavigationOnClickListener { onBackPressed() }
 

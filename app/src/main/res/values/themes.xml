@@ -12,13 +12,17 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <!--    TODO: BOTTOM NAVIGATION BAR COLOR-->
         <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
 
         <item name="toolbarStyle">@style/Widget.App.Toolbar</item>
 
+        <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
+
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
     </style>
 
-
+        <!--    TODO: BOTTOM NAVIGATION BAR COLOR-->
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
     </style>
@@ -28,9 +32,11 @@
         <item name="colorOnPrimary">@color/primaryTextColor</item>
     </style>
 
+
+
+    <!--    TODO: TOOL BAR COLOR-->
     <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>
-
     </style>
 
     <style name="ThemeOverlay.App.Toolbar" parent="">
@@ -48,5 +54,21 @@
 
     <style name="Theme.TravelMate.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--    TODO: CARD VIEW COLOR-->
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10dp</item>
+    </style>
+
+    <style name="Widget.App.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Card" parent="">
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorSurface">@color/primaryTextColor</item>
+        <item name="colorOnSurface">@color/primaryTextColor</item>
+    </style>
 
 </resources>

@@ -2,10 +2,10 @@ package com.project22.myapplication.authentication
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_over_view_auth.*
 
@@ -33,8 +33,12 @@ class OverViewAuth : AppCompatActivity() {
         }
 
 
+
+
         loginButtonOverview.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
+            val intent = Intent(applicationContext, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
         }
 
         registerButtonOverview.setOnClickListener {
