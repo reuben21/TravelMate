@@ -7,13 +7,24 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // TODO :- Initialize Firebase Auth
+        lateinit var auth: FirebaseAuth
+        auth = Firebase.auth
+
         setContentView(R.layout.activity_login)
         registerButton.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
@@ -38,8 +49,8 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            Log.d("INPUT EMAIL",inputEmail.text.toString())
-//            startActivity(Intent(this, MainActivity::class.java))
+
+
         }
 
 

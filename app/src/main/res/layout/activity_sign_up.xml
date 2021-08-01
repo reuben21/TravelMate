@@ -70,6 +70,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:id="@+id/inputEmailRegister"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -88,6 +89,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
+                    android:id="@+id/inputPasswordRegister"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
