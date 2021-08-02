@@ -46,7 +46,6 @@
                 android:layout_height="200dp"
                 android:scaleType="fitStart"
                 app:srcCompat="@drawable/sign_in_picture" />
-
             <TextView
                 android:id="@+id/create_your_account_text"
                 android:layout_height="wrap_content"
@@ -57,13 +56,81 @@
                 android:text="Create Your Account"
                 android:textSize="20sp"
                 />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_below="@id/create_your_account_text"
+                android:layout_marginTop="20dp"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/firstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="First Name"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+
+                    app:layout_constraintEnd_toStartOf="@+id/lastName"
+                    app:layout_constraintStart_toStartOf="parent"
+                   android:paddingRight="5dp"
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/inputFirstName"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/lastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Last Name"
+
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/firstName"
+
+                    android:paddingLeft="5dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/inputLastName"
+
+
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/Email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                android:layout_below="@id/create_your_account_text"
+                android:layout_below="@id/linearLayout"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
