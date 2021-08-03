@@ -56,16 +56,17 @@
             android:textColor="@color/primaryColor"
             android:layout_centerInParent="true"
             android:text="Welcome Back"
+
             android:textSize="20sp"
             />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/Email"
+            android:id="@+id/EmailLayoutLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/sing_in_to_account"
             android:hint="@string/email"
-
+            app:errorEnabled="true"
             android:layout_marginTop="20dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -79,12 +80,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/Password"
+            android:id="@+id/PasswordLayoutLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
+
+            app:errorEnabled="true"
             android:layout_marginTop="30dp"
-            android:layout_below="@id/Email"
+            android:layout_below="@id/EmailLayoutLogin"
 
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -101,7 +104,7 @@
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/Password"
+            android:layout_below="@id/PasswordLayoutLogin"
             android:layout_marginTop="30dp"
             app:icon="@drawable/login"
             android:layout_centerInParent="true"

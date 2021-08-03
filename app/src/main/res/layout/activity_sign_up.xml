@@ -76,7 +76,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
 
-                    app:layout_constraintEnd_toStartOf="@+id/lastName"
+                    app:layout_constraintEnd_toStartOf="@+id/lastNameLayout"
                     app:layout_constraintStart_toStartOf="parent"
                    android:paddingRight="5dp"
 
@@ -96,7 +96,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/lastName"
+                    android:id="@+id/lastNameLayout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Last Name"
@@ -107,7 +107,7 @@
                     app:layout_constraintRight_toRightOf="parent"
 
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/firstName"
+                    app:layout_constraintStart_toEndOf="@+id/firstNameLayout"
 
                     android:paddingLeft="5dp"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -129,7 +129,7 @@
 
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/dateTextInput"
+                    android:id="@+id/dateTextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Select Date of Birth"
@@ -139,8 +139,7 @@
                     android:layout_marginTop="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     android:clickable="true"
-                    android:cursorVisible="false"
-                    android:focusable="false"
+
                     android:textColorHint="@color/primaryColor"
 
                     app:endIconMode="custom"
@@ -169,13 +168,13 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/Email"
+                android:id="@+id/EmailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
                 app:errorEnabled="true"
                 android:textColorHint="@color/primaryColor"
-                android:layout_below="@id/dateTextInput"
+                android:layout_below="@id/dateTextInputLayout"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -190,14 +189,14 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/Password"
+                android:id="@+id/PasswordLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 app:errorEnabled="true"
                 android:textColorHint="@color/primaryColor"
                 android:layout_marginTop="30dp"
-                android:layout_below="@id/Email"
+                android:layout_below="@id/EmailLayout"
 
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -218,7 +217,7 @@
                 android:id="@+id/registerButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/Password"
+                android:layout_below="@id/PasswordLayout"
                 android:layout_marginTop="30dp"
                 android:layout_centerInParent="true"
                 android:text="Register"

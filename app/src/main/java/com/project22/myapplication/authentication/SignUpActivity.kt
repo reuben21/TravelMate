@@ -19,6 +19,9 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
+import com.wajahatkarim3.easyvalidation.core.view_ktx.nonEmpty
+import com.wajahatkarim3.easyvalidation.core.view_ktx.validEmail
+import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.registerButton
@@ -72,7 +75,7 @@ class SignUpActivity : AppCompatActivity() {
             ), ZoneId.systemDefault())
             val dateAsFormattedText: String = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             finalTimestampDate =  Timestamp(Date(dateTimeStampInMillis))
-            dateTextInput.hint = dateAsFormattedText
+            dateTextInputLayout.hint = dateAsFormattedText
         }
 
         fun showDatePicker() {
@@ -88,9 +91,7 @@ class SignUpActivity : AppCompatActivity() {
         }
 
 
-        fun String.isEmailValid(): Boolean {
-            return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
-        }
+
 
         // TODO :- Register Functionality
         registerButton.setOnClickListener {
@@ -100,44 +101,101 @@ class SignUpActivity : AppCompatActivity() {
             val firstName = inputFirstName.text.toString()
             val lastName = inputLastName.text.toString()
 
-            if (firstName.isEmpty() || firstName == "") {
-                firstNameLayout.error  = "Empty"
-            } else {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this) { task ->
-
-                        if (task.isSuccessful) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("TAG", "createUserWithEmail:success")
-                            val user = auth.currentUser
-                            if (user != null) {
-                                Log.d("USER", user.uid)
-                                val userDetails = hashMapOf(
-                                    "userUID" to user.uid,
-                                    "firstName" to firstName,
-                                    "lastName" to lastName,
-                                    "email" to email,
-                                    "birthOfDate" to finalTimestampDate
-                                )
-                                db.collection("users").document(user.uid)
-                                    .set(userDetails)
-                                    .addOnSuccessListener {
-                                        startActivity(Intent(this, LoginActivity::class.java))
-                                        Log.d("TAG", "DocumentSnapshot successfully written!")
-
+            if (firstName.validator()
+                    .nonEmpty()
+                    .noNumbers()
+                    .noSpecialCharacters()
+                    .addErrorCallback {
+                        firstNameLayout.error = it
+                        // it will contain the right message.
+                        // For example, if edit text is empty,
+                        // then 'it' will show "Can't be Empty" message
+                    }.check()) {
+                firstNameLayout.error = null
+                if (lastName.validator()
+                        .nonEmpty()
+                        .noNumbers()
+                        .noSpecialCharacters()
+                        .addErrorCallback {
+                            lastNameLayout.error = it
+                            // it will contain the right message.
+                            // For example, if edit text is empty,
+                            // then 'it' will show "Can't be Empty" message
+                        }.check()
+                ) {
+                    lastNameLayout.error = null
+                    if (finalTimestampDate.toString().validator().nonEmpty().addErrorCallback {
+                            dateTextInputLayout.error = it
+                            // it will contain the right message.
+                            // For example, if edit text is empty,
+                            // then 'it' will show "Can't be Empty" message
+                        }.check()) {
+                        Log.d("finalTimestampDate",finalTimestampDate.toString())
+                        dateTextInputLayout.error = null
+                        if (email.validator().nonEmpty().validEmail().addErrorCallback {
+                                EmailLayout.error = it
+                                // it will contain the right message.
+                                // For example, if edit text is empty,
+                                // then 'it' will show "Can't be Empty" message
+                            }.check()) {
+                            EmailLayout.error = null
+                            if (password.validator()
+                                    .nonEmpty()
+                                    .atleastOneNumber()
+                                    .atleastOneSpecialCharacters()
+                                    .atleastOneUpperCase()
+                                    .addErrorCallback {
+                                        PasswordLayout.error = it
+                                        // it will contain the right message.
+                                        // For example, if edit text is empty,
+                                        // then 'it' will show "Can't be Empty" message
                                     }
-                                    .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+                                    .check()
+                            ) {
+                                PasswordLayout.error = null
+
+                                Log.d("TRUE", "RAN CLEAR")
 
                             }
-
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("TAG", "createUserWithEmail:failure", task.exception)
-                            Toast.makeText(baseContext, "Authentication failed.",
-                                Toast.LENGTH_SHORT).show()
-//                        updateUI(null)
                         }
                     }
+                }
+            }
+//                auth.createUserWithEmailAndPassword(email, password)
+//                    .addOnCompleteListener(this) { task ->
+//
+//                        if (task.isSuccessful) {
+//                            // Sign in success, update UI with the signed-in user's information
+//                            Log.d("TAG", "createUserWithEmail:success")
+//                            val user = auth.currentUser
+//                            if (user != null) {
+//                                Log.d("USER", user.uid)
+//                                val userDetails = hashMapOf(
+//                                    "userUID" to user.uid,
+//                                    "firstName" to firstName,
+//                                    "lastName" to lastName,
+//                                    "email" to email,
+//                                    "birthOfDate" to finalTimestampDate
+//                                )
+//                                db.collection("users").document(user.uid)
+//                                    .set(userDetails)
+//                                    .addOnSuccessListener {
+//                                        startActivity(Intent(this, LoginActivity::class.java))
+//                                        Log.d("TAG", "DocumentSnapshot successfully written!")
+//
+//                                    }
+//                                    .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+//
+//                            }
+//
+//                        } else {
+//                            // If sign in fails, display a message to the user.
+//                            Log.w("TAG", "createUserWithEmail:failure", task.exception)
+//                            Toast.makeText(baseContext, "Authentication failed.",
+//                                Toast.LENGTH_SHORT).show()
+////                        updateUI(null)
+//                        }
+//                    }
 
 
             }
@@ -150,4 +208,3 @@ class SignUpActivity : AppCompatActivity() {
 
 
 
-}

@@ -63,9 +63,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
-//    // TODO: - PACKAGE FOR GROUPIE RECYCLER VIEW PURPOSES
-//    implementation 'com.xwray:groupie:2.0.3'
-//    implementation 'com.xwray:groupie-kotlin-android-extensions:2.0.3'
+//    // TODO: - PACKAGE FOR EASY VALIDATION
+    implementation "com.wajahatkarim3.easyvalidation:easyvalidation-core:1.0.1"
 
     // TODO: - PACKAGE FOR LOTTIE
     implementation 'com.airbnb.android:lottie:4.0.0'
