@@ -19,10 +19,11 @@
 
         <item name="materialCardViewStyle">@style/Widget.App.CardView</item>
 
-        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent
+        </item>
     </style>
 
-        <!--    TODO: BOTTOM NAVIGATION BAR COLOR-->
+    <!--    TODO: BOTTOM NAVIGATION BAR COLOR-->
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
     </style>
@@ -31,7 +32,6 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorOnPrimary">@color/primaryTextColor</item>
     </style>
-
 
 
     <!--    TODO: TOOL BAR COLOR-->

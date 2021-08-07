@@ -24,8 +24,8 @@ class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // TODO :- Initialize Firebase Auth
-        lateinit var auth: FirebaseAuth
-        auth = Firebase.auth
+//        lateinit var auth: FirebaseAuth
+        var auth: FirebaseAuth = Firebase.auth
 
         val db = Firebase.firestore
 
@@ -57,6 +57,8 @@ class SignUpActivity : AppCompatActivity() {
         registerButton.setOnClickListener {
             val email = inputEmailRegister.text.toString()
             val password = inputPasswordRegister.text.toString()
+            val firstName = inputFirstName.text.toString()
+            val lastName = inputLastName.text.toString()
 
             auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
@@ -69,8 +71,8 @@ class SignUpActivity : AppCompatActivity() {
                             Log.d("USER", user.uid)
                             val userDetails = hashMapOf(
                                 "userUID" to user.uid,
-                                "firstName" to "Ada",
-                                "lastName" to "Lovelace",
+                                "firstName" to firstName,
+                                "lastName" to lastName,
                                 "email" to email,
                                 "birthOfDate" to "21/10/1999"
                             )
