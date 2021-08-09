@@ -2,10 +2,8 @@ package com.project22.myapplication.frangments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -137,7 +135,10 @@ class HomeFragment : Fragment() {
                         .into(holder.placeImageUrlHolder)
                 }
 
-//                holder.edit.setOnClickListener { updateNote(note) }
+                holder.cardOfDestination.setOnClickListener {
+                    Log.d("TEXT","CLICKALLE")
+
+                }
 //
 //                holder.delete.setOnClickListener { deleteNote(note.id!!) }
             }
@@ -169,6 +170,22 @@ class HomeFragment : Fragment() {
 
         adapter!!.stopListening()
     }
+
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+////        if (item.itemId == R.id.addNote) {
+////            val intent = Intent(this, NoteActivity::class.java)
+////            startActivity(intent)
+////        }
+//
+//        return super.onOptionsItemSelected(item)
+//    }
+//}
 
 
 
