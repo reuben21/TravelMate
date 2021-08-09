@@ -25,7 +25,7 @@
 
             <!-- Media -->
             <ImageView
-                android:id="@+id/placeImageUrl"
+                android:id="@+id/card_placeImageUrl"
                 android:layout_width="match_parent"
                 android:layout_height="194dp"
                 android:contentDescription="A Beautiful Place to Bury People"
@@ -40,7 +40,7 @@
 
                 <!-- Title, secondary and supporting text -->
                 <TextView
-                    android:id="@+id/placeName"
+                    android:id="@+id/card_placeName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -53,7 +53,7 @@
                     android:layout_weight="1" />
 
                 <TextView
-                    android:id="@+id/travellers"
+                    android:id="@+id/card_travellers"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"

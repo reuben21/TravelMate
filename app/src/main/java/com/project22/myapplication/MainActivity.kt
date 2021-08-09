@@ -6,11 +6,19 @@ import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
+import com.project22.myapplication.adapters.DestinationViewHolder
 import com.project22.myapplication.frangments.HomeFragment
 import com.project22.myapplication.frangments.ProfileFragment
 import com.project22.myapplication.frangments.SettingsFragment
 import com.project22.myapplication.frangments.TravelFragment
+import com.project22.myapplication.model.Destination
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private val settingsFragment = SettingsFragment()
     private val profileFragment = ProfileFragment()
     private val travelFragment = TravelFragment()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +63,10 @@ class MainActivity : AppCompatActivity() {
             true
 
         }
+
+
+
+
     }
 
     private fun replaceFragment(fragment: Fragment) {
