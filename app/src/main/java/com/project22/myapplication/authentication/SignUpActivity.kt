@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -24,6 +25,7 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -36,7 +38,7 @@ class SignUpActivity : AppCompatActivity() {
         val db = Firebase.firestore
 
         setContentView(R.layout.activity_sign_up)
-
+        var finalTimestampDate: Timestamp? = null
         var currentSelectedDate: Long? = null
 
         try {
@@ -62,11 +64,12 @@ class SignUpActivity : AppCompatActivity() {
 
         fun onDateSelected(dateTimeStampInMillis: Long) {
             currentSelectedDate = dateTimeStampInMillis
+
             val dateTime: LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(
                 currentSelectedDate!!
             ), ZoneId.systemDefault())
             val dateAsFormattedText: String = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-
+            finalTimestampDate =  Timestamp(Date(dateTimeStampInMillis))
             dateTextInput.hint = dateAsFormattedText
         }
 
@@ -88,6 +91,7 @@ class SignUpActivity : AppCompatActivity() {
         // TODO :- Register Functionality
         registerButton.setOnClickListener {
             val email = inputEmailRegister.text.toString()
+
             val password = inputPasswordRegister.text.toString()
             val firstName = inputFirstName.text.toString()
             val lastName = inputLastName.text.toString()
@@ -106,7 +110,7 @@ class SignUpActivity : AppCompatActivity() {
                                 "firstName" to firstName,
                                 "lastName" to lastName,
                                 "email" to email,
-                                "birthOfDate" to "21/10/1999"
+                                "birthOfDate" to finalTimestampDate
                             )
                             db.collection("users").document(user.uid)
                                 .set(userDetails)
