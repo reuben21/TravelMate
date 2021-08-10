@@ -8,7 +8,9 @@ import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -18,6 +20,10 @@ import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.activity_sign_up.registerButton
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 
 
 class SignUpActivity : AppCompatActivity() {
@@ -30,6 +36,8 @@ class SignUpActivity : AppCompatActivity() {
         val db = Firebase.firestore
 
         setContentView(R.layout.activity_sign_up)
+
+        var currentSelectedDate: Long? = null
 
         try {
             // TODO :- To Hide the Toolbar which Comes by Default
@@ -52,8 +60,32 @@ class SignUpActivity : AppCompatActivity() {
         // TODO :- To go back to Login Screen
         toolbar_back_to_Login.setNavigationOnClickListener { onBackPressed() }
 
-        // TODO :- Register Functionality
+        fun onDateSelected(dateTimeStampInMillis: Long) {
+            currentSelectedDate = dateTimeStampInMillis
+            val dateTime: LocalDateTime = LocalDateTime.ofInstant(Instant.ofEpochMilli(
+                currentSelectedDate!!
+            ), ZoneId.systemDefault())
+            val dateAsFormattedText: String = dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
 
+            dateTextInput.hint = dateAsFormattedText
+        }
+
+        fun showDatePicker() {
+            val selectedDateInMillis = currentSelectedDate ?: System.currentTimeMillis()
+
+            MaterialDatePicker.Builder.datePicker().setSelection(selectedDateInMillis).build().apply {
+                addOnPositiveButtonClickListener { dateInMillis -> onDateSelected(dateInMillis) }
+            }.show(supportFragmentManager, MaterialDatePicker::class.java.canonicalName)
+        }
+
+        dateTextInputEditText.setOnClickListener {
+            showDatePicker()
+        }
+
+
+
+
+        // TODO :- Register Functionality
         registerButton.setOnClickListener {
             val email = inputEmailRegister.text.toString()
             val password = inputPasswordRegister.text.toString()
@@ -78,9 +110,13 @@ class SignUpActivity : AppCompatActivity() {
                             )
                             db.collection("users").document(user.uid)
                                 .set(userDetails)
-                                .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully written!") }
+                                .addOnSuccessListener {
+                                    startActivity(Intent(this, MainActivity::class.java))
+                                    Log.d("TAG", "DocumentSnapshot successfully written!")
+
+                                }
                                 .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
-//                            startActivity(Intent(this, MainActivity::class.java))
+
                         }
 
                     } else {

@@ -57,7 +57,7 @@
                 android:textSize="20sp"
                 />
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/linearLayout"
+                android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
@@ -70,7 +70,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="First Name"
-
+                    android:textColorHint="@color/primaryColor"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -97,7 +97,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Last Name"
-
+                    android:textColorHint="@color/primaryColor"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -123,6 +123,45 @@
 
 
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateTextInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Date of Birth"
+                    app:hintTextColor="@color/primaryColor"
+                    android:layout_below="@id/linearLayout1"
+
+                    android:layout_marginTop="20dp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:clickable="true"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:textColorHint="@color/primaryColor"
+
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/calendar"
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/dateTextInputEditText"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:textColor="@color/primaryColor"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
 
 
             <com.google.android.material.textfield.TextInputLayout
@@ -130,7 +169,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/email"
-                android:layout_below="@id/linearLayout"
+                android:textColorHint="@color/primaryColor"
+                android:layout_below="@id/dateTextInput"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
@@ -147,6 +187,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
+                android:textColorHint="@color/primaryColor"
                 android:layout_marginTop="30dp"
                 android:layout_below="@id/Email"
 
