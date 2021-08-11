@@ -115,7 +115,7 @@ class SignUpActivity : AppCompatActivity() {
                             db.collection("users").document(user.uid)
                                 .set(userDetails)
                                 .addOnSuccessListener {
-                                    startActivity(Intent(this, MainActivity::class.java))
+                                    startActivity(Intent(this, LoginActivity::class.java))
                                     Log.d("TAG", "DocumentSnapshot successfully written!")
 
                                 }

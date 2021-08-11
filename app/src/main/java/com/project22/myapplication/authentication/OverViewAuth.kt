@@ -6,10 +6,26 @@ import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_over_view_auth.*
 
 class OverViewAuth : AppCompatActivity() {
+    private lateinit var auth: FirebaseAuth
+
+
+
+    public override fun onStart() {
+        super.onStart()
+        // Check if user is signed in (non-null) and update UI accordingly.
+        val currentUser = auth.currentUser
+        if(currentUser != null){
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_over_view_auth)
