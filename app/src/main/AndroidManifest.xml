@@ -9,9 +9,13 @@
         android:roundIcon="@drawable/travel"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelMate">
-
-        <activity android:name=".authentication.OverViewAuth"
-            android:exported="true" android:screenOrientation="portrait">
+        <activity
+            android:name=".screens.TravelDestination"
+            android:exported="true" />
+        <activity
+            android:name=".authentication.OverViewAuth"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

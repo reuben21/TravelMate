@@ -1,5 +1,6 @@
 package com.project22.myapplication.frangments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,49 +17,26 @@ import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 
 import com.project22.myapplication.adapters.DestinationViewHolder
 import com.project22.myapplication.model.Destination
+import com.project22.myapplication.screens.TravelDestination
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class HomeFragment : Fragment() {
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
-
     }
 
-//    private fun getDestinationList(): ArrayList<Destination> {
-//        val db = Firebase.firestore
-//        val destinationRef = db.collection("destination").get()
-//        val destinationPlaces = ArrayList<Destination>()
-//        destinationRef.addOnCompleteListener { task ->
-//            if(task.isSuccessful) {
-//                for (document in task.result!!) {
-//                    val placeName = document.data["placeName"].toString()
-//                    val placeImageUrl = document.data["placeImageUrl"].toString()
-//                    val traveller = document.data["travellers"].toString().toInt()
-//                    destinationPlaces.add(Destination(placeName,traveller,placeImageUrl))
-//
-//                }
-//            }
-//
-//        }
-//
-//        Log.d("TAG",destinationRef.result.toString())
-//        return destinationPlaces
-//    }
+
 
     private val TAG = "MainActivity"
-
     private var adapter: FirestoreRecyclerAdapter<Destination, DestinationViewHolder>? = null
-
     private var firestoreDB: FirebaseFirestore? = null
     private var firestoreListener: ListenerRegistration? = null
     private var destinationList = mutableListOf<Destination>()
@@ -82,7 +60,7 @@ class HomeFragment : Fragment() {
         destinationListRecyclerView.layoutManager = mLayoutManager
         destinationListRecyclerView.itemAnimator = DefaultItemAnimator()
 
-        loadNotesList()
+        loadDestinationList()
 
         firestoreListener = firestoreDB!!.collection("destination")
             .addSnapshotListener(EventListener { documentSnapshots, e ->
@@ -107,14 +85,14 @@ class HomeFragment : Fragment() {
     }
 
 
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//
+//        firestoreListener!!.remove()
+//    }
 
-    override fun onDestroy() {
-        super.onDestroy()
-
-        firestoreListener!!.remove()
-    }
-
-    private fun loadNotesList() {
+    private fun loadDestinationList() {
 
         val query = firestoreDB!!.collection("destination")
 
@@ -137,6 +115,9 @@ class HomeFragment : Fragment() {
 
                 holder.cardOfDestination.setOnClickListener {
                     Log.d("TEXT","CLICKALLE")
+                    val intent = Intent(context?.applicationContext,TravelDestination::class.java)
+                    intent.putExtra("placeName",dest.placeName)
+                    startActivity(intent)
 
                 }
 //
@@ -165,11 +146,11 @@ class HomeFragment : Fragment() {
         adapter!!.startListening()
     }
 
-    public override fun onStop() {
-        super.onStop()
-
-        adapter!!.stopListening()
-    }
+//    public override fun onStop() {
+//        super.onStop()
+//
+//        adapter!!.stopListening()
+//    }
 
 //    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 //        menuInflater.inflate(R.menu.menu_main, menu)
