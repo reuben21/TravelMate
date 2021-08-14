@@ -113,7 +113,7 @@ class ChatScreen : AppCompatActivity() {
 
     private fun loadChatList() {
 
-        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.ASCENDING);
+        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.DESCENDING);
 
         val response = FirestoreRecyclerOptions.Builder<TextMessage>()
             .setQuery(query, TextMessage::class.java)
@@ -135,7 +135,7 @@ class ChatScreen : AppCompatActivity() {
                     if (mess.senderId == "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
                         when (holder) {
                             is TextMessageSenderViewHolder -> {
-
+                                Log.d("TextMessageSenderViewHolder",mess.message.toString())
                                 holder.text_view_message.text = mess.message
                                 holder.text_view_time.text =
                                     mess.createdAt?.toDate().toString()
@@ -148,7 +148,7 @@ class ChatScreen : AppCompatActivity() {
 
                             is TextMessageReceiverHolder -> {
                                 // Manually get the model item
-
+                                Log.d("TextMessageReceiverHolder", mess.message.toString())
                                 holder.text_view_message.text = mess.message
                                 holder.text_view_time.text =
                                     mess.createdAt?.toDate().toString()
@@ -183,10 +183,12 @@ class ChatScreen : AppCompatActivity() {
                     Log.d("onCreateViewHolder", viewType.toString())
 
                     if (viewType == MSG_TYPE_RIGHT) {
+                        Log.d("MSG_TYPE_RIGHT", MSG_TYPE_RIGHT.toString())
                         val view = LayoutInflater.from(parent.context)
                             .inflate(R.layout.layout_message_sender, parent, false)
                         return TextMessageSenderViewHolder(view)
                     } else if (viewType == MSG_TYPE_LEFT) {
+                        Log.d("MSG_TYPE_LEFT", MSG_TYPE_LEFT.toString())
                         val view = LayoutInflater.from(parent.context)
                             .inflate(R.layout.layout_message_receiver, parent, false)
                         return TextMessageReceiverHolder(view)
