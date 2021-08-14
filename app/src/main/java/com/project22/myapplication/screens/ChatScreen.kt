@@ -79,7 +79,7 @@ class ChatScreen : AppCompatActivity() {
         firestoreDB = FirebaseFirestore.getInstance()
 
         val mLayoutManager = LinearLayoutManager(applicationContext)
-
+        mLayoutManager.setReverseLayout(true)
         chatRecyclerView.layoutManager = mLayoutManager
         chatRecyclerView.itemAnimator = DefaultItemAnimator()
 
