@@ -19,15 +19,15 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.R
-import com.project22.myapplication.adapters.DestinationViewHolder
 import com.project22.myapplication.adapters.TextMessageReceiverHolder
 import com.project22.myapplication.adapters.TextMessageSenderViewHolder
 import com.project22.myapplication.adapters.TextMessageViewHolder
-import com.project22.myapplication.model.Destination
 import com.project22.myapplication.model.TextMessage
 import kotlinx.android.synthetic.main.activity_chat_screen.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.util.*
+import java.text.SimpleDateFormat
+
 
 class ChatScreen : AppCompatActivity() {
     val db = Firebase.firestore
@@ -85,7 +85,7 @@ class ChatScreen : AppCompatActivity() {
 
         loadChatList()
 
-        firestoreListener = firestoreDB!!.collection("chat")
+        firestoreListener = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.ASCENDING)
             .addSnapshotListener(EventListener { documentSnapshots, e ->
                 if (e != null) {
                     Log.e(TAG, "Listen failed!", e)
@@ -113,7 +113,7 @@ class ChatScreen : AppCompatActivity() {
 
     private fun loadChatList() {
 
-        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.DESCENDING);
+        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.ASCENDING)
 
         val response = FirestoreRecyclerOptions.Builder<TextMessage>()
             .setQuery(query, TextMessage::class.java)
@@ -132,13 +132,16 @@ class ChatScreen : AppCompatActivity() {
                     model: TextMessage
                 ) {
                     val mess = messageList[position]
+                    val sfd = SimpleDateFormat("HH:mm aa")
+
                     if (mess.senderId == "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
                         when (holder) {
                             is TextMessageSenderViewHolder -> {
                                 Log.d("TextMessageSenderViewHolder",mess.message.toString())
                                 holder.text_view_message.text = mess.message
-                                holder.text_view_time.text =
-                                    mess.createdAt?.toDate().toString()
+
+                                holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
+
 
                             }
 
@@ -150,8 +153,7 @@ class ChatScreen : AppCompatActivity() {
                                 // Manually get the model item
                                 Log.d("TextMessageReceiverHolder", mess.message.toString())
                                 holder.text_view_message.text = mess.message
-                                holder.text_view_time.text =
-                                    mess.createdAt?.toDate().toString()
+                                holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
                             }
                     }
 
