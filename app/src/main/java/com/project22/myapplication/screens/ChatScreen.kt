@@ -85,7 +85,7 @@ class ChatScreen : AppCompatActivity() {
 
         loadChatList()
 
-        firestoreListener = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.ASCENDING)
+        firestoreListener = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.DESCENDING)
             .addSnapshotListener(EventListener { documentSnapshots, e ->
                 if (e != null) {
                     Log.e(TAG, "Listen failed!", e)
@@ -113,7 +113,7 @@ class ChatScreen : AppCompatActivity() {
 
     private fun loadChatList() {
 
-        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.ASCENDING)
+        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.DESCENDING)
 
         val response = FirestoreRecyclerOptions.Builder<TextMessage>()
             .setQuery(query, TextMessage::class.java)
@@ -135,27 +135,33 @@ class ChatScreen : AppCompatActivity() {
                     val sfd = SimpleDateFormat("HH:mm aa")
 
                     if (mess.senderId == "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
-                        when (holder) {
-                            is TextMessageSenderViewHolder -> {
-                                Log.d("TextMessageSenderViewHolder",mess.message.toString())
-                                holder.text_view_message.text = mess.message
+                        if(mess.id == "1") {
+                            when (holder) {
+                                is TextMessageSenderViewHolder -> {
+                                    Log.d("TextMessageSenderViewHolder",mess.message.toString())
+                                    holder.text_view_message.text = mess.message
 
-                                holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
+                                    holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
 
+
+                                }
 
                             }
-
                         }
-                    } else if (mess.senderId != "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
-                        when (holder) {
 
-                            is TextMessageReceiverHolder -> {
-                                // Manually get the model item
-                                Log.d("TextMessageReceiverHolder", mess.message.toString())
-                                holder.text_view_message.text = mess.message
-                                holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
+                    } else if (mess.senderId != "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
+                        if(mess.id == "1") {
+                            when (holder) {
+
+                                is TextMessageReceiverHolder -> {
+                                    // Manually get the model item
+                                    Log.d("TextMessageReceiverHolder", mess.message.toString())
+                                    holder.text_view_message.text = mess.message
+                                    holder.text_view_time.text =
+                                        sfd.format(mess.createdAt?.toDate())
+                                }
                             }
-                    }
+                        }
 
 
 

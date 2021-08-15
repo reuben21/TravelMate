@@ -25,7 +25,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:paddingLeft="5dp"
+        >
+
+        <Button
+            android:id="@+id/sendCameraMessageButton"
+            android:layout_width="58dp"
+            android:layout_height="65dp"
+
+            android:layout_marginBottom="5dp"
+            app:icon="@drawable/ic_camera"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/filledTextFieldLayout"
+            app:layout_constraintStart_toStartOf="parent"
+
+
+
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/filledTextFieldLayout"
@@ -36,12 +55,13 @@
             android:textColorHint="@color/primaryColor"
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
+
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/sendMessageButton"
 
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/sendCameraMessageButton"
+            app:layout_constraintEnd_toStartOf="@id/sendMessageButton"
             app:placeholderText="Send Message">
 
             <com.google.android.material.textfield.TextInputEditText
