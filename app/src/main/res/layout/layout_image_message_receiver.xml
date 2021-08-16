@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_message_receiver"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
@@ -29,16 +29,14 @@
             <ImageView
                 android:id="@+id/textMessageImage"
                 android:layout_width="match_parent"
-
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-
                 android:src="@drawable/shrute_farms" />
         </com.google.android.material.card.MaterialCardView>
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/textMessageTime"
+        android:id="@+id/textMessageTime2"
         android:layout_width="69dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"

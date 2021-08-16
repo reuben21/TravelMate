@@ -29,13 +29,13 @@
         android:paddingLeft="5dp"
         >
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendCameraMessageButton"
-            android:layout_width="58dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            android:layout_marginBottom="5dp"
-            app:icon="@drawable/ic_camera"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/ic_camera"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -73,14 +73,14 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/sendMessageButton"
-            android:layout_width="50dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:textColorHint="@color/primaryColor"
-            app:icon="@drawable/ic_send"
+            app:srcCompat="@drawable/ic_send"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"

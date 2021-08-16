@@ -135,7 +135,7 @@ class ChatScreen : AppCompatActivity() {
                     val sfd = SimpleDateFormat("HH:mm aa")
 
                     if (mess.senderId == "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
-                        if(mess.id == "1") {
+
                             when (holder) {
                                 is TextMessageSenderViewHolder -> {
                                     Log.d("TextMessageSenderViewHolder",mess.message.toString())
@@ -146,11 +146,11 @@ class ChatScreen : AppCompatActivity() {
 
                                 }
 
-                            }
+
                         }
 
                     } else if (mess.senderId != "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
-                        if(mess.id == "1") {
+
                             when (holder) {
 
                                 is TextMessageReceiverHolder -> {
@@ -161,7 +161,7 @@ class ChatScreen : AppCompatActivity() {
                                         sfd.format(mess.createdAt?.toDate())
                                 }
                             }
-                        }
+
 
 
 
