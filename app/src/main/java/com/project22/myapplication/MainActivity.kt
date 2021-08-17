@@ -6,25 +6,17 @@ import android.os.Bundle
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.project22.myapplication.adapters.DestinationViewHolder
 import com.project22.myapplication.frangments.HomeFragment
-import com.project22.myapplication.frangments.ProfileFragment
+import com.project22.myapplication.frangments.ChatFragment
 import com.project22.myapplication.frangments.SettingsFragment
 import com.project22.myapplication.frangments.TravelFragment
-import com.project22.myapplication.model.Destination
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainActivity : AppCompatActivity() {
 
     private val homeFragment = HomeFragment()
     private val settingsFragment = SettingsFragment()
-    private val profileFragment = ProfileFragment()
+    private val chatFragment = ChatFragment()
     private val travelFragment = TravelFragment()
 
 
@@ -57,7 +49,7 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId) {
                     R.id.ic_home -> replaceFragment(homeFragment)
                     R.id.ic_settings->replaceFragment(settingsFragment)
-                    R.id.ic_profile -> replaceFragment(profileFragment)
+                    R.id.ic_chats -> replaceFragment(chatFragment)
                     R.id.ic_travel -> replaceFragment(travelFragment)
             }
             true

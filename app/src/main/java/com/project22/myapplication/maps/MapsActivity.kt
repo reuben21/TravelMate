@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
+
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -70,12 +71,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                 latLng.latitude,
                 latLng.longitude
             )
-//            map.addMarker(
-//                MarkerOptions()
-//                    .position(latLng)
-//                    .title(getString(R.string.dropped_pin))
-//                    .snippet(snippet)
-//            )
+            map.addMarker(
+                MarkerOptions()
+                    .position(latLng)
+                    .title("Dropped Pin")
+                    .snippet(snippet)
+            )
         } }
 
     private fun isPermissionGranted() : Boolean {
