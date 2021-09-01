@@ -1,12 +1,23 @@
 package com.project22.myapplication.screens
 
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import android.view.*
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,17 +36,34 @@ import com.project22.myapplication.adapters.TextMessageViewHolder
 import com.project22.myapplication.model.TextMessage
 import kotlinx.android.synthetic.main.activity_chat_screen.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.File
 import java.util.*
 import java.text.SimpleDateFormat
+import javax.security.auth.callback.PasswordCallback
+import com.google.firebase.firestore.DocumentReference
+
+
+
 
 
 class ChatScreen : AppCompatActivity() {
+
+    companion object {
+        private const val CAMERA_PERMISSION_CODE = 1
+        private const val CAMERA_REQUEST_CODE = 2
+    }
+
+
+
     val db = Firebase.firestore
     private val TAG = "MainActivity"
     private var adapter: FirestoreRecyclerAdapter<TextMessage, RecyclerView.ViewHolder>? = null
     private var firestoreDB: FirebaseFirestore? = null
     private var firestoreListener: ListenerRegistration? = null
     private var messageList = mutableListOf<TextMessage>()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,12 +86,27 @@ class ChatScreen : AppCompatActivity() {
             )
         }
 
+        sendCameraMessageButton.setOnClickListener {
+            if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, CAMERA_REQUEST_CODE)
+            } else {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_CODE)
+            }
+        }
+
+
+
         sendMessageButton.setOnClickListener {
             Log.d("TEST", "ONLCLICK")
             val message = textInputMessage.text.toString()
             if (message.isNotEmpty()) {
+                val ref = db.collection("chat").document()
+
 //            val textMessage = TextMessage(1,message,Timestamp(Date()),"9bBm4sEB6XauE94eiS4gwTZ0LSa2","dwight")
                 val textMessage = hashMapOf(
+                    "id" to ref.id,
                     "message" to message,
                     "createdAt" to Timestamp(Date()),
                     "senderId" to "9bBm4sEB6XauE94eiS4gwTZ0LSa2",
@@ -72,7 +115,9 @@ class ChatScreen : AppCompatActivity() {
 
                     )
 
-                db.collection("chat").document().set(textMessage)
+
+
+                db.collection("chat").document(ref.id).set(textMessage)
             }
         }
 
@@ -110,6 +155,31 @@ class ChatScreen : AppCompatActivity() {
 
     }
 
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == CAMERA_PERMISSION_CODE) {
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(intent, CAMERA_REQUEST_CODE)
+            } else {
+                Toast.makeText(this,"PERMISSION DENIED",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == Activity.RESULT_OK) {
+            if(requestCode == CAMERA_REQUEST_CODE) {
+                val thumBNail: Bitmap = data!!.extras!!.get("data") as Bitmap
+            }
+        }
+    }
 
     private fun loadChatList() {
 
