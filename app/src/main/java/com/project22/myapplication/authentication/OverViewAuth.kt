@@ -12,17 +12,13 @@ import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_over_view_auth.*
 
 class OverViewAuth : AppCompatActivity() {
-    private lateinit var auth: FirebaseAuth
+
 
 
 
     public override fun onStart() {
         super.onStart()
-        // Check if user is signed in (non-null) and update UI accordingly.
-        val currentUser = auth.currentUser
-        if(currentUser != null){
-            startActivity(Intent(this, MainActivity::class.java))
-        }
+
     }
 
 

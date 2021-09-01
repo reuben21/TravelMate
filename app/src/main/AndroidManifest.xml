@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelMate">
-        <activity android:name=".authentication.Demo"></activity>
+
         <activity android:name=".authentication.OverViewAuth">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
