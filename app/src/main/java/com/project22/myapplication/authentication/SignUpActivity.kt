@@ -62,6 +62,7 @@ class SignUpActivity : AppCompatActivity() {
         // TODO :- To go back to Login Screen
         toolbar_back_to_Login.setNavigationOnClickListener { onBackPressed() }
 
+
         fun onDateSelected(dateTimeStampInMillis: Long) {
             currentSelectedDate = dateTimeStampInMillis
 

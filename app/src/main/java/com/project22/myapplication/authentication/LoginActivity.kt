@@ -14,6 +14,8 @@ import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login.registerButton
+
 
 class LoginActivity : AppCompatActivity() {
 
@@ -22,8 +24,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         // TODO :- Initialize Firebase Auth
-        lateinit var auth: FirebaseAuth
-        auth = Firebase.auth
+        var auth: FirebaseAuth = Firebase.auth
 
         setContentView(R.layout.activity_login)
         registerButton.setOnClickListener {
@@ -49,7 +50,28 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginButton.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
+            val email = inputEmail.text.toString()
+            val password = inputPassword.text.toString()
+
+            auth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this) { task ->
+                    if (task.isSuccessful) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d("TAG", "signInWithEmail:success")
+                        val user = auth.currentUser
+                        startActivity(Intent(this, MainActivity::class.java))
+
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.w("TAG", "signInWithEmail:failure", task.exception)
+                        Toast.makeText(baseContext, "Authentication failed.",
+                            Toast.LENGTH_SHORT).show()
+
+                    }
+                }
+
+
+
 
         }
 
