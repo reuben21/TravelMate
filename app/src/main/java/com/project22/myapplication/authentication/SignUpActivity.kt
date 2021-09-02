@@ -154,48 +154,51 @@ class SignUpActivity : AppCompatActivity() {
                             ) {
                                 PasswordLayout.error = null
 
-                                Log.d("TRUE", "RAN CLEAR")
+                                auth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(this) { task ->
+
+                                        if (task.isSuccessful) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Log.d("TAG", "createUserWithEmail:success")
+                                            val user = auth.currentUser
+                                            if (user != null) {
+                                                Log.d("USER", user.uid)
+                                                val userDetails = hashMapOf(
+                                                    "userUID" to user.uid,
+                                                    "firstName" to firstName,
+                                                    "lastName" to lastName,
+                                                    "email" to email,
+                                                    "birthOfDate" to finalTimestampDate
+                                                )
+                                                db.collection("users").document(user.uid)
+                                                    .set(userDetails)
+                                                    .addOnSuccessListener {
+                                                        startActivity(Intent(this, LoginActivity::class.java))
+                                                        Log.d("TAG", "DocumentSnapshot successfully written!")
+
+                                                    }
+                                                    .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
+
+                                            }
+
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w("TAG", "createUserWithEmail:failure",
+                                                task.exception
+                                            )
+                                            Toast.makeText(baseContext,
+                                                task.exception?.localizedMessage,
+                                                Toast.LENGTH_LONG).show()
+//                        updateUI(null)
+                                        }
+                                    }
 
                             }
                         }
                     }
                 }
             }
-//                auth.createUserWithEmailAndPassword(email, password)
-//                    .addOnCompleteListener(this) { task ->
-//
-//                        if (task.isSuccessful) {
-//                            // Sign in success, update UI with the signed-in user's information
-//                            Log.d("TAG", "createUserWithEmail:success")
-//                            val user = auth.currentUser
-//                            if (user != null) {
-//                                Log.d("USER", user.uid)
-//                                val userDetails = hashMapOf(
-//                                    "userUID" to user.uid,
-//                                    "firstName" to firstName,
-//                                    "lastName" to lastName,
-//                                    "email" to email,
-//                                    "birthOfDate" to finalTimestampDate
-//                                )
-//                                db.collection("users").document(user.uid)
-//                                    .set(userDetails)
-//                                    .addOnSuccessListener {
-//                                        startActivity(Intent(this, LoginActivity::class.java))
-//                                        Log.d("TAG", "DocumentSnapshot successfully written!")
-//
-//                                    }
-//                                    .addOnFailureListener { e -> Log.w("TAG", "Error writing document", e) }
-//
-//                            }
-//
-//                        } else {
-//                            // If sign in fails, display a message to the user.
-//                            Log.w("TAG", "createUserWithEmail:failure", task.exception)
-//                            Toast.makeText(baseContext, "Authentication failed.",
-//                                Toast.LENGTH_SHORT).show()
-////                        updateUI(null)
-//                        }
-//                    }
+
 
 
             }

@@ -19,35 +19,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="50dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/view2"
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:layout_centerHorizontal="true"
-                android:elevation="12dp"
-                android:innerRadius="0dp"
-                android:shape="ring"
-                android:thicknessRatio="1.2"
-                app:cardCornerRadius="110dp">
-
-                <ImageView
-                    android:id="@+id/imageView1"
-                    android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/shrute_farms" />
-            </androidx.cardview.widget.CardView>
+                android:src="@drawable/shrute_farms"
+                app:civ_border_width="2dp"
+                app:civ_border_color="@color/primaryColor"/>
 
 
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/personName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
@@ -63,7 +50,7 @@
             android:id="@+id/tv_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
+            android:layout_below="@+id/personName"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:text="new york, usa"
