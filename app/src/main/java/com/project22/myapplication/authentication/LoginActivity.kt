@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.w("TAG", "signInWithEmail:failure", task.exception)
                                 Toast.makeText(
                                     baseContext, task.exception?.localizedMessage,
-                                    Toast.LENGTH_SHORT
+                                    Toast.LENGTH_LONG
                                 ).show()
 
                             }
