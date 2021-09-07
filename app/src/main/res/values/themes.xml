@@ -21,6 +21,12 @@
 
         <item name="shapeAppearanceMediumComponent">@style/ShapeAppearance.App.MediumComponent
         </item>
+
+        <!--    TODO: MENU POP UP COLOR-->
+        <item name="textAppearanceLargePopupMenu">@style/TextAppearance.App.Subtitle1</item>
+        <item name="textAppearanceSmallPopupMenu">@style/TextAppearance.App.Subtitle1</item>
+<!--        <item name="popupMenuBackground">@drawable/custom_popup_background</item>-->
+
     </style>
 
     <!--    TODO: BOTTOM NAVIGATION BAR COLOR-->
@@ -69,6 +75,15 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorSurface">@color/primaryTextColor</item>
         <item name="colorOnSurface">@color/primaryTextColor</item>
+    </style>
+
+
+
+    <!--    TODO: MENU POP UP COLOR-->
+    <style name="TextAppearance.App.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">sans-serif-light</item>
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/primaryColor</item>
     </style>
 
 </resources>

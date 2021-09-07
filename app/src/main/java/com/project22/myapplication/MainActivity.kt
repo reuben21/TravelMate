@@ -3,6 +3,7 @@ package com.project22.myapplication
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
@@ -43,6 +44,9 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
+        FullScreencall()
+
+
         replaceFragment(homeFragment)
 
         bottom_navigation?.setOnItemSelectedListener {
@@ -65,6 +69,28 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment_container,fragment)
         transaction.commit()
+    }
+
+
+    override fun onBackPressed() {
+        if (false) {
+            super.onBackPressed()
+        } else {
+
+        }
+    }
+
+    fun FullScreencall() {
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            val v: View = this.window.decorView
+            v.setSystemUiVisibility(View.GONE)
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            val decorView: View = window.decorView
+            val uiOptions: Int =
+                View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            decorView.setSystemUiVisibility(uiOptions)
+        }
     }
 
 }

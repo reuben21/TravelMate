@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.project22.myapplication.R
+import kotlinx.android.synthetic.main.activity_travel_destination.*
 
 class TravelDestination : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +34,8 @@ class TravelDestination : AppCompatActivity() {
 
         val userWallet = intent?.getStringExtra("placeName").toString()
         Log.d("TravelDestination",userWallet)
+
+        toolbar_back_to_travel_destination_single_screen.title = userWallet
     }
 
 

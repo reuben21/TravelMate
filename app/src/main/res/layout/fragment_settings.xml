@@ -23,7 +23,7 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/profile_image"
+                android:id="@+id/displayProfileImage"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/shrute_farms"
@@ -34,37 +34,38 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/personName"
+            android:id="@+id/displayFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
-            android:text="Joey Tribbiani"
+            android:text=""
             android:textColor="@color/secondaryColor"
             android:textSize="35sp" />
 
 
         <TextView
-            android:id="@+id/tv_address"
+            android:id="@+id/displayAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/personName"
+            android:layout_below="@+id/displayFullName"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:text="new york, usa"
+            android:text=""
             android:textAllCaps="true"
             android:textColor="@color/primaryTextColor"
             android:textSize="14sp" />
 
-        <ImageView
+        <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:layout_marginTop="15dp"
             android:layout_marginRight="15dp"
             android:adjustViewBounds="true"
+            android:background="@color/fui_transparent"
             android:scaleType="centerInside"
             android:src="@drawable/ic_settings" />
 
@@ -100,10 +101,11 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/displayEmailIdSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="joey@sharenofood.com"
+                    android:text=""
                     android:textColor="@color/secondaryColor"
                     android:textSize="22sp" />
 
@@ -129,10 +131,11 @@
                     android:textSize="18sp" />
 
                 <TextView
+                    android:id="@+id/displayBirthDateSettings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="1999-10-25"
+                    android:text=""
                     android:textColor="@color/secondaryColor"
                     android:textSize="22sp" />
 
