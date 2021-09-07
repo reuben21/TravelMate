@@ -1,6 +1,7 @@
 package com.project22.myapplication.frangments
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
@@ -18,6 +19,7 @@ import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.R
 import com.project22.myapplication.authentication.OverViewAuth
 import kotlinx.android.synthetic.main.fragment_settings.*
+import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 
 
@@ -89,6 +91,8 @@ class SettingsFragment : Fragment() {
                 }
                 true
             })
+
+
             popupMenu.show()
         }
 

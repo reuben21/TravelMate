@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_crick"
-        android:icon="@drawable/ic_plus"
+
         android:title="cricket"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_plus"
+        />
     <item
         android:id="@+id/action_ftbal"
-        android:icon="@drawable/ic_camera"
+
         android:title="action_football"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_plus"
+       />
     <item
         android:id="@+id/action_hockey"
-        android:icon="@drawable/ic_exit"
+
         android:title="action_hockey"
-        app:showAsAction="never"/>
+        android:icon="@drawable/ic_plus"
+
+   />
 </menu>
