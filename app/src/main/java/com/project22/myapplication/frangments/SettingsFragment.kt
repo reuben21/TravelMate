@@ -3,10 +3,14 @@ package com.project22.myapplication.frangments
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.annotation.MenuRes
+import androidx.appcompat.view.menu.MenuBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,14 +26,26 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+
+
+
 
     }
+
+
+
+
+
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_settings, container, false)
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -58,6 +74,24 @@ class SettingsFragment : Fragment() {
             auth.signOut()
             startActivity(Intent(context, OverViewAuth::class.java))
         }
+
+        setting.setOnClickListener{
+            val popupMenu: PopupMenu = PopupMenu(this.context,setting)
+            popupMenu.menuInflater.inflate(R.menu.overflow_menu,popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+                when(item.itemId) {
+                    R.id.action_crick ->
+                        Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.action_ftbal ->
+                        Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.action_hockey ->
+                        Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                }
+                true
+            })
+            popupMenu.show()
+        }
+
     }
 
 
