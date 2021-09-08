@@ -3,14 +3,6 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/drawable-anydpi/ic_edit_profile.xml" value="0.152" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/drawable-anydpi/ic_notifications.xml" value="0.14635416666666667" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/drawable-anydpi/ic_plus.xml" value="0.234375" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/layout/activity_over_view_auth.xml" value="0.21822916666666667" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/layout/activity_sign_up.xml" value="0.21822916666666667" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/layout/fragment_settings.xml" value="0.1793478260869565" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/Ankita/AndroidStudioProjects/TravelMate/app/src/main/res/menu/overflow_menu.xml" value="0.2" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable-anydpi/back.xml" value="0.4036458333333333" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable-anydpi/ic_exit.xml" value="0.29270833333333335" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable-anydpi/ic_plus.xml" value="0.4036458333333333" />
@@ -22,6 +14,7 @@
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/activity_maps.xml" value="0.22916666666666666" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/activity_sign_up.xml" value="0.31145833333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/activity_travel_destination.xml" value="0.28802083333333334" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_chats.xml" value="0.29791666666666666" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_home_destination_card.xml" value="0.28802083333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_profile.xml" value="0.35052083333333334" />
@@ -29,6 +22,7 @@
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_travel.xml" value="0.26510416666666664" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/settings_activity.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.35052083333333334" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/menu/overflow_menu.xml" value="0.29739583333333336" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/xml/root_preferences.xml" value="0.24583333333333332" />
       </map>
     </option>

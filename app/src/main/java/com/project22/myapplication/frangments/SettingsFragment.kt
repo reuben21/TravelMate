@@ -72,22 +72,21 @@ class SettingsFragment : Fragment() {
             .addOnFailureListener { exception ->
                 Log.d("TAG", "get failed with ", exception)
             }
-        logoutButton.setOnClickListener {
-            auth.signOut()
-            startActivity(Intent(context, OverViewAuth::class.java))
-        }
+
 
         setting.setOnClickListener{
             val popupMenu: PopupMenu = PopupMenu(this.context,setting)
             popupMenu.menuInflater.inflate(R.menu.overflow_menu,popupMenu.menu)
             popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
                 when(item.itemId) {
-                    R.id.action_crick ->
+                    R.id.editProfileButton ->
                         Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
-                    R.id.action_ftbal ->
+                    R.id.notifButton ->
                         Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
-                    R.id.action_hockey ->
-                        Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.logoutButton -> {
+                        auth.signOut()
+                        startActivity(Intent(context, OverViewAuth::class.java))
+                    }
                 }
                 true
             })
