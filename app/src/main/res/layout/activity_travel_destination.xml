@@ -3,32 +3,138 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/primaryColor"
     android:layout_height="match_parent"
     tools:context=".screens.TravelDestination">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-
+        android:id="@+id/cordinatorLayoutToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_back_to_travel_destination_single_screen"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Login In"
-            app:navigationIcon="@drawable/back"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            />
+            android:layout_height="wrap_content">
 
-    </com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_back_to_travel_destination_single_screen"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/back"
+                app:title="" />
 
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="?android:attr/actionBarSize"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/singleTravelImage"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/shrute_farms"
+
+                />
+
+            <TextView
+                android:id="@+id/singleDestinationName"
+                android:layout_below="@+id/singleTravelImage"
+                android:text="Tokyo"
+                android:textColor="@color/primaryTextColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="40sp"
+
+                />
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardOfDestination"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="20dp"
+                android:layout_below="@+id/singleDestinationName"
+
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <!-- Title, secondary and supporting text -->
+                        <TextView
+                            android:id="@+id/card_placeName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:text="Shrute Farms"
+                            android:textAppearance="?attr/textAppearanceHeadline6" />
+
+                        <View
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_weight="1" />
+
+                        <TextView
+                            android:id="@+id/card_travellers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="8dp"
+                            android:text="Travelling: 0"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+                    </LinearLayout>
+
+                    <!-- Buttons -->
+                    <!--            <LinearLayout-->
+                    <!--                android:layout_width="wrap_content"-->
+                    <!--                android:layout_height="wrap_content"-->
+
+                    <!--                android:orientation="horizontal">-->
+                    <!--                <View-->
+                    <!--                    android:layout_width="0dp"-->
+                    <!--                    android:layout_height="0dp"-->
+                    <!--                    android:layout_weight="1"-->
+                    <!--                    />-->
+                    <!--                <com.google.android.material.button.MaterialButton-->
+                    <!--                    android:layout_width="wrap_content"-->
+                    <!--                    android:layout_height="38dp"-->
+                    <!--                    app:icon="@drawable/travel"-->
+                    <!--                    android:text="Travel"-->
+                    <!--                    android:layout_marginEnd="5dp"-->
+                    <!--                    android:layout_marginBottom="5dp"-->
+                    <!--                    style="?attr/borderlessButtonStyle"-->
+                    <!--                    />-->
+                    <!--            </LinearLayout>-->
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </RelativeLayout>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
