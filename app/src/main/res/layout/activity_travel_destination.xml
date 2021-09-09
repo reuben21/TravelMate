@@ -32,39 +32,68 @@
         <RelativeLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+
             android:layout_marginTop="?android:attr/actionBarSize"
             android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/singleTravelImage"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/shrute_farms"
 
-                />
+                android:id="@+id/card_placeImageUrl"
+                android:orientation="vertical">
+                <!-- Title, secondary and supporting text -->
+                <ImageView
+
+                    android:id="@+id/singleScreenImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:contentDescription="A Beautiful Place to Bury People"
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/shrute_farms" />
+
+
+            </LinearLayout>
+
+            <!-- Media -->
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="280dp"
+
+                android:background="@drawable/backgroundshape"
+                android:orientation="vertical">
+                <!-- Title, secondary and supporting text -->
+
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/singleDestinationName"
-                android:layout_below="@+id/singleTravelImage"
-                android:text="Tokyo"
-                android:textColor="@color/primaryTextColor"
+                android:id="@+id/titleOrganiser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/card_placeImageUrl"
+
+                android:text="Organiser"
                 android:textAlignment="center"
-                android:textSize="40sp"
+                android:textColor="@color/secondaryColor"
+                android:textSize="22sp"
 
                 />
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardOfDestination"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_margin="20dp"
-                android:layout_below="@+id/singleDestinationName"
+                android:layout_below="@+id/titleOrganiser"
 
                 android:clickable="true"
                 android:focusable="true">
@@ -72,60 +101,56 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/displayProfileImage"
+                        android:layout_margin="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:src="@drawable/shrute_farms"
+                        app:civ_border_color="@color/primaryColor"
+                        app:civ_border_width="2dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
+                    <!-- Title, secondary and supporting text -->
+                    <TextView
+                        android:id="@+id/singleScreenUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="25sp"
+                        android:text="Shrute Farms"
+                        android:textColor="@color/primaryColor"
+                        android:textAppearance="?attr/textAppearanceHeadline6" />
+                    <TextView
+                        android:id="@+id/card_travellers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="40dp"
+                        android:layout_marginLeft="20dp"
+                        android:textSize="20sp"
+                        android:text="Travelling: 0"
+
+                        android:textAppearance="?attr/textAppearanceBody2"
+                        android:textColor="?android:attr/textColorSecondary" />
+
+                </LinearLayout>
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
+                        android:orientation="vertical">
                         <!-- Title, secondary and supporting text -->
-                        <TextView
-                            android:id="@+id/card_placeName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
 
-                            android:text="Shrute Farms"
-                            android:textAppearance="?attr/textAppearanceHeadline6" />
-
-                        <View
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/card_travellers"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="8dp"
-                            android:text="Travelling: 0"
-                            android:textAppearance="?attr/textAppearanceBody2"
-                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
 
-                    <!-- Buttons -->
-                    <!--            <LinearLayout-->
-                    <!--                android:layout_width="wrap_content"-->
-                    <!--                android:layout_height="wrap_content"-->
-
-                    <!--                android:orientation="horizontal">-->
-                    <!--                <View-->
-                    <!--                    android:layout_width="0dp"-->
-                    <!--                    android:layout_height="0dp"-->
-                    <!--                    android:layout_weight="1"-->
-                    <!--                    />-->
-                    <!--                <com.google.android.material.button.MaterialButton-->
-                    <!--                    android:layout_width="wrap_content"-->
-                    <!--                    android:layout_height="38dp"-->
-                    <!--                    app:icon="@drawable/travel"-->
-                    <!--                    android:text="Travel"-->
-                    <!--                    android:layout_marginEnd="5dp"-->
-                    <!--                    android:layout_marginBottom="5dp"-->
-                    <!--                    style="?attr/borderlessButtonStyle"-->
-                    <!--                    />-->
-                    <!--            </LinearLayout>-->
 
                 </LinearLayout>
 
