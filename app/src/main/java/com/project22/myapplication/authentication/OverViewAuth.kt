@@ -9,15 +9,17 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
+import com.project22.myapplication.database.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_over_view_auth.*
 
 class OverViewAuth : AppCompatActivity() {
 
 
-
+    internal var dbHelper = DatabaseHelper(this)
 
     public override fun onStart() {
         super.onStart()
+
 
     }
 
