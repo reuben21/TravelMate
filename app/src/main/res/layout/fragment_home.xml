@@ -10,7 +10,7 @@
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/floating_action_button"
+            android:id="@+id/add_place_to_travel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
