@@ -7,6 +7,8 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import com.project22.myapplication.database.DatabaseHelper
@@ -46,6 +48,14 @@ class OverViewAuth : AppCompatActivity() {
             )
         }
 
+        var auth: FirebaseAuth = Firebase.auth
+
+
+        if (auth.currentUser != null) {
+            // User is signed in (getCurrentUser() will be null if not signed in)
+            startActivity(Intent(this, MainActivity::class.java))
+            finish();
+        }
 
 
 

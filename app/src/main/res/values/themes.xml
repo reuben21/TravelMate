@@ -30,6 +30,12 @@
         <item name="popupTheme">@style/PopupMenuTheme</item>
     </style>
 
+    <style name="AppTheme.Fullscreen" parent="Theme.TravelMate">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
     <!--    TODO: BOTTOM NAVIGATION BAR COLOR-->
     <style name="Widget.App.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView.Colored">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
