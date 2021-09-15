@@ -1,5 +1,6 @@
 package com.project22.myapplication.frangments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -52,6 +53,7 @@ class ChatFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_chats, container, false)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -82,6 +84,8 @@ class ChatFragment : Fragment() {
                     for (doc in documentSnapshots) {
                         val chat = doc.toObject(Chat::class.java)
                         chat.id = doc.id
+                        Log.d("TEXT", chat.id.toString())
+
                         chatList.add(chat)
                     }
                 }
