@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.ktx.firestore
@@ -41,9 +43,8 @@ import java.util.*
 import java.text.SimpleDateFormat
 import javax.security.auth.callback.PasswordCallback
 import com.google.firebase.firestore.DocumentReference
-
-
-
+import com.project22.myapplication.MainActivity
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 
 class ChatScreen : AppCompatActivity() {
@@ -54,7 +55,7 @@ class ChatScreen : AppCompatActivity() {
     }
 
 
-
+    var auth: FirebaseAuth = Firebase.auth
     val db = Firebase.firestore
     private val TAG = "MainActivity"
     private var adapter: FirestoreRecyclerAdapter<TextMessage, RecyclerView.ViewHolder>? = null
@@ -63,11 +64,24 @@ class ChatScreen : AppCompatActivity() {
     private var messageList = mutableListOf<TextMessage>()
 
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_screen)
+        val chatId = intent?.getStringExtra("chatId").toString()
+//        Log.d("CHAT ID", chatId)
+//        val docRef = db.collection("chats").document(chatId)
+//        docRef.get().addOnSuccessListener { document ->
+//            if (document != null) {
+//
+//            } else {
+//                val intent = Intent(this, MainActivity::class.java)
+//                startActivity(intent)
+//            }
+//        }
+//            .addOnFailureListener { exception ->
+//                Log.d("TAG", "get failed with ", exception)
+//            }
+//
 
         try {
             // TODO :- To Hide the Toolbar which Comes by Default
@@ -87,12 +101,18 @@ class ChatScreen : AppCompatActivity() {
         }
 
         sendCameraMessageButton.setOnClickListener {
-            if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)== PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.CAMERA
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(intent, CAMERA_REQUEST_CODE)
             } else {
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA),
-                    CAMERA_PERMISSION_CODE)
+                ActivityCompat.requestPermissions(
+                    this, arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_CODE
+                )
             }
         }
 
@@ -102,14 +122,14 @@ class ChatScreen : AppCompatActivity() {
             Log.d("TEST", "ONLCLICK")
             val message = textInputMessage.text.toString()
             if (message.isNotEmpty()) {
-                val ref = db.collection("chat").document()
+                val ref = db.collection("chats").document(chatId).collection("messages").document()
 
 //            val textMessage = TextMessage(1,message,Timestamp(Date()),"9bBm4sEB6XauE94eiS4gwTZ0LSa2","dwight")
                 val textMessage = hashMapOf(
                     "id" to ref.id,
                     "message" to message,
                     "createdAt" to Timestamp(Date()),
-                    "senderId" to "9bBm4sEB6XauE94eiS4gwTZ0LSa2",
+                    "senderId" to auth.currentUser?.uid,
                     "senderName" to "dwight",
                     "messageType" to "1",
 
@@ -117,7 +137,8 @@ class ChatScreen : AppCompatActivity() {
 
 
 
-                db.collection("chat").document(ref.id).set(textMessage)
+                db.collection("chats").document(chatId).collection("messages").document(ref.id)
+                    .set(textMessage)
             }
         }
 
@@ -128,29 +149,31 @@ class ChatScreen : AppCompatActivity() {
         chatRecyclerView.layoutManager = mLayoutManager
         chatRecyclerView.itemAnimator = DefaultItemAnimator()
 
-        loadChatList()
+        loadChatList(chatId)
 
-        firestoreListener = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.DESCENDING)
-            .addSnapshotListener(EventListener { documentSnapshots, e ->
-                if (e != null) {
-                    Log.e(TAG, "Listen failed!", e)
-                    return@EventListener
-                }
-
-                messageList = mutableListOf<TextMessage>()
-
-                if (documentSnapshots != null) {
-                    for (doc in documentSnapshots) {
-                        val message = doc.toObject(TextMessage::class.java)
-                        Log.d("documentSnapshots", message.id.toString())
-                        message.id = doc.id
-                        messageList.add(message)
+        firestoreListener =
+            firestoreDB!!.collection("chats").document(chatId).collection("messages")
+                .orderBy("createdAt", Query.Direction.DESCENDING)
+                .addSnapshotListener(EventListener { documentSnapshots, e ->
+                    if (e != null) {
+                        Log.e(TAG, "Listen failed!", e)
+                        return@EventListener
                     }
-                }
 
-                adapter!!.notifyDataSetChanged()
-                chatRecyclerView.adapter = adapter
-            })
+                    messageList = mutableListOf<TextMessage>()
+
+                    if (documentSnapshots != null) {
+                        for (doc in documentSnapshots) {
+                            val message = doc.toObject(TextMessage::class.java)
+                            Log.d("documentSnapshots", message.id.toString())
+                            message.id = doc.id
+                            messageList.add(message)
+                        }
+                    }
+
+                    adapter!!.notifyDataSetChanged()
+                    chatRecyclerView.adapter = adapter
+                })
 
 
     }
@@ -162,28 +185,29 @@ class ChatScreen : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == CAMERA_PERMISSION_CODE) {
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+        if (requestCode == CAMERA_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(intent, CAMERA_REQUEST_CODE)
             } else {
-                Toast.makeText(this,"PERMISSION DENIED",Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "PERMISSION DENIED", Toast.LENGTH_LONG).show()
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == Activity.RESULT_OK) {
-            if(requestCode == CAMERA_REQUEST_CODE) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == CAMERA_REQUEST_CODE) {
                 val thumBNail: Bitmap = data!!.extras!!.get("data") as Bitmap
             }
         }
     }
 
-    private fun loadChatList() {
+    private fun loadChatList(chatId: String) {
 
-        val query = firestoreDB!!.collection("chat").orderBy("createdAt", Query.Direction.DESCENDING)
+        val query = firestoreDB!!.collection("chats").document(chatId).collection("messages")
+            .orderBy("createdAt", Query.Direction.DESCENDING)
 
         val response = FirestoreRecyclerOptions.Builder<TextMessage>()
             .setQuery(query, TextMessage::class.java)
@@ -204,36 +228,33 @@ class ChatScreen : AppCompatActivity() {
                     val mess = messageList[position]
                     val sfd = SimpleDateFormat("HH:mm aa")
 
-                    if (mess.senderId == "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
+                    if (mess.senderId == auth.currentUser?.uid) {
 
-                            when (holder) {
-                                is TextMessageSenderViewHolder -> {
-                                    Log.d("TextMessageSenderViewHolder",mess.message.toString())
-                                    holder.text_view_message.text = mess.message
+                        when (holder) {
+                            is TextMessageSenderViewHolder -> {
+                                Log.d("TextMessageSenderViewHolder", mess.message.toString())
+                                holder.text_view_message.text = mess.message
 
-                                    holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
+                                holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
 
 
-                                }
+                            }
 
 
                         }
 
-                    } else if (mess.senderId != "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
+                    } else if (mess.senderId != auth.currentUser?.uid) {
 
-                            when (holder) {
+                        when (holder) {
 
-                                is TextMessageReceiverHolder -> {
-                                    // Manually get the model item
-                                    Log.d("TextMessageReceiverHolder", mess.message.toString())
-                                    holder.text_view_message.text = mess.message
-                                    holder.text_view_time.text =
-                                        sfd.format(mess.createdAt?.toDate())
-                                }
+                            is TextMessageReceiverHolder -> {
+                                // Manually get the model item
+                                Log.d("TextMessageReceiverHolder", mess.message.toString())
+                                holder.text_view_message.text = mess.message
+                                holder.text_view_time.text =
+                                    sfd.format(mess.createdAt?.toDate())
                             }
-
-
-
+                        }
 
 
                     }
@@ -243,10 +264,10 @@ class ChatScreen : AppCompatActivity() {
 
                 override fun getItemViewType(position: Int): Int {
                     val mess = messageList[position]
-                    if (mess.senderId == "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
+                    if (mess.senderId == auth.currentUser?.uid) {
                         return MSG_TYPE_RIGHT
                     }
-                    if (mess.senderId != "9bBm4sEB6XauE94eiS4gwTZ0LSa2") {
+                    if (mess.senderId != auth.currentUser?.uid) {
                         return MSG_TYPE_LEFT
                     }
                     return 3

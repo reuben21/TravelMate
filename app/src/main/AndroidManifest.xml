@@ -36,6 +36,7 @@
             />
         <activity android:name=".authentication.SignUpActivity" />
         <activity android:name=".screens.TravelDestination" />
+        <activity android:name=".screens.ChatScreen" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
