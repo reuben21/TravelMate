@@ -23,6 +23,7 @@ import com.project22.myapplication.R
 import com.project22.myapplication.adapters.DestinationViewHolder
 import com.project22.myapplication.model.Destination
 import com.project22.myapplication.screens.TravelDestination
+import com.project22.myapplication.screens.TravelDestinationForm
 import kotlinx.android.synthetic.main.fragment_home.*
 
 
@@ -53,6 +54,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
+        add_place_to_travel_button.setOnClickListener {
+            val intent = Intent(context?.applicationContext, TravelDestinationForm::class.java)
+            startActivity(intent)
+        }
 
         firestoreDB = FirebaseFirestore.getInstance()
 
@@ -117,6 +122,8 @@ class HomeFragment : Fragment() {
                     Log.d("TEXT","CLICKALLE")
                     val intent = Intent(context?.applicationContext,TravelDestination::class.java)
                     intent.putExtra("placeName",dest.placeName)
+                    intent.putExtra("travellersHolder",dest.travellers.toString())
+                    intent.putExtra("placeImageUrl",dest.placeImageUrl)
                     startActivity(intent)
 
                 }
