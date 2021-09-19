@@ -117,6 +117,8 @@ class HomeFragment : Fragment() {
                     Log.d("TEXT","CLICKALLE")
                     val intent = Intent(context?.applicationContext,TravelDestination::class.java)
                     intent.putExtra("placeName",dest.placeName)
+                    intent.putExtra("travellersHolder",dest.travellers.toString())
+                    intent.putExtra("placeImageUrl",dest.placeImageUrl)
                     startActivity(intent)
 
                 }

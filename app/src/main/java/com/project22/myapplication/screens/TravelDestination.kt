@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import com.bumptech.glide.Glide
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_travel_destination.*
 
@@ -32,10 +33,21 @@ class TravelDestination : AppCompatActivity() {
             )
         }
 
-        val userWallet = intent?.getStringExtra("placeName").toString()
-        Log.d("TravelDestination",userWallet)
+        val placeName = intent?.getStringExtra("placeName").toString()
+        val travellersHolder = intent?.getStringExtra("travellersHolder").toString()
+        val placeImageUrl = intent?.getStringExtra("placeImageUrl").toString()
 
-        toolbar_back_to_travel_destination_single_screen.title = userWallet
+        toolbar_back_to_travel_destination_single_screen.setNavigationOnClickListener { onBackPressed() }
+0
+        toolbar_back_to_travel_destination_single_screen.title = placeName
+        card_travellers.text = "Travelling: " + travellersHolder
+        this.applicationContext?.let {
+            Glide.with(it)
+                .load(placeImageUrl)
+                .placeholder(R.drawable.travel)
+                .into( singleScreenImage)
+        }
+
     }
 
 
