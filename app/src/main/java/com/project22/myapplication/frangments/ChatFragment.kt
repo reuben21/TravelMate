@@ -24,6 +24,8 @@ import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import com.project22.myapplication.adapters.ChatViewHolder
 import com.project22.myapplication.model.Chat
+import com.project22.myapplication.screens.ChatScreen
+import com.project22.myapplication.screens.TravelDestination
 import kotlinx.android.synthetic.main.activity_chat_screen.*
 
 import kotlinx.android.synthetic.main.fragment_chats.*
@@ -118,8 +120,10 @@ class ChatFragment : Fragment() {
                 }
 
                 holder.cardOfChatView.setOnClickListener {
-                    Log.d("TEXT",dest.chatName.toString())
-
+                    Log.d("TEXT",dest.id.toString())
+                    val intent = Intent(context?.applicationContext, ChatScreen::class.java)
+                    intent.putExtra("chatId",dest.id.toString())
+                    startActivity(intent)
 
                 }
 //
