@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.TravelDestinationForm">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_back_to_Login"
+                style="@style/Widget.MaterialComponents.Toolbar.Primary"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:navigationIcon="@drawable/back"
+                app:title="Travel Registration" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <!-- Note: A RecyclerView can also be used -->
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            <RelativeLayout
+
+                android:id="@+id/relativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingHorizontal="20dp"
+
+                android:paddingTop="100dp"
+                app:layout_anchor="@+id/nestedScrollView"
+                app:layout_anchorGravity="center">
+
+                <ImageView
+                    android:id="@+id/signupImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:scaleType="fitStart"
+                    app:srcCompat="@drawable/sign_in_picture" />
+
+                <TextView
+                    android:id="@+id/create_your_account_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/signupImageView"
+                    android:layout_centerInParent="true"
+                    android:text="Travel Buddy Form"
+                    android:textColor="@color/primaryColor"
+                    android:textSize="20sp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/linearLayout1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/create_your_account_text"
+
+                    android:orientation="horizontal">
+                    <!--                originLayout-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/originLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="Origin"
+                        android:paddingRight="5dp"
+                        android:textColorHint="@color/primaryColor"
+                        app:errorEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+
+                        app:layout_constraintEnd_toStartOf="@+id/destinationLayout"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputOrigin"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/primaryColor"
+                            android:textColorHint="@color/primaryColor"
+
+
+                            />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--                destinationLayout-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/destinationLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:hint="Destination"
+                        android:paddingLeft="5dp"
+                        android:textColorHint="@color/primaryColor"
+                        app:errorEnabled="true"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/originLayout">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputLastName"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/primaryColor"
+                            android:textColorHint="@color/primaryColor"
+
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+                <!--            dateTextInputLayout-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dateTextInputLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linearLayout1"
+                    android:layout_marginTop="20dp"
+                    android:clickable="true"
+                    android:hint="Select Range of Dates"
+                    android:textColorHint="@color/primaryColor"
+                    app:endIconDrawable="@drawable/calendar"
+
+                    app:endIconMode="custom"
+
+                    app:errorEnabled="true"
+                    app:hintTextColor="@color/primaryColor"
+
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/dateTextInputEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:textColor="@color/primaryColor"
+
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dateTextInputLayout"
+                    android:layout_marginTop="0dp"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/startDate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="StartDate"
+                        android:paddingRight="5dp"
+                        android:textColorHint="@color/primaryColor"
+                        app:errorEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+
+                        app:layout_constraintEnd_toStartOf="@+id/EndDate"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputStartDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/primaryColor"
+                            android:textColorHint="@color/primaryColor"
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!--                EndDate-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/EndDate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:hint="EndDate"
+                        android:paddingLeft="5dp"
+                        android:textColorHint="@color/primaryColor"
+                        app:errorEnabled="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/startDate">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/inputEndDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@color/primaryColor"
+                            android:textColorHint="@color/primaryColor"
+
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <!--            ChatGroupName-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ChatGroupName"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/dateTextInputLayout"
+                    android:layout_marginTop="20dp"
+                    android:hint="Chat "
+                    android:textColorHint="@color/primaryColor"
+                    app:errorEnabled="true">
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <!--            TicketUpload-->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/TicketUpload"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ChatGroupName"
+                    android:layout_marginTop="30dp"
+                    android:hint="Ticket Uploads"
+                    android:textColorHint="@color/primaryColor"
+
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/inputPasswordRegister"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:textColor="@color/primaryColor"
+                        android:textColorHint="@color/primaryColor" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!--             // this is a submit button-->
+                <Button
+                    android:id="@+id/SubmitButtonTravelForm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/TicketUpload"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="30dp"
+                    android:padding="10dp"
+                    android:text="Submit"
+
+
+                    android:textSize="20sp" />
+            </RelativeLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
