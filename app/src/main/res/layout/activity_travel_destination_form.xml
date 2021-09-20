@@ -83,7 +83,13 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
 
-                        app:layout_constraintStart_toStartOf="parent">
+                        app:layout_constraintStart_toStartOf="parent"
+
+                        android:clickable="true"
+                        app:endIconMode="custom"
+                        android:focusable="true"
+                        app:endIconDrawable="@drawable/travel"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/inputOrigin"
@@ -91,9 +97,12 @@
                             android:layout_height="match_parent"
                             android:textColor="@color/primaryColor"
                             android:textColorHint="@color/primaryColor"
-
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:focusable="false"
 
                             />
+
 
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -115,15 +124,22 @@
 
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/originLayout">
+                        app:layout_constraintStart_toEndOf="@+id/originLayout"
+                        android:clickable="true"
+                        app:endIconMode="custom"
+                        android:focusable="true"
+                        app:endIconDrawable="@drawable/flight_land"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/inputLastName"
+                            android:id="@+id/inputDestination"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:textColor="@color/primaryColor"
                             android:textColorHint="@color/primaryColor"
-
+                            android:clickable="true"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:textColor="@color/primaryColor"
 
                             />
 
@@ -149,7 +165,8 @@
                     app:errorEnabled="true"
                     app:hintTextColor="@color/primaryColor"
 
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:focusable="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dateTextInputEditText"
