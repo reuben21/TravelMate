@@ -55,6 +55,7 @@ class TravelDestinationForm : AppCompatActivity() {
     var endDateVar: Long = 0
 
     var chatName: String = ""
+    var ticketImageUrl: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -127,7 +128,8 @@ class TravelDestinationForm : AppCompatActivity() {
                 "destinationLongitude" to destinationNameLongitude,
                 "startDate" to Timestamp(Date(startDateVar)) ,
                 "endDate" to Timestamp(Date(endDateVar)) ,
-                "chatName" to chatName
+                "chatName" to chatName,
+                "ticketImageUrl" to ticketImageUrl
 
             )
 
@@ -219,6 +221,7 @@ class TravelDestinationForm : AppCompatActivity() {
             })?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri = task.result
+                    ticketImageUrl = downloadUri.toString()
                   Log.d("UPLOAD URL OF IMAGE",downloadUri.toString())
                 } else {
                     // Handle failures
