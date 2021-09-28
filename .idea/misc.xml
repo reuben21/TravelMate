@@ -12,6 +12,9 @@
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable/circle.xml" value="0.29270833333333335" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable/circle_border.xml" value="0.29270833333333335" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable/grad.xml" value="0.29270833333333335" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable/ic_launcher_background.xml" value="0.37447916666666664" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable/message_center.xml" value="0.37447916666666664" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/drawable/message_receiver_bubble.xml" value="0.37447916666666664" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/activity_login.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/activity_main.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/activity_maps.xml" value="0.22916666666666666" />
@@ -24,6 +27,9 @@
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_profile.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_settings.xml" value="0.33" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/fragment_travel.xml" value="0.26510416666666664" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/layout_center_message.xml" value="0.35833333333333334" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/layout_image_message_receiver.xml" value="0.35833333333333334" />
+        <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/layout_message_receiver.xml" value="0.35833333333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/settings_activity.xml" value="0.35052083333333334" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/layout/single_chat_item.xml" value="0.3625" />
         <entry key="..\:/Users/reube/StudioProjects/TravelMate/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.35052083333333334" />

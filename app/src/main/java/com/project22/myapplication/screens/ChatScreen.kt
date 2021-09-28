@@ -44,6 +44,7 @@ import java.text.SimpleDateFormat
 import javax.security.auth.callback.PasswordCallback
 import com.google.firebase.firestore.DocumentReference
 import com.project22.myapplication.MainActivity
+import com.project22.myapplication.adapters.TextMessageCenterViewHolder
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 
@@ -86,8 +87,7 @@ class ChatScreen : AppCompatActivity() {
         try {
             // TODO :- To Hide the Toolbar which Comes by Default
             this.supportActionBar!!.hide()
-        } catch (e: NullPointerException) {
-        }
+        } catch (e: NullPointerException) { }
 
         // TODO :- To Make Fragment Visible in Full Screen
         @Suppress("DEPRECATION")
@@ -220,6 +220,7 @@ class ChatScreen : AppCompatActivity() {
 
                 val MSG_TYPE_LEFT = 0
                 val MSG_TYPE_RIGHT = 1
+                val MSG_TYPE_CENTER = 2
                 override fun onBindViewHolder(
                     holder: RecyclerView.ViewHolder,
                     position: Int,
@@ -227,35 +228,50 @@ class ChatScreen : AppCompatActivity() {
                 ) {
                     val mess = messageList[position]
                     val sfd = SimpleDateFormat("HH:mm aa")
+                    if(mess.messageType == "3") {
 
-                    if (mess.senderId == auth.currentUser?.uid) {
+                        Log.d("TextMessageCenterViewHolder", mess.message.toString())
 
                         when (holder) {
-                            is TextMessageSenderViewHolder -> {
-                                Log.d("TextMessageSenderViewHolder", mess.message.toString())
+                            is TextMessageCenterViewHolder -> {
+                                Log.d("TextMessageCenterViewHolder", mess.message.toString())
                                 holder.text_view_message.text = mess.message
-
-                                holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
-
 
                             }
 
 
                         }
+                    } else {
+                        if (mess.senderId == auth.currentUser?.uid) {
 
-                    } else if (mess.senderId != auth.currentUser?.uid) {
+                            when (holder) {
+                                is TextMessageSenderViewHolder -> {
+                                    Log.d("TextMessageSenderViewHolder", mess.message.toString())
+                                    holder.text_view_message.text = mess.message
 
-                        when (holder) {
+                                    holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
 
-                            is TextMessageReceiverHolder -> {
-                                // Manually get the model item
-                                Log.d("TextMessageReceiverHolder", mess.message.toString())
-                                holder.text_view_message.text = mess.message
-                                holder.text_view_time.text =
-                                    sfd.format(mess.createdAt?.toDate())
+
+                                }
+
+
                             }
-                        }
 
+                        } else if (mess.senderId != auth.currentUser?.uid) {
+
+                            when (holder) {
+
+                                is TextMessageReceiverHolder -> {
+                                    // Manually get the model item
+                                    Log.d("TextMessageReceiverHolder", mess.message.toString())
+                                    holder.text_view_message.text = mess.message
+                                    holder.text_view_time.text =
+                                        sfd.format(mess.createdAt?.toDate())
+                                }
+                            }
+
+
+                        }
 
                     }
 
@@ -264,12 +280,18 @@ class ChatScreen : AppCompatActivity() {
 
                 override fun getItemViewType(position: Int): Int {
                     val mess = messageList[position]
-                    if (mess.senderId == auth.currentUser?.uid) {
-                        return MSG_TYPE_RIGHT
+                    if(mess.messageType == "3") {
+                        return MSG_TYPE_CENTER
+                    } else {
+                        if (mess.senderId == auth.currentUser?.uid) {
+                            return MSG_TYPE_RIGHT
+                        }
+                        if (mess.senderId != auth.currentUser?.uid) {
+                            return MSG_TYPE_LEFT
+                        }
                     }
-                    if (mess.senderId != auth.currentUser?.uid) {
-                        return MSG_TYPE_LEFT
-                    }
+
+
                     return 3
 
                 }
@@ -280,18 +302,25 @@ class ChatScreen : AppCompatActivity() {
                     viewType: Int
                 ): RecyclerView.ViewHolder {
                     Log.d("onCreateViewHolder", viewType.toString())
-
-                    if (viewType == MSG_TYPE_RIGHT) {
-                        Log.d("MSG_TYPE_RIGHT", MSG_TYPE_RIGHT.toString())
+                    if (viewType == MSG_TYPE_CENTER) {
+                        Log.d("MSG_TYPE_CENTER", MSG_TYPE_CENTER.toString())
                         val view = LayoutInflater.from(parent.context)
-                            .inflate(R.layout.layout_message_sender, parent, false)
-                        return TextMessageSenderViewHolder(view)
-                    } else if (viewType == MSG_TYPE_LEFT) {
-                        Log.d("MSG_TYPE_LEFT", MSG_TYPE_LEFT.toString())
-                        val view = LayoutInflater.from(parent.context)
-                            .inflate(R.layout.layout_message_receiver, parent, false)
-                        return TextMessageReceiverHolder(view)
+                            .inflate(R.layout.layout_center_message, parent, false)
+                        return TextMessageCenterViewHolder(view)
+                    } else {
+                        if (viewType == MSG_TYPE_RIGHT) {
+                            Log.d("MSG_TYPE_RIGHT", MSG_TYPE_RIGHT.toString())
+                            val view = LayoutInflater.from(parent.context)
+                                .inflate(R.layout.layout_message_sender, parent, false)
+                            return TextMessageSenderViewHolder(view)
+                        } else if (viewType == MSG_TYPE_LEFT) {
+                            Log.d("MSG_TYPE_LEFT", MSG_TYPE_LEFT.toString())
+                            val view = LayoutInflater.from(parent.context)
+                                .inflate(R.layout.layout_message_receiver, parent, false)
+                            return TextMessageReceiverHolder(view)
+                        }
                     }
+
                     val view = LayoutInflater.from(parent.context)
                         .inflate(R.layout.layout_message_receiver, parent, false)
 
