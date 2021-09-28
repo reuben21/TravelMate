@@ -1,5 +1,6 @@
 package com.project22.myapplication.frangments
 
+import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.util.TypedValue
@@ -15,8 +17,10 @@ import androidx.fragment.app.Fragment
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.MenuRes
 import androidx.appcompat.view.menu.MenuBuilder
+import androidx.core.content.FileProvider
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -28,7 +32,10 @@ import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.project22.myapplication.R
 import com.project22.myapplication.authentication.OverViewAuth
+import kotlinx.android.synthetic.main.activity_travel_destination_form.*
 import kotlinx.android.synthetic.main.fragment_settings.*
+import java.io.File
+import java.io.IOException
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,6 +48,7 @@ class SettingsFragment : Fragment() {
     private var firebaseStore: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
     var ticketImageUrl: String = ""
+    lateinit var currentPhotoPath: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,28 +87,81 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),timeStamp)
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
+    }
+
+//    private fun dispatchTakePictureIntent() {
+//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+//            // Ensure that there's a camera activity to handle the intent
+//            context?.let {
+//                takePictureIntent.resolveActivity(it.packageManager)?.also {
+//                    // Create the File where the photo should go
+//                    val photoFile: File? = try {
+//                        createImageFile()
+//                    } catch (ex: IOException) {
+//                        // Error occurred while creating the File
+//
+//                        null
+//                    }
+//                    // Continue only if the File was successfully created
+//                    photoFile?.also {
+//                        val photoURI: Uri = FileProvider.getUriForFile(
+//                            requireContext(),
+//                            "com.example.android.fileprovider",
+//                            it
+//                        )
+//                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+//                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+
 
     private fun dispatchTakePictureIntent() {
-        val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        try {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-        } catch (e: ActivityNotFoundException) {
-            // display error state to the user
-        }
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        resultLauncher.launch(intent)
+        Log.d("TAG resultLauncher","resultLauncher")
     }
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        Log.d("TAG resultLauncher 2",result.data.toString())
+        if (result.resultCode == Activity.RESULT_OK) {
+            // There are no request codes
+            val data: Intent? = result.data
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            if(data == null || data.data == null){
-                return
-            }
 
-            filePath = data.data
+            filePath = data?.data
+
+            Log.d("TAG filePath", filePath.toString())
             val imageBitmap = data?.extras?.get("data") as Bitmap
+            Log.d("TAG filePath", imageBitmap.toString())
+//            try {
+//                Log.d("TAG FILEDATA",data.dataString.toString())
+//                val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, filePath)
+//                displayProfileImage.setImageBitmap(bitmap)
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
             displayProfileImage.setImageBitmap(imageBitmap)
-
         }
     }
+
+
+
 
 
 
@@ -110,7 +171,7 @@ class SettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
-        return inflater.inflate(R.layout.fragment_settings, container, false)
+
     }
 
     var auth: FirebaseAuth = Firebase.auth
