@@ -3,14 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/primaryColor"
     android:layout_height="match_parent"
-    tools:context=".screens.TravelDestination">
-
+    tools:context=".authentication.LoginActivity">
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/cordinatorLayoutToolbar"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
 
         <com.google.android.material.appbar.AppBarLayout
@@ -28,138 +27,221 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <RelativeLayout
-            android:id="@+id/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_marginTop="?android:attr/actionBarSize"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-
-                android:id="@+id/card_placeImageUrl"
-                android:orientation="vertical">
-                <!-- Title, secondary and supporting text -->
-                <ImageView
-
-                    android:id="@+id/singleScreenImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:contentDescription="A Beautiful Place to Bury People"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/shrute_farms" />
+    <!-- Note: A RecyclerView can also be used -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
 
-            </LinearLayout>
-
-            <!-- Media -->
+        >
 
 
-
-
-
-
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="280dp"
 
-                android:background="@drawable/backgroundshape"
-                android:orientation="vertical">
-                <!-- Title, secondary and supporting text -->
+                android:orientation="horizontal">
 
 
-            </LinearLayout>
 
-            <TextView
-                android:id="@+id/titleOrganiser"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/card_placeImageUrl"
-
-                android:text="Organiser"
-                android:textAlignment="center"
-                android:textColor="@color/secondaryColor"
-                android:textSize="22sp"
-
-                />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cardOfDestination"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:layout_margin="20dp"
-                android:layout_below="@+id/titleOrganiser"
-
-                android:clickable="true"
-                android:focusable="true">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
 
+                    android:orientation="vertical"
+                    android:scrollbars="vertical">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/displayProfileImage"
-                        android:layout_margin="10dp"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/shrute_farms"
-                        app:civ_border_color="@color/primaryColor"
-                        app:civ_border_width="2dp" />
+                    <ImageView
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <!-- Title, secondary and supporting text -->
-                    <TextView
-                        android:id="@+id/singleScreenUserName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="25sp"
-                        android:text="Shrute Farms"
-                        android:textColor="@color/primaryColor"
-                        android:textAppearance="?attr/textAppearanceHeadline6" />
-                    <TextView
-                        android:id="@+id/card_travellers"
-                        android:layout_width="wrap_content"
-                        android:layout_height="25dp"
-                        android:layout_marginBottom="40dp"
-                        android:layout_marginLeft="20dp"
-                        android:textSize="20sp"
-                        android:text="Travelling: 0"
-
-                        android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="?android:attr/textColorSecondary" />
-
-                </LinearLayout>
-
+                        android:id="@+id/singleScreenImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="340dp"
+                        android:contentDescription="A Beautiful Place to Bury People"
+                        android:scaleType="centerCrop"
+                        app:srcCompat="@drawable/shrute_farms" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <!-- Title, secondary and supporting text -->
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/singleScreenImage"
+                        android:background="@color/primaryColor"
+                        android:orientation="vertical"
+                        android:scrollbars="vertical">
 
+                        <TextView
+                            android:id="@+id/titleOrganiser"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/card_placeImageUrl"
+                            android:layout_marginTop="25dp"
+                            android:text="Organiser"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="22sp"
+
+                            />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardOfDestination"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_below="@+id/titleOrganiser"
+                            android:layout_margin="20dp"
+
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+
+                                <de.hdodenhof.circleimageview.CircleImageView
+                                    android:id="@+id/displayProfileImage"
+                                    android:layout_width="80dp"
+                                    android:layout_height="80dp"
+                                    android:layout_margin="10dp"
+                                    android:src="@drawable/shrute_farms"
+                                    app:civ_border_color="@color/primaryColor"
+                                    app:civ_border_width="2dp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <!-- Title, secondary and supporting text -->
+                                    <TextView
+                                        android:id="@+id/singleScreenUserName"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginTop="20dp"
+                                        android:text="Shrute Farms"
+                                        android:textAppearance="?attr/textAppearanceHeadline6"
+                                        android:textColor="@color/primaryColor"
+                                        android:textSize="25sp" />
+
+                                    <TextView
+                                        android:id="@+id/card_travellers"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="25dp"
+                                        android:layout_marginLeft="20dp"
+                                        android:layout_marginBottom="40dp"
+                                        android:text="Travelling: 0"
+                                        android:textAppearance="?attr/textAppearanceBody2"
+
+                                        android:textColor="?android:attr/textColorSecondary"
+                                        android:textSize="20sp" />
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+                                    <!-- Title, secondary and supporting text -->
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:id="@+id/fromOriginTextView"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/card_placeImageUrl"
+
+                            android:layout_marginLeft="20dp"
+                            android:text="From"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="22sp"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/fromOriginTextViewFill"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/card_placeImageUrl"
+                            android:layout_gravity="center"
+
+                            android:maxLines="3"
+
+                            android:text="Kandivali West"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="22sp"
+
+                            />
+
+
+                        <TextView
+                            android:id="@+id/fromDestinationTextView"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/card_placeImageUrl"
+
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="20dp"
+                            android:text="Destination"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="22sp"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/fromDestinationTextViewFill"
+
+
+                            android:layout_width="wrap_content"
+
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/card_placeImageUrl"
+                            android:layout_gravity="center"
+                            android:maxLines="3"
+
+                            android:text="Thane West"
+                            android:textAlignment="center"
+                            android:textColor="@color/secondaryColor"
+                            android:textSize="22sp"
+
+                            />
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="20dp"
+                            android:backgroundTint="@color/primaryTextColor"
+                            android:outlineAmbientShadowColor="@color/primaryTextColor"
+                            android:text="Join Group"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="20sp" />
                     </LinearLayout>
-
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+
+            </RelativeLayout>
 
 
-        </RelativeLayout>
+
+
+
+    </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
