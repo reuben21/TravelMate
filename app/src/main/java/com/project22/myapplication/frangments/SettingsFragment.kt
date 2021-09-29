@@ -39,6 +39,15 @@ import java.io.IOException
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
 import java.util.*
+import android.graphics.drawable.BitmapDrawable
+import com.bumptech.glide.Glide
+import java.io.ByteArrayOutputStream
+import com.google.android.gms.tasks.OnSuccessListener
+
+import com.google.android.gms.tasks.OnFailureListener
+import com.project22.myapplication.authentication.LoginActivity
+import kotlinx.android.synthetic.main.activity_travel_destination.*
+
 
 
 class SettingsFragment : Fragment() {
@@ -60,103 +69,92 @@ class SettingsFragment : Fragment() {
     }
 
     private fun uploadImage(){
-        if(filePath != null){
-            val ref = storageReference?.child("travel/" + UUID.randomUUID().toString())
-            val uploadTask = ref?.putFile(filePath!!)
+        var auth: FirebaseAuth = Firebase.auth
+        val db = Firebase.firestore
 
-            val urlTask = uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw it
-                    }
-                }
-                return@Continuation ref.downloadUrl
-            })?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val downloadUri = task.result
-                    ticketImageUrl = downloadUri.toString()
-                    Log.d("UPLOAD URL OF IMAGE",downloadUri.toString())
-                } else {
-                    // Handle failures
-                }
-            }?.addOnFailureListener{
+        val storage = FirebaseStorage.getInstance()
+        // Create a storage reference from our app
+        // Create a storage reference from our app
+        val storageRef = storage.reference
+        val riversRef = storageRef.child("users/" + auth.currentUser?.uid.toString()+".jpg")
 
+        val bitmap = (displayProfileImageSettingsFragment.getDrawable() as BitmapDrawable).bitmap
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data: ByteArray = baos.toByteArray()
+
+
+        val uploadTask: UploadTask = riversRef.putBytes(data)
+        uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
             }
-        }else{
-            Toast.makeText(this.context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
-        }
-    }
+            riversRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val downloadUri = task.result
+                val userDetails = hashMapOf(
+                    "profileImageUrl" to downloadUri.toString()
+                )
+                db.collection("users").document(auth.currentUser?.uid.toString()).update(userDetails as Map<String, Any>)
 
-    @Throws(IOException::class)
-    private fun createImageFile(): File {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = File(context?.getExternalFilesDir(Environment.DIRECTORY_PICTURES),timeStamp)
-        return File.createTempFile(
-            "JPEG_${timeStamp}_", /* prefix */
-            ".jpg", /* suffix */
-            storageDir /* directory */
-        ).apply {
-            // Save a file: path for use with ACTION_VIEW intents
-            currentPhotoPath = absolutePath
-        }
-    }
+                    .addOnSuccessListener {
+                        Toast.makeText(this.context, "Image was upated Successfully", Toast.LENGTH_SHORT).show()
 
-//    private fun dispatchTakePictureIntent() {
-//        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-//            // Ensure that there's a camera activity to handle the intent
-//            context?.let {
-//                takePictureIntent.resolveActivity(it.packageManager)?.also {
-//                    // Create the File where the photo should go
-//                    val photoFile: File? = try {
-//                        createImageFile()
-//                    } catch (ex: IOException) {
-//                        // Error occurred while creating the File
+                    }
+                    .addOnFailureListener { e ->
+                        Log.w(
+                            "TAG",
+                            "Error writing document",
+                            e
+                        )
+                    }
+                Log.d("END URL",downloadUri.toString())
+            } else {
+                // Handle failures
+                // ...
+            }
+        }
+//        uploadTask.addOnFailureListener {
+//            // Handle unsuccessful uploads
+//            Toast.makeText(this.context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
 //
-//                        null
-//                    }
-//                    // Continue only if the File was successfully created
-//                    photoFile?.also {
-//                        val photoURI: Uri = FileProvider.getUriForFile(
-//                            requireContext(),
-//                            "com.example.android.fileprovider",
-//                            it
-//                        )
-//                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-//                        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-//                    }
-//                }
-//            }
+//        }.addOnSuccessListener {
+//
+//
+//            // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+//            // ...
+//        }.addOnCompleteListener {
+//
 //        }
-//    }
+    }
+
+
 
 
 
     private fun dispatchTakePictureIntent() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         resultLauncher.launch(intent)
-        Log.d("TAG resultLauncher","resultLauncher")
+
     }
     var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        Log.d("TAG resultLauncher 2",result.data.toString())
+
         if (result.resultCode == Activity.RESULT_OK) {
             // There are no request codes
             val data: Intent? = result.data
-
-
             filePath = data?.data
 
             Log.d("TAG filePath", filePath.toString())
             val imageBitmap = data?.extras?.get("data") as Bitmap
+
             Log.d("TAG filePath", imageBitmap.toString())
-//            try {
-//                Log.d("TAG FILEDATA",data.dataString.toString())
-//                val bitmap = MediaStore.Images.Media.getBitmap(context?.contentResolver, filePath)
-//                displayProfileImage.setImageBitmap(bitmap)
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//            }
-            displayProfileImage.setImageBitmap(imageBitmap)
+            displayProfileImageSettingsFragment.setImageBitmap(imageBitmap)
+
+            uploadImage()
+
         }
     }
 
@@ -185,6 +183,16 @@ class SettingsFragment : Fragment() {
             if (document != null) {
 
                 val date =  document.getDate("birthOfDate")
+                if(document.data?.get("profileImageUrl").toString() == "") {
+
+                }
+                context?.let {
+                    Glide.with(it.applicationContext)
+                        .load(document.data?.get("profileImageUrl").toString())
+                        .placeholder(R.drawable.travel)
+                        .into( displayProfileImageSettingsFragment)
+                }
+
                 displayFullName.text = document.data?.get("firstName").toString() + " " +document.data?.get("lastName").toString()
                 displayEmailIdSettings.text = document.data?.get("email").toString()
                 displayBirthDateSettings.text =  SimpleDateFormat("dd/MM/yyyy").format(date)
@@ -207,8 +215,9 @@ class SettingsFragment : Fragment() {
                         dispatchTakePictureIntent()
                         Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                     }
-                    R.id.notifButton ->
-                        Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
+                    R.id.notifButton ->{
+                        uploadImage()
+                    }
                     R.id.logoutButton -> {
                         auth.signOut()
                         startActivity(Intent(context, OverViewAuth::class.java))
