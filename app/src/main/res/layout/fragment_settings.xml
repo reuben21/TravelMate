@@ -11,8 +11,8 @@
         android:id="@+id/rellay1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:paddingBottom="20dp">
+
 
         <RelativeLayout
             android:id="@+id/imgUser"
@@ -68,8 +68,6 @@
             android:background="@color/fui_transparent"
             android:scaleType="centerInside"
             android:src="@drawable/ic_settings" />
-
-
 
 
     </RelativeLayout>

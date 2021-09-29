@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
 import com.project22.myapplication.R
+import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_travel_destination_form.*
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -107,31 +108,95 @@ class TravelDestinationForm : AppCompatActivity() {
         storageReference = FirebaseStorage.getInstance().reference
 
         inputTicketUpload.setOnClickListener { launchGallery() }
-        uploadTicketButton.setOnClickListener { uploadImage() }
+//        uploadTicketButton.setOnClickListener { uploadImage() }
 
 
         SubmitButtonTravelForm.setOnClickListener {
-            Log.d(
-                "FORM VALUES", "${inputDestination.text}  ${inputOrigin.text}  ${originName}\n" +
-                        "${destinationName}\n" +
-                        "${originNameLatitude}\n" +
-                        "${originNameLongitude}\n" +
-                        "${destinationNameLatitude}\n" +
-                        "${destinationNameLongitude}"
-            )
-            val destinationDetail = hashMapOf(
-                "originName" to originName,
-                "destinationName" to destinationName,
-                "originLatitude" to originNameLatitude,
-                "originLongitude" to originNameLongitude,
-                "destinationLatitude" to destinationNameLatitude,
-                "destinationLongitude" to destinationNameLongitude,
-                "startDate" to Timestamp(Date(startDateVar)) ,
-                "endDate" to Timestamp(Date(endDateVar)) ,
-                "chatName" to chatName,
-                "ticketImageUrl" to ticketImageUrl
+            chatName = inputChatName.text.toString()
 
-            )
+            if (originName.validator()
+                    .nonEmpty()
+                    .addErrorCallback {
+                        originLayout.error = it
+                        // it will contain the right message.
+                        // For example, if edit text is empty,
+                        // then 'it' will show "Can't be Empty" message
+                    }.check()
+            ) {
+                if (destinationName.validator()
+                        .nonEmpty()
+                        .addErrorCallback {
+                            destinationLayout.error = it
+                            // it will contain the right message.
+                            // For example, if edit text is empty,
+                            // then 'it' will show "Can't be Empty" message
+                        }.check()
+                ) {
+                    if (inputStartDate.validator()
+                            .nonEmpty()
+                            .addErrorCallback {
+                                startDate.error = it
+                                // it will contain the right message.
+                                // For example, if edit text is empty,
+                                // then 'it' will show "Can't be Empty" message
+                            }.check()
+                    ) {
+                        if (inputEndDate.validator()
+                                .nonEmpty()
+                                .addErrorCallback {
+                                    EndDate.error = it
+                                    // it will contain the right message.
+                                    // For example, if edit text is empty,
+                                    // then 'it' will show "Can't be Empty" message
+                                }.check()
+                        ) {
+
+                            if (chatName.validator()
+                                    .nonEmpty()
+                                    .addErrorCallback {
+                                        chatNameLayout.error = it
+                                        // it will contain the right message.
+                                        // For example, if edit text is empty,
+                                        // then 'it' will show "Can't be Empty" message
+                                    }.check()
+                            ) {
+
+                                if (ticketImageUrl.validator()
+                                        .nonEmpty()
+                                        .addErrorCallback {
+                                            TicketUploadLayout.error = it
+                                            // it will contain the right message.
+                                            // For example, if edit text is empty,
+                                            // then 'it' will show "Can't be Empty" message
+                                        }.check()
+                                ) {
+
+                                    val destinationDetail = hashMapOf(
+                                        "originName" to originName,
+                                        "destinationName" to destinationName,
+                                        "originLatitude" to originNameLatitude,
+                                        "originLongitude" to originNameLongitude,
+                                        "destinationLatitude" to destinationNameLatitude,
+                                        "destinationLongitude" to destinationNameLongitude,
+                                        "startDate" to Timestamp(Date(startDateVar)) ,
+                                        "endDate" to Timestamp(Date(endDateVar)) ,
+                                        "chatName" to chatName,
+                                        "ticketImageUrl" to ticketImageUrl
+
+                                    )
+                                    Log.d("FORM DETAILS",destinationDetail.toString())
+
+                                }
+
+
+                            }
+
+                        }
+                    }
+                }
+            }
+
+
 
         }
 
@@ -208,7 +273,7 @@ class TravelDestinationForm : AppCompatActivity() {
 
     private fun uploadImage(){
         if(filePath != null){
-            val ref = storageReference?.child("travel/" + UUID.randomUUID().toString())
+            val ref = storageReference?.child("travel/" + UUID.randomUUID().toString()+".jpg")
             val uploadTask = ref?.putFile(filePath!!)
 
             val urlTask = uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
@@ -223,6 +288,8 @@ class TravelDestinationForm : AppCompatActivity() {
                     val downloadUri = task.result
                     ticketImageUrl = downloadUri.toString()
                   Log.d("UPLOAD URL OF IMAGE",downloadUri.toString())
+                    TicketUploadLayout.setEndIconDrawable(R.drawable.ic_tickmark)
+                    (inputTicketUpload as TextView).text = "Ticket Uploaded Successfully"
                 } else {
                     // Handle failures
                 }
@@ -246,6 +313,7 @@ class TravelDestinationForm : AppCompatActivity() {
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
                 ticketImage.setImageBitmap(bitmap)
+                uploadImage()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
