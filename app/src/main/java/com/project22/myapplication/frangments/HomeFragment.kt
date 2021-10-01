@@ -109,11 +109,11 @@ class HomeFragment : Fragment() {
             override fun onBindViewHolder(holder: DestinationViewHolder, position: Int, model: Destination) {
                 val dest = destinationList[position]
 
-                holder.placeNameHolder.text = dest.placeName
+                holder.placeNameHolder.text = dest.destinationName
                 holder.travellersHolder.text = dest.travellers.toString()
                 activity?.applicationContext?.let {
                     Glide.with(it)
-                        .load(dest.placeImageUrl)
+                        .load(dest.destinationImageUrl)
                         .placeholder(R.drawable.travel)
                         .into(holder.placeImageUrlHolder)
                 }
@@ -121,9 +121,9 @@ class HomeFragment : Fragment() {
                 holder.cardOfDestination.setOnClickListener {
                     Log.d("TEXT","CLICKALLE")
                     val intent = Intent(context?.applicationContext,TravelDestination::class.java)
-                    intent.putExtra("placeName",dest.placeName)
+                    intent.putExtra("placeName",dest.destinationName)
                     intent.putExtra("travellersHolder",dest.travellers.toString())
-                    intent.putExtra("placeImageUrl",dest.placeImageUrl)
+                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
                     startActivity(intent)
 
                 }

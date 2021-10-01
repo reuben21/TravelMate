@@ -23,10 +23,17 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.firebase.Timestamp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
+import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
+import com.project22.myapplication.authentication.LoginActivity
+import com.project22.myapplication.database.DatabaseHelper
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_travel_destination_form.*
 import java.io.IOException
@@ -39,7 +46,10 @@ class TravelDestinationForm : AppCompatActivity() {
     val fields = listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
 
     private val PICK_IMAGE_REQUEST = 71
-    private var filePath: Uri? = null
+
+    private var filePathTicketImage: Uri? = null
+    private var filePathDestinationImage: Uri? = null
+
     private var firebaseStore: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
 
@@ -58,10 +68,41 @@ class TravelDestinationForm : AppCompatActivity() {
     var chatName: String = ""
     var ticketImageUrl: String = ""
 
+    var destinationImageUrl: String = ""
+
+    var imageTicketUpload: Boolean = false
+    var imageDestinationUpload: Boolean = false
+
+    var userIdDB: String? = null
+    var emailDB: String? = null
+    var firstNameDB: String? = null
+    var lastNameDB: String? = null
+    var profileImageUrlDB: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_travel_destination_form)
+
+        var auth: FirebaseAuth = Firebase.auth
+
+        val db = Firebase.firestore
+
+        val dbHelper = DatabaseHelper(this)
+        val res = dbHelper.allData
+        while (res.moveToNext()) {
+            userIdDB  = res.getString(0)
+            emailDB = res.getString(1)
+            firstNameDB = res.getString(2)
+            lastNameDB = res.getString(3)
+            profileImageUrlDB = res.getString(4)
+
+        }
+        Log.d("TAG DB HELPER",userIdDB.toString())
+        Log.d("TAG DB HELPER",emailDB.toString())
+
+
+
 
         try {
             // TODO :- To Hide the Toolbar which Comes by Default
@@ -107,7 +148,15 @@ class TravelDestinationForm : AppCompatActivity() {
         firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
 
-        inputTicketUpload.setOnClickListener { launchGallery() }
+        inputTicketUpload.setOnClickListener {
+            imageTicketUpload = true
+            launchGallery()
+        }
+
+        destinationImageUploadTextInput.setOnClickListener {
+            imageDestinationUpload = true
+            launchGallery()
+        }
 //        uploadTicketButton.setOnClickListener { uploadImage() }
 
 
@@ -170,21 +219,124 @@ class TravelDestinationForm : AppCompatActivity() {
                                             // then 'it' will show "Can't be Empty" message
                                         }.check()
                                 ) {
+                                    if (destinationImageUrl.validator()
+                                            .nonEmpty()
+                                            .addErrorCallback {
+                                                TicketUploadLayout.error = it
+                                                // it will contain the right message.
+                                                // For example, if edit text is empty,
+                                                // then 'it' will show "Can't be Empty" message
+                                            }.check()
+                                    ) {
+                                        val ref = db.collection("chats").document()
+                                        val destinationDetail = hashMapOf(
+                                            "originName" to originName,
+                                            "destinationName" to destinationName,
+                                            "originLatitude" to originNameLatitude,
+                                            "originLongitude" to originNameLongitude,
+                                            "destinationLatitude" to destinationNameLatitude,
+                                            "destinationLongitude" to destinationNameLongitude,
+                                            "startDate" to Timestamp(Date(startDateVar)),
+                                            "endDate" to Timestamp(Date(endDateVar)),
+                                            "chatName" to chatName,
+                                            "ticketImageUrl" to ticketImageUrl,
+                                            "destinationImageUrl" to destinationImageUrl,
+                                            "travelling" to 1,
+                                            "chatId" to ref.id
 
-                                    val destinationDetail = hashMapOf(
-                                        "originName" to originName,
-                                        "destinationName" to destinationName,
-                                        "originLatitude" to originNameLatitude,
-                                        "originLongitude" to originNameLongitude,
-                                        "destinationLatitude" to destinationNameLatitude,
-                                        "destinationLongitude" to destinationNameLongitude,
-                                        "startDate" to Timestamp(Date(startDateVar)) ,
-                                        "endDate" to Timestamp(Date(endDateVar)) ,
-                                        "chatName" to chatName,
-                                        "ticketImageUrl" to ticketImageUrl
+                                        )
 
-                                    )
-                                    Log.d("FORM DETAILS",destinationDetail.toString())
+                                        val chatDetails = hashMapOf(
+                                            "chatName" to chatName,
+                                            "chatId" to ref.id,
+                                            "chatImageHolder" to destinationImageUrl
+                                        )
+
+
+
+                                        db.collection("destination").document(ref.id)
+                                            .set(destinationDetail)
+                                            .addOnSuccessListener {
+                                                db.collection("chats").document(ref.id)
+                                                    .set(chatDetails)
+                                                    .addOnSuccessListener {
+                                                        val ref2 =
+                                                            db.collection("chats").document(ref.id)
+                                                                .collection("messages").document()
+                                                        val textMessage = hashMapOf(
+                                                            "id" to ref2.id,
+                                                            "message" to "created this chat by admin for testing",
+                                                            "createdAt" to Timestamp(Date()),
+                                                            "senderId" to auth.currentUser?.uid,
+                                                            "senderName" to "dwight",
+                                                            "messageType" to "3",
+
+                                                            )
+                                                        db.collection("users").document(auth.currentUser?.uid.toString())
+                                                            .collection("chats").document(ref.id)
+                                                            .set(chatDetails)
+                                                            .addOnSuccessListener {
+                                                                db.collection("chats").document(ref.id)
+                                                                    .collection("messages")
+                                                                    .document(ref2.id).set(
+                                                                        textMessage
+
+                                                                    ).addOnSuccessListener {
+
+
+                                                                        startActivity(
+                                                                            Intent(
+                                                                                this,
+                                                                                MainActivity::class.java
+                                                                            )
+
+                                                                        )
+
+                                                                    }
+                                                                    .addOnFailureListener { e ->
+                                                                        Log.w(
+                                                                            "TAG",
+                                                                            "Error writing document",
+                                                                            e
+                                                                        )
+                                                                    }
+                                                            }
+                                                            .addOnFailureListener { e ->
+                                                                Log.w(
+                                                                    "TAG",
+                                                                    "Error writing document",
+                                                                    e
+                                                                )
+                                                            }
+
+
+                                                        startActivity(
+                                                            Intent(
+                                                                this,
+                                                                MainActivity::class.java
+                                                            )
+
+                                                        )
+
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        Log.w(
+                                                            "TAG",
+                                                            "Error writing document",
+                                                            e
+                                                        )
+                                                    }
+                                            }
+                                            .addOnFailureListener { e ->
+                                                Log.w(
+                                                    "TAG",
+                                                    "Error writing document",
+                                                    e
+                                                )
+                                            }
+
+                                    }
+
 
                                 }
 
@@ -195,7 +347,6 @@ class TravelDestinationForm : AppCompatActivity() {
                     }
                 }
             }
-
 
 
         }
@@ -259,6 +410,7 @@ class TravelDestinationForm : AppCompatActivity() {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
+
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
 
@@ -271,33 +423,73 @@ class TravelDestinationForm : AppCompatActivity() {
         return format.format(date)
     }
 
-    private fun uploadImage(){
-        if(filePath != null){
-            val ref = storageReference?.child("travel/" + UUID.randomUUID().toString()+".jpg")
-            val uploadTask = ref?.putFile(filePath!!)
+    private fun uploadImageDestination() {
 
-            val urlTask = uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw it
+        if (filePathDestinationImage != null && imageDestinationUpload) {
+            val ref =
+                storageReference?.child("Destinations/" + UUID.randomUUID().toString() + ".jpg")
+            val uploadTask = ref?.putFile(filePathDestinationImage!!)
+
+            val urlTask =
+                uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
                     }
-                }
-                return@Continuation ref.downloadUrl
-            })?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val downloadUri = task.result
-                    ticketImageUrl = downloadUri.toString()
-                  Log.d("UPLOAD URL OF IMAGE",downloadUri.toString())
-                    TicketUploadLayout.setEndIconDrawable(R.drawable.ic_tickmark)
-                    (inputTicketUpload as TextView).text = "Ticket Uploaded Successfully"
-                } else {
-                    // Handle failures
-                }
-            }?.addOnFailureListener{
+                    return@Continuation ref.downloadUrl
+                })?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        destinationImageUrl = downloadUri.toString()
+                        Log.d("UPLOAD destinationImageUrl OF IMAGE", downloadUri.toString())
+                        DestinationUploadLayout.setEndIconDrawable(R.drawable.ic_tickmark)
+                        (destinationImageUploadTextInput as TextView).text =
+                            "Destination Image Uploaded"
+                        imageDestinationUpload = false
+                    } else {
+                        // Handle failures
+                    }
+                }?.addOnFailureListener {
 
-            }
-        }else{
-            Toast.makeText(this, "Please Upload an Image", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            Toast.makeText(this, "Please Upload a Destination Image", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun uploadImageTicket() {
+
+
+        if (filePathTicketImage != null && imageTicketUpload) {
+            val ref = storageReference?.child("Tickets/" + UUID.randomUUID().toString() + ".jpg")
+            val uploadTask = ref?.putFile(filePathTicketImage!!)
+
+            val urlTask =
+                uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let {
+                            throw it
+                        }
+                    }
+                    return@Continuation ref.downloadUrl
+                })?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        ticketImageUrl = downloadUri.toString()
+                        Log.d("UPLOAD URL OF IMAGE", downloadUri.toString())
+                        TicketUploadLayout.setEndIconDrawable(R.drawable.ic_tickmark)
+                        (inputTicketUpload as TextView).text = "Ticket Uploaded Successfully"
+                        imageTicketUpload = false
+                    } else {
+                        // Handle failures
+                    }
+                }?.addOnFailureListener {
+
+                }
+        } else {
+            Toast.makeText(this, "Please Upload a Ticket Image", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -305,18 +497,35 @@ class TravelDestinationForm : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK) {
-            if(data == null || data.data == null){
+            if (data == null || data.data == null) {
                 return
             }
 
-            filePath = data.data
-            try {
-                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, filePath)
-                ticketImage.setImageBitmap(bitmap)
-                uploadImage()
-            } catch (e: IOException) {
-                e.printStackTrace()
+
+            if (imageTicketUpload) {
+                filePathTicketImage = data.data
+                try {
+                    val bitmap =
+                        MediaStore.Images.Media.getBitmap(contentResolver, filePathTicketImage)
+                    ticketImage.setImageBitmap(bitmap)
+                    uploadImageTicket()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
             }
+
+            if (imageDestinationUpload) {
+                filePathDestinationImage = data.data
+                try {
+                    val bitmap =
+                        MediaStore.Images.Media.getBitmap(contentResolver, filePathDestinationImage)
+                    destinationImageView.setImageBitmap(bitmap)
+                    uploadImageDestination()
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+
         }
 
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {

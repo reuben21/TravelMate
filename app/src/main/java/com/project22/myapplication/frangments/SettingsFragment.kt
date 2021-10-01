@@ -46,6 +46,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 
 import com.google.android.gms.tasks.OnFailureListener
 import com.project22.myapplication.authentication.LoginActivity
+import com.project22.myapplication.database.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_travel_destination.*
 
 
@@ -160,7 +161,11 @@ class SettingsFragment : Fragment() {
 
 
 
-
+    var userIdDB: String? = null
+    var emailDB: String? = null
+    var firstNameDB: String? = null
+    var lastNameDB: String? = null
+    var profileImageUrlDB: String? = null
 
 
     override fun onCreateView(
@@ -178,31 +183,47 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val docRef = db.collection("users").document(auth.uid.toString())
-        docRef.get().addOnSuccessListener { document ->
-            if (document != null) {
 
-                val date =  document.getDate("birthOfDate")
-                if(document.data?.get("profileImageUrl").toString() == "") {
+        val dbHelper = this.context?.let { DatabaseHelper(it) }
+        val res = dbHelper?.allData
+        while (res?.moveToNext() == true) {
+            userIdDB  = res?.getString(0)
+            emailDB = res?.getString(1)
+            firstNameDB = res?.getString(2)
+            lastNameDB = res?.getString(3)
+            profileImageUrlDB = res?.getString(4)
 
-                }
-                context?.let {
-                    Glide.with(it.applicationContext)
-                        .load(document.data?.get("profileImageUrl").toString())
-                        .placeholder(R.drawable.travel)
-                        .into( displayProfileImageSettingsFragment)
-                }
-
-                displayFullName.text = document.data?.get("firstName").toString() + " " +document.data?.get("lastName").toString()
-                displayEmailIdSettings.text = document.data?.get("email").toString()
-                displayBirthDateSettings.text =  SimpleDateFormat("dd/MM/yyyy").format(date)
-            } else {
-                Log.d("TAG", "No such document")
-            }
         }
-            .addOnFailureListener { exception ->
-                Log.d("TAG", "get failed with ", exception)
-            }
+        Log.d("TAG DB HELPER",userIdDB.toString())
+        Log.d("TAG DB HELPER",emailDB.toString())
+
+        context?.let {
+            Glide.with(it.applicationContext)
+                .load(profileImageUrlDB)
+                .placeholder(R.drawable.travel)
+                .into( displayProfileImageSettingsFragment)
+        }
+
+        displayFullName.text = firstNameDB + " " +lastNameDB
+        displayEmailIdSettings.text = emailDB
+//        displayBirthDateSettings.text =  SimpleDateFormat("dd/MM/yyyy").format(date)
+
+
+//        val docRef = db.collection("users").document(auth.uid.toString())
+//        docRef.get().addOnSuccessListener { document ->
+//            if (document != null) {
+//
+//                val date =  document.getDate("birthOfDate")
+//                if(document.data?.get("profileImageUrl").toString() == "") {
+//
+//                }
+//               } else {
+//                Log.d("TAG", "No such document")
+//            }
+//        }
+//            .addOnFailureListener { exception ->
+//                Log.d("TAG", "get failed with ", exception)
+//            }
 
 
 
