@@ -58,6 +58,7 @@ class OverViewAuth : AppCompatActivity() {
         var dbHelper = DatabaseHelper(this)
 
 
+
         var auth: FirebaseAuth = Firebase.auth
         val db = Firebase.firestore
 
@@ -65,6 +66,7 @@ class OverViewAuth : AppCompatActivity() {
             val docRef = db.collection("users").document(auth.uid.toString())
             docRef.get().addOnSuccessListener { document ->
                 if (document != null) {
+                    val dateVar =  document.getDate("birthOfDate")
                     try {
                         dbHelper.insertData(
                             auth.uid.toString(),
@@ -72,9 +74,24 @@ class OverViewAuth : AppCompatActivity() {
                             document.data?.get("firstName").toString(),
                             document.data?.get("lastName").toString(),
                             document.data?.get("profileImageUrl").toString(),
-
+                            SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString()
                         )
                     }catch (e: Exception){
+                        try {
+
+                            dbHelper.updateData(
+                                auth.uid.toString(),
+                                document.data?.get("email").toString(),
+                                document.data?.get("firstName").toString(),
+                                document.data?.get("lastName").toString(),
+                                document.data?.get("profileImageUrl").toString(),
+                                SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString()
+
+                                )
+                        }catch (e: Exception){
+                            e.printStackTrace()
+                            showToast(e.message.toString())
+                        }
                         e.printStackTrace()
                         showToast(e.message.toString())
                     }

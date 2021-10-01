@@ -166,6 +166,7 @@ class SettingsFragment : Fragment() {
     var firstNameDB: String? = null
     var lastNameDB: String? = null
     var profileImageUrlDB: String? = null
+    var birthDateDB: String? = null
 
 
     override fun onCreateView(
@@ -192,7 +193,7 @@ class SettingsFragment : Fragment() {
             firstNameDB = res?.getString(2)
             lastNameDB = res?.getString(3)
             profileImageUrlDB = res?.getString(4)
-
+            birthDateDB  = res?.getString(5)
         }
         Log.d("TAG DB HELPER",userIdDB.toString())
         Log.d("TAG DB HELPER",emailDB.toString())
@@ -204,9 +205,9 @@ class SettingsFragment : Fragment() {
                 .into( displayProfileImageSettingsFragment)
         }
 
-        displayFullName.text = firstNameDB + " " +lastNameDB
+        displayFullName.text = firstNameDB?.toUpperCase(Locale.ROOT) + " " + lastNameDB?.toUpperCase(Locale.ROOT)
         displayEmailIdSettings.text = emailDB
-//        displayBirthDateSettings.text =  SimpleDateFormat("dd/MM/yyyy").format(date)
+        displayBirthDateSettings.text =  birthDateDB
 
 
 //        val docRef = db.collection("users").document(auth.uid.toString())

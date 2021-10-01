@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper
  * based on the SQLiteHelper.
  */
 class DatabaseHelper(context: Context) :
-        SQLiteOpenHelper(context, DATABASE_NAME, null, 1) {
+        SQLiteOpenHelper(context, DATABASE_NAME, null, 2) {
     /**
      * Our onCreate() method.
      * Called when the database is created for the first time. This is
@@ -19,7 +19,7 @@ class DatabaseHelper(context: Context) :
      * should happen.
      */
     override fun onCreate(db: SQLiteDatabase) {
-    db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_NAME (ID TEXT PRIMARY KEY ,EMAIL_ID TEXT, FIRSTNAME TEXT, LASTNAME TEXT, PROFILE_IMAGE_URL TEXT)")
+    db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_NAME (ID TEXT PRIMARY KEY ,EMAIL_ID TEXT, FIRSTNAME TEXT, LASTNAME TEXT, PROFILE_IMAGE_URL TEXT, BIRTHDATE TEXT)")
     }
 
     /**
@@ -37,7 +37,7 @@ class DatabaseHelper(context: Context) :
      * Let's create our insertData() method.
      * It Will insert data to SQLIte database.
      */
-    fun insertData(id:String, email_id: String, firstName: String,lastName: String,profileImageUrl: String) {
+    fun insertData(id:String, email_id: String, firstName: String,lastName: String,profileImageUrl: String,birthDate: String,) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put("ID", id)
@@ -45,6 +45,7 @@ class DatabaseHelper(context: Context) :
         contentValues.put("FIRSTNAME", firstName)
         contentValues.put("LASTNAME", lastName)
         contentValues.put("PROFILE_IMAGE_URL", profileImageUrl)
+        contentValues.put("BIRTHDATE", birthDate)
 
 
 
@@ -55,7 +56,7 @@ class DatabaseHelper(context: Context) :
     /**
      * Let's create  a method to update a row with new field values.
      */
-    fun updateData(id:String,email_id: String, firstName: String,lastName: String,profileImageUrl: String):
+    fun updateData(id:String,email_id: String, firstName: String,lastName: String,profileImageUrl: String,birthDate: String,):
             Boolean {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -64,6 +65,8 @@ class DatabaseHelper(context: Context) :
         contentValues.put("FIRSTNAME", firstName)
         contentValues.put("LASTNAME", lastName)
         contentValues.put("PROFILE_IMAGE_URL", profileImageUrl)
+        contentValues.put("BIRTHDATE", birthDate)
+
 
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
         return true
@@ -93,10 +96,9 @@ class DatabaseHelper(context: Context) :
      * class.
      */
     companion object {
-        val DATABASE_NAME = "travel_mate.db"
+        val DATABASE_NAME = "TravelMate.db"
         val TABLE_NAME = "USER_TABLE"
-        val COL_1 = "ID"
-        val COL_2 = "EMAIL_ID"
+
 
 
     }
