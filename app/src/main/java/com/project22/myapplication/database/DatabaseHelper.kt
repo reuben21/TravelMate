@@ -19,7 +19,7 @@ class DatabaseHelper(context: Context) :
      * should happen.
      */
     override fun onCreate(db: SQLiteDatabase) {
-    db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_NAME (ID TEXT PRIMARY KEY ,EMAIL_ID TEXT, FIRSTNAME TEXT, LASTNAME TEXT, PROFILE_IMAGE_URL TEXT, BIRTHDATE TEXT)")
+    db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_NAME (ID TEXT PRIMARY KEY ,EMAIL_ID TEXT, FIRSTNAME TEXT, LASTNAME TEXT, PROFILE_IMAGE_URL TEXT, BIRTHDATE TEXT, PHONE_NO TEXT)")
     }
 
     /**
@@ -37,7 +37,7 @@ class DatabaseHelper(context: Context) :
      * Let's create our insertData() method.
      * It Will insert data to SQLIte database.
      */
-    fun insertData(id:String, email_id: String, firstName: String,lastName: String,profileImageUrl: String,birthDate: String,) {
+    fun insertData(id:String, email_id: String, firstName: String,lastName: String,profileImageUrl: String,birthDate: String, phoneNo: String) {
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put("ID", id)
@@ -46,7 +46,7 @@ class DatabaseHelper(context: Context) :
         contentValues.put("LASTNAME", lastName)
         contentValues.put("PROFILE_IMAGE_URL", profileImageUrl)
         contentValues.put("BIRTHDATE", birthDate)
-
+        contentValues.put("PHONE_NO", phoneNo)
 
 
 
@@ -56,7 +56,7 @@ class DatabaseHelper(context: Context) :
     /**
      * Let's create  a method to update a row with new field values.
      */
-    fun updateData(id:String,email_id: String, firstName: String,lastName: String,profileImageUrl: String,birthDate: String,):
+    fun updateData(id:String,email_id: String, firstName: String,lastName: String,profileImageUrl: String,birthDate: String, phoneNo: String):
             Boolean {
         val db = this.writableDatabase
         val contentValues = ContentValues()
@@ -66,7 +66,7 @@ class DatabaseHelper(context: Context) :
         contentValues.put("LASTNAME", lastName)
         contentValues.put("PROFILE_IMAGE_URL", profileImageUrl)
         contentValues.put("BIRTHDATE", birthDate)
-
+        contentValues.put("PHONE_NO", phoneNo)
 
         db.update(TABLE_NAME, contentValues, "ID = ?", arrayOf(id))
         return true

@@ -241,8 +241,10 @@ class TravelDestinationForm : AppCompatActivity() {
                                             "chatName" to chatName,
                                             "ticketImageUrl" to ticketImageUrl,
                                             "destinationImageUrl" to destinationImageUrl,
-                                            "travelling" to 1,
-                                            "chatId" to ref.id
+                                            "travellers" to 1,
+                                            "chatId" to ref.id,
+                                            "creatorName" to firstNameDB +" "+lastNameDB
+
 
                                         )
 

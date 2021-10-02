@@ -166,7 +166,26 @@
 
 
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/PhoneLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Phone Number"
+                app:errorEnabled="true"
+                android:textColorHint="@color/primaryColor"
+                android:layout_below="@id/dateTextInputLayout"
+                android:layout_marginTop="20dp"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/inputPhoneRegister"
+                    android:textColor="@color/primaryColor"
+                    android:textColorHint="@color/primaryColor"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/EmailLayout"
                 android:layout_width="match_parent"
@@ -174,7 +193,7 @@
                 android:hint="@string/email"
                 app:errorEnabled="true"
                 android:textColorHint="@color/primaryColor"
-                android:layout_below="@id/dateTextInputLayout"
+                android:layout_below="@id/PhoneLayout"
                 android:layout_marginTop="20dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 

@@ -74,7 +74,8 @@ class OverViewAuth : AppCompatActivity() {
                             document.data?.get("firstName").toString(),
                             document.data?.get("lastName").toString(),
                             document.data?.get("profileImageUrl").toString(),
-                            SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString()
+                            SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString(),
+                            document.data?.get("phoneNo").toString(),
                         )
                     }catch (e: Exception){
                         try {
@@ -85,7 +86,8 @@ class OverViewAuth : AppCompatActivity() {
                                 document.data?.get("firstName").toString(),
                                 document.data?.get("lastName").toString(),
                                 document.data?.get("profileImageUrl").toString(),
-                                SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString()
+                                SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString(),
+                                document.data?.get("phoneNo").toString(),
 
                                 )
                         }catch (e: Exception){
@@ -97,10 +99,7 @@ class OverViewAuth : AppCompatActivity() {
                     }
 
 
-                    val date = document.getDate("birthOfDate")
-                    if (document.data?.get("profileImageUrl").toString() == "") {
 
-                    }
 
 //                    context?.let {
 //                        Glide.with(it.applicationContext)
