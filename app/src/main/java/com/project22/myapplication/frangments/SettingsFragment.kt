@@ -52,6 +52,14 @@ import kotlinx.android.synthetic.main.activity_travel_destination.*
 
 
 class SettingsFragment : Fragment() {
+
+    var userIdDB: String? = null
+    var emailDB: String? = null
+    var firstNameDB: String? = null
+    var lastNameDB: String? = null
+    var profileImageUrlDB: String? = null
+    var birthDateDB: String? = null
+    var phoneDb: String? = null
     // TODO: Rename and change types of parameters
     val REQUEST_IMAGE_CAPTURE = 1
     private var filePath: Uri? = null
@@ -102,6 +110,16 @@ class SettingsFragment : Fragment() {
                 db.collection("users").document(auth.currentUser?.uid.toString()).update(userDetails as Map<String, Any>)
 
                     .addOnSuccessListener {
+                        //TODO: onupdate
+                        val dbHelper = this.context?.let { DatabaseHelper(it) }
+                        if (dbHelper != null) {
+                            dbHelper.updateData(
+
+                                auth.uid.toString(),
+                                emailDB.toString(),firstNameDB.toString(),lastNameDB.toString(),downloadUri.toString(),birthDateDB.toString(),phoneDb.toString(),
+
+                                )
+                        }
                         Toast.makeText(this.context, "Image was upated Successfully", Toast.LENGTH_SHORT).show()
 
                     }
@@ -161,12 +179,7 @@ class SettingsFragment : Fragment() {
 
 
 
-    var userIdDB: String? = null
-    var emailDB: String? = null
-    var firstNameDB: String? = null
-    var lastNameDB: String? = null
-    var profileImageUrlDB: String? = null
-    var birthDateDB: String? = null
+
 
 
     override fun onCreateView(
@@ -194,6 +207,7 @@ class SettingsFragment : Fragment() {
             lastNameDB = res?.getString(3)
             profileImageUrlDB = res?.getString(4)
             birthDateDB  = res?.getString(5)
+            phoneDb=res?.getString(6)
         }
         Log.d("TAG DB HELPER",userIdDB.toString())
         Log.d("TAG DB HELPER",emailDB.toString())

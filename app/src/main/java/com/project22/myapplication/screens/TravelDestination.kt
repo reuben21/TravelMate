@@ -92,6 +92,9 @@ class TravelDestination : AppCompatActivity() {
             // TODO :  FOR PRIVATE CONTACT THEN SHOW ANOTHER DIALOG WITH USER DETAILS.
 
             buttonJoinChatGroup.setOnClickListener {
+
+
+                //YES
                 db.collection("users").document(auth.currentUser?.uid.toString())
                     .collection("chats")
                     .document(chatId).set(
@@ -103,6 +106,7 @@ class TravelDestination : AppCompatActivity() {
                     }.addOnFailureListener {
 
                     }
+                //END YES
             }
         }
 
