@@ -96,7 +96,7 @@ class DatabaseHelper(context: Context) :
      * class.
      */
     companion object {
-        val DATABASE_NAME = "TravelMate.db"
+        val DATABASE_NAME = "travlemate.db"
         val TABLE_NAME = "USER_TABLE"
 
 

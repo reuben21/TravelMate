@@ -90,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
                                 Log.d("TAG", "signInWithEmail:success")
                                 val user = auth.currentUser
 
-                                if (auth.currentUser != null) {
+
 
                                     val docRef = db.collection("users").document(auth.uid.toString())
                                     docRef.get().addOnSuccessListener { document ->
@@ -127,15 +127,7 @@ class LoginActivity : AppCompatActivity() {
                                 }
                                 startActivity(Intent(this, MainActivity::class.java))
 
-                            } else {
-                                // If sign in fails, display a message to the user.
-                                Log.w("TAG", "signInWithEmail:failure", task.exception)
-                                Toast.makeText(
-                                    baseContext, task.exception?.localizedMessage,
-                                    Toast.LENGTH_LONG
-                                ).show()
 
-                            }
                         }
 
                 }
