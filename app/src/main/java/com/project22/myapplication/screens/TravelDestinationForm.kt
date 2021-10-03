@@ -243,7 +243,8 @@ class TravelDestinationForm : AppCompatActivity() {
                                             "destinationImageUrl" to destinationImageUrl,
                                             "travellers" to 1,
                                             "chatId" to ref.id,
-                                            "creatorName" to firstNameDB +" "+lastNameDB
+                                            "creatorName" to firstNameDB +" "+lastNameDB,
+                                            "creatorId" to auth.currentUser?.uid
 
 
                                         )
@@ -302,16 +303,16 @@ class TravelDestinationForm : AppCompatActivity() {
                                                                                 location
 
                                                                             ).addOnSuccessListener {
+                                                                                startActivity(
+                                                                                    Intent(
+                                                                                        this,
+                                                                                        MainActivity::class.java
+                                                                                    )
 
+                                                                                )
                                                                             }
 
-                                                                        startActivity(
-                                                                            Intent(
-                                                                                this,
-                                                                                MainActivity::class.java
-                                                                            )
 
-                                                                        )
 
                                                                     }
                                                                     .addOnFailureListener { e ->

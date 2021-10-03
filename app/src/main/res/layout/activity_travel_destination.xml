@@ -219,13 +219,14 @@
                             />
 
                         <Button
+                            android:id="@+id/buttonJoinChatGroup"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginTop="20dp"
                             android:backgroundTint="@color/primaryTextColor"
                             android:outlineAmbientShadowColor="@color/primaryTextColor"
-                            android:text="Join Group"
+                            android:text="Join Group Chat"
                             android:textColor="@color/primaryColor"
                             android:textSize="20sp" />
                     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.project22.myapplication.screens
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,10 +8,20 @@ import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import com.bumptech.glide.Glide
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import kotlinx.android.synthetic.main.activity_travel_destination.*
 
 class TravelDestination : AppCompatActivity() {
+
+
+    val db = Firebase.firestore
+    var auth: FirebaseAuth = Firebase.auth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_travel_destination)
@@ -35,7 +46,13 @@ class TravelDestination : AppCompatActivity() {
 
         val placeName = intent?.getStringExtra("placeName").toString()
         val travellersHolder = intent?.getStringExtra("travellersHolder").toString()
-        val placeImageUrl = intent?.getStringExtra("placeImageUrl").toString()
+        val placeImageUrl = intent?.getStringExtra("destinationImageUrl").toString()
+        val destinationName = intent?.getStringExtra("destinationName").toString()
+        val originName = intent?.getStringExtra("originName").toString()
+        val ticketImageUrl = intent?.getStringExtra("ticketImageUrl").toString()
+        val creatorName = intent?.getStringExtra("creatorName").toString()
+        val chatId = intent?.getStringExtra("chatId").toString()
+        val chatName = intent?.getStringExtra("chatName").toString()
 
         toolbar_back_to_travel_destination_single_screen.setNavigationOnClickListener { onBackPressed() }
 0
@@ -46,6 +63,34 @@ class TravelDestination : AppCompatActivity() {
                 .load(placeImageUrl)
                 .placeholder(R.drawable.travel)
                 .into( singleScreenImage)
+        }
+        fromOriginTextViewFill.text = originName
+        fromDestinationTextViewFill.text = destinationName
+        singleScreenUserName.text = creatorName
+
+        val chatDetails = hashMapOf(
+            "chatName" to chatName,
+            "chatId" to chatId,
+            "chatImageHolder" to placeImageUrl
+        )
+
+
+
+        buttonJoinChatGroup.setOnClickListener {
+            db.collection("users").document(auth.currentUser?.uid.toString())
+                .collection("chats")
+                .document(chatId).set(
+                    chatDetails
+
+                ).addOnSuccessListener {
+                    startActivity(
+                        Intent(
+                            this,
+                            MainActivity::class.java
+                        )
+
+                    )
+                }
         }
 
     }

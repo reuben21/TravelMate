@@ -123,13 +123,14 @@ class HomeFragment : Fragment() {
                     val intent = Intent(context?.applicationContext,TravelDestination::class.java)
                     intent.putExtra("placeName",dest.destinationName)
                     intent.putExtra("travellersHolder",dest.travellers.toString())
-                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
-                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
-                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
-                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
-                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
-                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
-
+                    intent.putExtra("destinationImageUrl",dest.destinationImageUrl)
+                    intent.putExtra("destinationName",dest.destinationName)
+                    intent.putExtra("originName",dest.originName)
+                    intent.putExtra("ticketImageUrl",dest.ticketImageUrl)
+                    intent.putExtra("creatorName",dest.creatorName)
+                    intent.putExtra("chatId",dest.chatId)
+                    intent.putExtra("chatName",dest.chatName)
+                    intent.putExtra("creatorId",dest.creatorId)
                     startActivity(intent)
 
                 }

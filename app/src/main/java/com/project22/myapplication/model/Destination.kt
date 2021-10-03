@@ -17,6 +17,8 @@ import java.util.HashMap
 
 class Destination {
     var id: String? = null
+    var creatorId: String? = null
+    var creatorName: String? = null
     var chatId: String? = null
     var originName: String? = null
     var destinationName: String? = null
@@ -36,7 +38,10 @@ class Destination {
 
     constructor(
         id: String,
+        creatorId: String,
+        creatorName: String,
         chatId: String,
+
         originName: String,
         destinationName: String,
         chatName: String,
@@ -51,6 +56,8 @@ class Destination {
         travellers: Int
     ) {
         this.id = id
+        this.creatorId = creatorId
+        this.creatorName = creatorName
         this.originName = originName
         this.destinationName = destinationName
         this.chatName = chatName
