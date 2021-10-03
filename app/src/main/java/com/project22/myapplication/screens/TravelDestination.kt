@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
+import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -51,6 +53,7 @@ class TravelDestination : AppCompatActivity() {
         val originName = intent?.getStringExtra("originName").toString()
         val ticketImageUrl = intent?.getStringExtra("ticketImageUrl").toString()
         val creatorName = intent?.getStringExtra("creatorName").toString()
+        val creatorId = intent?.getStringExtra("creatorId").toString()
         val chatId = intent?.getStringExtra("chatId").toString()
         val chatName = intent?.getStringExtra("chatName").toString()
 
@@ -74,24 +77,36 @@ class TravelDestination : AppCompatActivity() {
             "chatImageHolder" to placeImageUrl
         )
 
+        if(auth.currentUser?.uid == creatorId) {
+            buttonJoinChatGroup.text = "Creator"
+            buttonJoinChatGroup.setOnClickListener {
+                Toast.makeText(
+                    baseContext,
+                    "You Created This Travel",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        } else {
+            // TODO :  ADD A DIALOG BOX WHERE IT WILL ASK THE USER TO JOIN THE GROUP WITH OPTION YES AND NO,
+            // TODO :  IF THE USER SELECTS YES, THEN JOIN THE GROUP CHAT, IF USER SELECTS NO
+            // TODO :  FOR PRIVATE CONTACT THEN SHOW ANOTHER DIALOG WITH USER DETAILS.
+
+            buttonJoinChatGroup.setOnClickListener {
+                db.collection("users").document(auth.currentUser?.uid.toString())
+                    .collection("chats")
+                    .document(chatId).set(
+                        chatDetails
+
+                    ).addOnSuccessListener {
 
 
-        buttonJoinChatGroup.setOnClickListener {
-            db.collection("users").document(auth.currentUser?.uid.toString())
-                .collection("chats")
-                .document(chatId).set(
-                    chatDetails
+                    }.addOnFailureListener {
 
-                ).addOnSuccessListener {
-                    startActivity(
-                        Intent(
-                            this,
-                            MainActivity::class.java
-                        )
-
-                    )
-                }
+                    }
+            }
         }
+
+
 
     }
 
