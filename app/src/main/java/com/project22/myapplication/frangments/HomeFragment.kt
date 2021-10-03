@@ -124,6 +124,12 @@ class HomeFragment : Fragment() {
                     intent.putExtra("placeName",dest.destinationName)
                     intent.putExtra("travellersHolder",dest.travellers.toString())
                     intent.putExtra("placeImageUrl",dest.destinationImageUrl)
+                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
+                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
+                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
+                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
+                    intent.putExtra("placeImageUrl",dest.destinationImageUrl)
+
                     startActivity(intent)
 
                 }

@@ -10,12 +10,15 @@ import android.view.WindowManager
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
+import com.project22.myapplication.database.DatabaseHelper
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_login.registerButton
+import java.text.SimpleDateFormat
 
 
 class LoginActivity : AppCompatActivity() {
@@ -26,6 +29,8 @@ class LoginActivity : AppCompatActivity() {
 
         // TODO :- Initialize Firebase Auth
         var auth: FirebaseAuth = Firebase.auth
+        var dbHelper = DatabaseHelper(this)
+        val db = Firebase.firestore
 
         setContentView(R.layout.activity_login)
         registerButton.setOnClickListener {
@@ -48,6 +53,9 @@ class LoginActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+
+
+
 
         loginButton.setOnClickListener {
             val email = inputEmail.text.toString()
@@ -81,6 +89,42 @@ class LoginActivity : AppCompatActivity() {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("TAG", "signInWithEmail:success")
                                 val user = auth.currentUser
+
+                                if (auth.currentUser != null) {
+
+                                    val docRef = db.collection("users").document(auth.uid.toString())
+                                    docRef.get().addOnSuccessListener { document ->
+                                        if (document != null) {
+                                            val dateVar =  document.getDate("birthOfDate")
+                                            try {
+                                                dbHelper.insertData(
+                                                    auth.uid.toString(),
+                                                    document.data?.get("email").toString(),
+                                                    document.data?.get("firstName").toString(),
+                                                    document.data?.get("lastName").toString(),
+                                                    document.data?.get("profileImageUrl").toString(),
+                                                    SimpleDateFormat("dd/MM/yyyy").format(dateVar).toString(),
+                                                    document.data?.get("phoneNo").toString(),
+                                                )
+                                                startActivity(Intent(this, MainActivity::class.java))
+                                                finish();
+                                            }catch (e: Exception){
+
+                                                e.printStackTrace()
+
+                                            }
+
+
+                                        } else {
+                                            Log.d("TAG", "No such document")
+                                        }
+                                    }
+                                        .addOnFailureListener { exception ->
+                                            Log.d("TAG", "get failed with ", exception)
+                                        }
+                                    // User is signed in (getCurrentUser() will be null if not signed in)
+
+                                }
                                 startActivity(Intent(this, MainActivity::class.java))
 
                             } else {

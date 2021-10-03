@@ -248,6 +248,7 @@ class TravelDestinationForm : AppCompatActivity() {
 
                                         )
 
+
                                         val chatDetails = hashMapOf(
                                             "chatName" to chatName,
                                             "chatId" to ref.id,
@@ -267,10 +268,10 @@ class TravelDestinationForm : AppCompatActivity() {
                                                                 .collection("messages").document()
                                                         val textMessage = hashMapOf(
                                                             "id" to ref2.id,
-                                                            "message" to "created this chat by admin for testing",
+                                                            "message" to " ${firstNameDB} ${lastNameDB} created this chat ",
                                                             "createdAt" to Timestamp(Date()),
                                                             "senderId" to auth.currentUser?.uid,
-                                                            "senderName" to "dwight",
+                                                            "senderName" to "${firstNameDB} ${lastNameDB}",
                                                             "messageType" to "3",
 
                                                             )
@@ -284,7 +285,25 @@ class TravelDestinationForm : AppCompatActivity() {
                                                                         textMessage
 
                                                                     ).addOnSuccessListener {
+                                                                        val location = hashMapOf(
+                                                                            "id" to ref.id,
+                                                                            "senderId" to auth.currentUser?.uid,
+                                                                            "originLatitude" to originNameLatitude,
+                                                                            "originLongitude" to originNameLongitude,
+                                                                            "destinationLatitude" to destinationNameLatitude,
+                                                                            "destinationLongitude" to destinationNameLongitude,
+                                                                            "startDate" to Timestamp(Date(startDateVar)),
+                                                                            "endDate" to Timestamp(Date(endDateVar)),
 
+                                                                            )
+                                                                        db.collection("users").document(auth.currentUser?.uid.toString())
+                                                                            .collection("location")
+                                                                            .document(ref.id).set(
+                                                                                location
+
+                                                                            ).addOnSuccessListener {
+
+                                                                            }
 
                                                                         startActivity(
                                                                             Intent(

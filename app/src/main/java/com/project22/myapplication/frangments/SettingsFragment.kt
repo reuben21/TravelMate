@@ -210,22 +210,6 @@ class SettingsFragment : Fragment() {
         displayBirthDateSettings.text =  birthDateDB
 
 
-//        val docRef = db.collection("users").document(auth.uid.toString())
-//        docRef.get().addOnSuccessListener { document ->
-//            if (document != null) {
-//
-//                val date =  document.getDate("birthOfDate")
-//                if(document.data?.get("profileImageUrl").toString() == "") {
-//
-//                }
-//               } else {
-//                Log.d("TAG", "No such document")
-//            }
-//        }
-//            .addOnFailureListener { exception ->
-//                Log.d("TAG", "get failed with ", exception)
-//            }
-
 
 
         setting.setOnClickListener{
@@ -241,6 +225,9 @@ class SettingsFragment : Fragment() {
                         uploadImage()
                     }
                     R.id.logoutButton -> {
+                        if (dbHelper != null) {
+                            userIdDB?.let { it1 -> dbHelper.deleteData(it1) }
+                        }
                         auth.signOut()
                         startActivity(Intent(context, OverViewAuth::class.java))
                     }
