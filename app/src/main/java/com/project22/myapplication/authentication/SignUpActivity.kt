@@ -3,9 +3,11 @@ package com.project22.myapplication.authentication
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.CalendarConstraints
@@ -76,7 +78,7 @@ class SignUpActivity : AppCompatActivity() {
             val dateAsFormattedText: String =
                 dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
             finalTimestampDate = Timestamp(Date(dateTimeStampInMillis))
-            dateTextInputLayout.hint = dateAsFormattedText
+            (dateTextInputEditText as TextView).text = dateAsFormattedText
         }
 
         fun showDatePicker() {
@@ -86,15 +88,17 @@ class SignUpActivity : AppCompatActivity() {
             val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
 
             calendar.timeInMillis = today
-            calendar.add(Calendar.YEAR,-18)
+            calendar.add(Calendar.YEAR, -18)
             val thisDay = calendar.timeInMillis
 
 
-        val constraintsBuilder =
-            CalendarConstraints.Builder()
-                .setEnd(thisDay)
+            val constraintsBuilder =
+                CalendarConstraints.Builder()
+                    .setEnd(thisDay)
 
-            MaterialDatePicker.Builder.datePicker().setCalendarConstraints(constraintsBuilder.build()).setSelection(selectedDateInMillis).build()
+            MaterialDatePicker.Builder.datePicker()
+                .setCalendarConstraints(constraintsBuilder.build())
+                .setSelection(selectedDateInMillis).build()
                 .apply {
                     addOnPositiveButtonClickListener { dateInMillis -> onDateSelected(dateInMillis) }
                 }.show(supportFragmentManager, MaterialDatePicker::class.java.canonicalName)
@@ -103,7 +107,6 @@ class SignUpActivity : AppCompatActivity() {
         dateTextInputEditText.setOnClickListener {
             showDatePicker()
         }
-
 
 
         // TODO :- Register Functionality
@@ -139,108 +142,104 @@ class SignUpActivity : AppCompatActivity() {
                         }.check()
                 ) {
                     lastNameLayout.error = null
-//                    if (date.validator().nonEmpty().addErrorCallback {
-//                            dateTextInputLayout.error = it
-//                            // it will contain the right message.
-//                            // For example, if edit text is empty,
-//                            // then 'it' will show "Can't be Empty" message
-//                        }.check()) {
-//                        Log.d("finalTimestampDate", date.toString())
-//                        dateTextInputLayout.error = null
+                    if (date.validator().nonEmpty().addErrorCallback {
+                            dateTextInputLayout.error = it
+                            // it will contain the right message.
+                            // For example, if edit text is empty,
+                            // then 'it' will show "Can't be Empty" message
+                        }.check()) {
+                        Log.d("finalTimestampDate", date.toString())
+                        dateTextInputLayout.error = null
 
-                        if (phoneNo.validator()
-                                .nonEmpty()
-                                .addErrorCallback {
-                                    lastNameLayout.error = it
-                                    // it will contain the right message.
-                                    // For example, if edit text is empty,
-                                    // then 'it' will show "Can't be Empty" message
-                                }.check()
-                        ) {
-                            lastNameLayout.error = null
-                            if (email.validator().nonEmpty().validEmail().addErrorCallback {
-                                    EmailLayout.error = it
-                                    // it will contain the right message.
-                                    // For example, if edit text is empty,
-                                    // then 'it' will show "Can't be Empty" message
-                                }.check()) {
-                                EmailLayout.error = null
-                                if (password.validator()
-                                        .nonEmpty()
-                                        .atleastOneNumber()
-                                        .atleastOneSpecialCharacters()
-                                        .atleastOneUpperCase()
-                                        .addErrorCallback {
-                                            PasswordLayout.error = it
-                                            // it will contain the right message.
-                                            // For example, if edit text is empty,
-                                            // then 'it' will show "Can't be Empty" message
-                                        }
-                                        .check()
-                                ) {
-                                    PasswordLayout.error = null
+                    if (phoneNo.validator().nonEmpty().validNumber().addErrorCallback {
+                            PhoneLayout.error = "Add A Proper Phone Number"
+                        }.check()) {
+                        PhoneLayout.error = null
+                        if (email.validator().nonEmpty().validEmail().addErrorCallback {
+                                EmailLayout.error = it
+                                // it will contain the right message.
+                                // For example, if edit text is empty,
+                                // then 'it' will show "Can't be Empty" message
+                            }.check()) {
+                            EmailLayout.error = null
+                            if (password.validator()
+                                    .nonEmpty()
+                                    .atleastOneNumber()
+                                    .atleastOneSpecialCharacters()
+                                    .atleastOneUpperCase()
+                                    .addErrorCallback {
+                                        PasswordLayout.error = it
+                                        // it will contain the right message.
+                                        // For example, if edit text is empty,
+                                        // then 'it' will show "Can't be Empty" message
+                                    }
+                                    .check()
+                            ) {
+                                PasswordLayout.error = null
 
-                                    auth.createUserWithEmailAndPassword(email, password)
-                                        .addOnCompleteListener(this) { task ->
+                                auth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(this) { task ->
 
-                                            if (task.isSuccessful) {
-                                                // Sign in success, update UI with the signed-in user's information
-                                                Log.d("TAG", "createUserWithEmail:success")
-                                                val user = auth.currentUser
-                                                if (user != null) {
-                                                    Log.d("USER", user.uid)
-                                                    val userDetails = hashMapOf(
-                                                        "userUID" to user.uid,
-                                                        "firstName" to firstName,
-                                                        "lastName" to lastName,
-                                                        "email" to email,
-                                                        "birthOfDate" to finalTimestampDate,
-                                                        "phoneNo" to phoneNo
-                                                    )
-                                                    db.collection("users").document(user.uid)
-                                                        .set(userDetails)
-                                                        .addOnSuccessListener {
-                                                            startActivity(
-                                                                Intent(
-                                                                    this,
-                                                                    LoginActivity::class.java
-                                                                )
-                                                            )
-                                                            Log.d(
-                                                                "TAG",
-                                                                "DocumentSnapshot successfully written!"
-                                                            )
-
-                                                        }
-                                                        .addOnFailureListener { e ->
-                                                            Log.w(
-                                                                "TAG",
-                                                                "Error writing document",
-                                                                e
-                                                            )
-                                                        }
-
-                                                }
-
-                                            } else {
-                                                // If sign in fails, display a message to the user.
-                                                Log.w(
-                                                    "TAG", "createUserWithEmail:failure",
-                                                    task.exception
+                                        if (task.isSuccessful) {
+                                            // Sign in success, update UI with the signed-in user's information
+                                            Log.d("TAG", "createUserWithEmail:success")
+                                            val user = auth.currentUser
+                                            if (user != null) {
+                                                Log.d("USER", user.uid)
+                                                val userDetails = hashMapOf(
+                                                    "userUID" to user.uid,
+                                                    "firstName" to firstName,
+                                                    "lastName" to lastName,
+                                                    "email" to email,
+                                                    "birthOfDate" to finalTimestampDate,
+                                                    "phoneNo" to phoneNo
                                                 )
-                                                Toast.makeText(
-                                                    baseContext,
-                                                    task.exception?.localizedMessage,
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+                                                db.collection("users").document(user.uid)
+                                                    .set(userDetails)
+                                                    .addOnSuccessListener {
+                                                        startActivity(
+                                                            Intent(
+                                                                this,
+                                                                LoginActivity::class.java
+                                                            )
+                                                        )
+                                                        Log.d(
+                                                            "TAG",
+                                                            "DocumentSnapshot successfully written!"
+                                                        )
+
+                                                    }
+                                                    .addOnFailureListener { e ->
+                                                        Log.w(
+                                                            "TAG",
+                                                            "Error writing document",
+                                                            e
+                                                        )
+                                                    }
 
                                             }
-                                        }
 
-                                }
+                                        } else {
+                                            // If sign in fails, display a message to the user.
+                                            Log.w(
+                                                "TAG", "createUserWithEmail:failure",
+                                                task.exception
+                                            )
+                                            Toast.makeText(
+                                                baseContext,
+                                                task.exception?.localizedMessage,
+                                                Toast.LENGTH_LONG
+                                            ).show()
+
+                                        }
+                                    }
+
                             }
                         }
-//                    }
+                    }
+
+                    }
+
                 }
             }
 
@@ -249,7 +248,6 @@ class SignUpActivity : AppCompatActivity() {
 
 
     }
-
 
 
 }
