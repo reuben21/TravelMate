@@ -102,6 +102,17 @@ class TravelDestination : AppCompatActivity() {
 
                     ).addOnSuccessListener {
 
+//                        db.collection("users").document(auth.currentUser?.uid.toString())
+//                            .collection("location")
+//                            .document().set(
+//                                chatDetails
+//
+//                            ).addOnSuccessListener {
+//
+//
+//                            }.addOnFailureListener {
+//
+//                            }
 
                     }.addOnFailureListener {
 
