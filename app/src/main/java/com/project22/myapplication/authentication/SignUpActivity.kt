@@ -148,7 +148,7 @@ class SignUpActivity : AppCompatActivity() {
                             // For example, if edit text is empty,
                             // then 'it' will show "Can't be Empty" message
                         }.check()) {
-                        Log.d("finalTimestampDate", date.toString())
+
                         dateTextInputLayout.error = null
 
                     if (phoneNo.validator().nonEmpty().validNumber().addErrorCallback {
