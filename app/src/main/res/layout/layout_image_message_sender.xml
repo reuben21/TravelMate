@@ -27,7 +27,7 @@
             app:strokeColor="@color/primaryLightColor">
 
             <ImageView
-                android:id="@+id/textMessageImage"
+                android:id="@+id/textMessageImageSender"
                 android:layout_width="match_parent"
 
                 android:layout_height="match_parent"
@@ -38,7 +38,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
-        android:id="@+id/textMessageTime2"
+        android:id="@+id/textMessageTimeSenderImage"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/cardImageViewHolderSender"
@@ -46,6 +46,6 @@
         android:layout_toLeftOf="@id/cardImageViewHolderSender"
         android:text="TextView"
         android:textSize="12sp"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
 
 </RelativeLayout>

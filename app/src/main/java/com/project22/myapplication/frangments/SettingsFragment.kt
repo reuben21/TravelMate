@@ -53,19 +53,13 @@ import kotlinx.android.synthetic.main.activity_travel_destination.*
 
 class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    val REQUEST_IMAGE_CAPTURE = 1
+
     private var filePath: Uri? = null
-    private var firebaseStore: FirebaseStorage? = null
-    private var storageReference: StorageReference? = null
-    var ticketImageUrl: String = ""
-    lateinit var currentPhotoPath: String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-
-
 
     }
 
@@ -222,7 +216,7 @@ class SettingsFragment : Fragment() {
                         Toast.makeText(this.context, "You Clicked : " + item.title, Toast.LENGTH_SHORT).show()
                     }
                     R.id.notifButton ->{
-                        uploadImage()
+
                     }
                     R.id.logoutButton -> {
                         if (dbHelper != null) {

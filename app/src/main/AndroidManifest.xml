@@ -10,7 +10,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-feature android:name="android.hardware.camera"
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -20,26 +21,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelMate">
         <activity
+            android:name=".screens.ImageSender"
+            android:exported="true" />
+        <activity
             android:name=".screens.TravelDestinationForm"
-            android:exported="true" >
-
-        </activity>
+            android:exported="true"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".authentication.OverViewAuth"
             android:exported="true"
             android:theme="@style/AppTheme.Fullscreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
@@ -52,10 +54,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Fullscreen">
-
-
-        </activity>
+            android:theme="@style/AppTheme.Fullscreen"></activity>
     </application>
 
 </manifest>
