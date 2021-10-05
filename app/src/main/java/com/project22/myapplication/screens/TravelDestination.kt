@@ -100,6 +100,7 @@ class TravelDestination : AppCompatActivity() {
             "chatId" to chatId,
             "chatImageHolder" to placeImageUrl
         )
+        val ref = db.collection("users").document(chatId).collection("location").document()
         val ref2 = db.collection("users").document(chatId).collection("chats").document()
         val chatDetailsCreator = hashMapOf(
             "chatName" to creatorName,
@@ -111,7 +112,15 @@ class TravelDestination : AppCompatActivity() {
             "chatId" to ref2.id,
             "chatImageHolder" to placeImageUrl
         )
-
+        val location = hashMapOf(
+            "originLatitude" to originLatitude,
+            "originLongitude" to originLongitude,
+            "destinationLatitude" to destinationLatitude,
+            "destinationLongitude" to destinationLongitude,
+            "id" to ref.id,
+            "chatId" to chatId,
+            "chatImageHolder" to placeImageUrl
+        )
         if(auth.currentUser?.uid == creatorId) {
             buttonJoinChatGroup.text = "Creator"
             buttonJoinChatGroup.setOnClickListener {
@@ -160,11 +169,21 @@ class TravelDestination : AppCompatActivity() {
                                                 chatDetailsUser
 
                                             ).addOnSuccessListener {
-                                                Toast.makeText(
-                                                    baseContext,
-                                                    "You have been added to the Personal Chat",
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+
+                                                db.collection("users").document(auth.currentUser?.uid.toString())
+                                                    .collection("location")
+                                                    .document(ref.id).set(location).addOnSuccessListener {
+
+                                                        Toast.makeText(
+                                                            baseContext,
+                                                            "You have been added to the Personal Chat",
+                                                            Toast.LENGTH_LONG
+                                                        ).show()
+
+                                                    }.addOnFailureListener {
+
+                                                    }
+
                                             }
                                     }
                         }
@@ -181,17 +200,6 @@ class TravelDestination : AppCompatActivity() {
                             ).addOnSuccessListener {
 
 
-
-                                val ref = db.collection("users").document(chatId).collection("location").document()
-                                val location = hashMapOf(
-                                    "originLatitude" to originLatitude,
-                                    "originLongitude" to originLongitude,
-                                    "destinationLatitude" to destinationLatitude,
-                                    "destinationLongitude" to destinationLongitude,
-                                    "id" to ref.id,
-                                    "chatId" to chatId,
-                                    "chatImageHolder" to placeImageUrl
-                                )
                                 db.collection("users").document(auth.currentUser?.uid.toString())
                             .collection("location")
                             .document(ref.id).set(location).addOnSuccessListener {
