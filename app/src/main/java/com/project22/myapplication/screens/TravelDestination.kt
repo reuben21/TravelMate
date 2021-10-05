@@ -10,13 +10,17 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.view.isVisible
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
+import com.project22.myapplication.database.DatabaseHelper
 import kotlinx.android.synthetic.main.activity_travel_destination.*
+import java.util.*
 
 class TravelDestination : AppCompatActivity() {
 
@@ -24,10 +28,25 @@ class TravelDestination : AppCompatActivity() {
     val db = Firebase.firestore
     var auth: FirebaseAuth = Firebase.auth
 
+    var userIdDB: String? = null
+    var emailDB: String? = null
+    var firstNameDB: String? = null
+    var lastNameDB: String? = null
+    var profileImageUrlDB: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_travel_destination)
+        val dbHelper = DatabaseHelper(this)
+        val res = dbHelper.allData
+        while (res.moveToNext()) {
+            userIdDB  = res.getString(0)
+            emailDB = res.getString(1)
+            firstNameDB = res.getString(2)
+            lastNameDB = res.getString(3)
+            profileImageUrlDB = res.getString(4)
 
+        }
         try {
             // TODO :- To Hide the Toolbar which Comes by Default
             this.supportActionBar!!.hide()
@@ -57,6 +76,11 @@ class TravelDestination : AppCompatActivity() {
         val chatId = intent?.getStringExtra("chatId").toString()
         val chatName = intent?.getStringExtra("chatName").toString()
 
+        val originLatitude = intent?.getStringExtra("originLatitude").toString().toDouble()
+        val originLongitude = intent?.getStringExtra("originLongitude").toString().toDouble()
+        val destinationLatitude = intent?.getStringExtra("destinationLatitude").toString().toDouble()
+        val destinationLongitude = intent?.getStringExtra("destinationLongitude").toString().toDouble()
+
         toolbar_back_to_travel_destination_single_screen.setNavigationOnClickListener { onBackPressed() }
 0
         toolbar_back_to_travel_destination_single_screen.title = placeName
@@ -65,7 +89,7 @@ class TravelDestination : AppCompatActivity() {
             Glide.with(it)
                 .load(placeImageUrl)
                 .placeholder(R.drawable.travel)
-                .into( singleScreenImage)
+                .into(singleScreenImage)
         }
         fromOriginTextViewFill.text = originName
         fromDestinationTextViewFill.text = destinationName
@@ -74,6 +98,17 @@ class TravelDestination : AppCompatActivity() {
         val chatDetails = hashMapOf(
             "chatName" to chatName,
             "chatId" to chatId,
+            "chatImageHolder" to placeImageUrl
+        )
+        val ref2 = db.collection("users").document(chatId).collection("chats").document()
+        val chatDetailsCreator = hashMapOf(
+            "chatName" to creatorName,
+            "chatId" to ref2.id,
+            "chatImageHolder" to placeImageUrl
+        )
+        val chatDetailsUser = hashMapOf(
+            "chatName" to "${firstNameDB} ${lastNameDB}",
+            "chatId" to ref2.id,
             "chatImageHolder" to placeImageUrl
         )
 
@@ -93,31 +128,92 @@ class TravelDestination : AppCompatActivity() {
 
             buttonJoinChatGroup.setOnClickListener {
 
+                MaterialAlertDialogBuilder(this,R.style.MaterialAlertDialog_App)
+                    .setTitle("Group Chat")
+                    .setMessage("Select Yes to Join the Group Chat OR Select No for personal Chat")
+                    .setNeutralButton("Cancel") { dialog, which ->
+                        // Respond to neutral button press
+                    }
+                    .setNegativeButton("No") { dialog, which ->
+                        val textMessage = hashMapOf(
+                            "id" to ref2.id,
+                            "message" to " ${firstNameDB} ${lastNameDB} created this Personal Chat ",
+                            "createdAt" to Timestamp(Date()),
+                            "senderId" to auth.currentUser?.uid,
+                            "senderName" to "${firstNameDB} ${lastNameDB}",
+                            "messageType" to "3",
 
-                //YES
-                db.collection("users").document(auth.currentUser?.uid.toString())
-                    .collection("chats")
-                    .document(chatId).set(
-                        chatDetails
+                            )
+                        db.collection("chats").document(ref2.id)
+                            .collection("messages")
+                            .document(ref2.id).set(textMessage)
+                            .addOnSuccessListener {
+                                db.collection("users").document(auth.currentUser?.uid.toString())
+                                    .collection("chats")
+                                    .document(ref2.id).set(
+                                        chatDetailsCreator
 
-                    ).addOnSuccessListener {
+                                    ).addOnSuccessListener {
+                                        db.collection("users").document(creatorId)
+                                            .collection("chats")
+                                            .document(ref2.id).set(
+                                                chatDetailsUser
 
-//                        db.collection("users").document(auth.currentUser?.uid.toString())
-//                            .collection("location")
-//                            .document().set(
-//                                chatDetails
-//
-//                            ).addOnSuccessListener {
-//
-//
-//                            }.addOnFailureListener {
-//
-//                            }
-
-                    }.addOnFailureListener {
+                                            ).addOnSuccessListener {
+                                                Toast.makeText(
+                                                    baseContext,
+                                                    "You have been added to the Personal Chat",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
+                                    }
+                        }
 
                     }
-                //END YES
+                    .setPositiveButton("Yes") { dialog, which ->
+                        // Respond to positive button press
+                        //YES
+                        db.collection("users").document(auth.currentUser?.uid.toString())
+                            .collection("chats")
+                            .document(chatId).set(
+                                chatDetails
+
+                            ).addOnSuccessListener {
+
+
+
+                                val ref = db.collection("users").document(chatId).collection("location").document()
+                                val location = hashMapOf(
+                                    "originLatitude" to originLatitude,
+                                    "originLongitude" to originLongitude,
+                                    "destinationLatitude" to destinationLatitude,
+                                    "destinationLongitude" to destinationLongitude,
+                                    "id" to ref.id,
+                                    "chatId" to chatId,
+                                    "chatImageHolder" to placeImageUrl
+                                )
+                                db.collection("users").document(auth.currentUser?.uid.toString())
+                            .collection("location")
+                            .document(ref.id).set(location).addOnSuccessListener {
+
+                                        Toast.makeText(
+                                            baseContext,
+                                            "You have been added to the Group Chat",
+                                            Toast.LENGTH_LONG
+                                        ).show()
+
+                            }.addOnFailureListener {
+
+                            }
+
+                            }.addOnFailureListener {
+
+                            }
+                        //END YES
+                    }
+                    .show()
+
+
             }
         }
 

@@ -131,6 +131,11 @@ class HomeFragment : Fragment() {
                     intent.putExtra("chatId",dest.chatId)
                     intent.putExtra("chatName",dest.chatName)
                     intent.putExtra("creatorId",dest.creatorId)
+
+                    intent.putExtra("originLatitude",dest.originLatitude.toString())
+                    intent.putExtra("originLongitude",dest.originLongitude.toString())
+                    intent.putExtra("destinationLatitude",dest.destinationLatitude.toString())
+                    intent.putExtra("destinationLongitude",dest.destinationLongitude.toString())
                     startActivity(intent)
 
                 }

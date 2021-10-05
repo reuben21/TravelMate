@@ -30,10 +30,37 @@
         <item name="popupTheme">@style/PopupMenuTheme</item>
 
         <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.App.MaterialAlertDialog</item>
 
 
     </style>
+    <style name="ThemeOverlay.App.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+            <item name="colorPrimary">@color/primaryColor</item>
+            <item name="colorSecondary">@color/secondaryColor</item>
+            <item name="colorSurface">@color/primaryTextColor</item>
+            <item name="colorOnSurface">@color/primaryColor</item>
+            <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+            <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.App.Title.Text</item>
+            <item name="buttonBarPositiveButtonStyle">@style/Widget.App.Button</item>
+            <item name="buttonBarNeutralButtonStyle">@style/Widget.App.Button</item>
+        </style>
 
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.MaterialComponents">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/primaryColor</item>
+    </style>
+
+    <style name="Widget.App.Button" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+
+        <item name="shapeAppearance">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Button" parent="">
+        <item name="colorPrimary">@color/secondaryColor</item>
+    </style>
 
 
     <style name="TextAppearance.App.Caption" parent="TextAppearance.MaterialComponents.Caption">
