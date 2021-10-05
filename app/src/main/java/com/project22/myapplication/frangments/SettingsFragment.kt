@@ -208,7 +208,7 @@ class SettingsFragment : Fragment() {
 
         context?.let {
             Glide.with(it.applicationContext)
-                .load(profileImageUrlDB)
+                .load(profileImageUrlDB.toString())
                 .placeholder(R.drawable.travel)
                 .into( displayProfileImageSettingsFragment)
         }
@@ -216,6 +216,7 @@ class SettingsFragment : Fragment() {
         displayFullName.text = firstNameDB?.toUpperCase(Locale.ROOT) + " " + lastNameDB?.toUpperCase(Locale.ROOT)
         displayEmailIdSettings.text = emailDB
         displayBirthDateSettings.text =  birthDateDB
+        phoneNoSettings.text =  phoneDb
 
 
 

@@ -146,34 +146,35 @@
 
             </LinearLayout>
 
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="15dp"-->
-            <!--                android:orientation="vertical">-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:orientation="vertical">
 
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Email"-->
-            <!--                    android:textColor="@color/secondaryColor"-->
-            <!--                    android:textSize="18sp" />-->
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Phone No"
+                                android:textColor="@color/secondaryColor"
+                                android:textSize="18sp" />
 
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:fontFamily="sans-serif-light"-->
-            <!--                    android:text="joey@sharenofood.com"-->
-            <!--                    android:textColor="@color/secondaryColor"-->
-            <!--                    android:textSize="22sp" />-->
+                            <TextView
+                                android:id="@+id/phoneNoSettings"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-light"
+                                android:text=""
+                                android:textColor="@color/secondaryColor"
+                                android:textSize="22sp" />
 
-            <!--                <View-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="1dp"-->
-            <!--                    android:layout_marginTop="15dp"-->
-            <!--                    android:background="@color/primaryTextColor" />-->
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:layout_marginTop="15dp"
+                                android:background="@color/primaryTextColor" />
 
-            <!--            </LinearLayout>-->
+                        </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
