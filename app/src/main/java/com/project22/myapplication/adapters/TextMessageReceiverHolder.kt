@@ -11,13 +11,14 @@ class TextMessageReceiverHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     var text_view_message: TextView
     var text_view_time: TextView
-
+    var text_view_user_name: TextView
 
     init {
 
 
         text_view_message = view.findViewById(R.id.textMessage)
         text_view_time = view.findViewById(R.id.textMessageTime)
+        text_view_user_name = view.findViewById(R.id.textMessageUserName)
 
     }
 }

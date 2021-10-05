@@ -18,7 +18,7 @@
             android:id="@+id/toolbar_back_to_Login"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Sign Up"
+            app:title="Create your account"
             app:navigationIcon="@drawable/back"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             />
@@ -35,33 +35,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:paddingTop="100dp"
+            android:paddingTop="50dp"
             android:paddingHorizontal="20dp"
 
             >
 
-            <ImageView
-                android:id="@+id/signupImageView"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                android:scaleType="fitStart"
-                app:srcCompat="@drawable/sign_in_picture" />
-            <TextView
-                android:id="@+id/create_your_account_text"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:layout_below="@id/signupImageView"
-                android:textColor="@color/primaryColor"
-                android:layout_centerInParent="true"
-                android:text="Create Your Account"
-                android:textSize="20sp"
-                />
+
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/linearLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_below="@id/create_your_account_text"
+
                 android:layout_marginTop="20dp"
                 >
 

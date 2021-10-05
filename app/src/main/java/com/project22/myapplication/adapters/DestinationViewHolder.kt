@@ -13,6 +13,7 @@ import com.project22.myapplication.R
 class DestinationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     var placeNameHolder: TextView
     var travellersHolder: TextView
+    var startDate: TextView
     var placeImageUrlHolder: ImageView
     var cardOfDestination: MaterialCardView
 
@@ -20,6 +21,7 @@ class DestinationViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     init {
         placeNameHolder = view.findViewById(R.id.card_placeName)
         travellersHolder = view.findViewById(R.id.card_travellers)
+        startDate = view.findViewById(R.id.startDateTravelDestination)
         placeImageUrlHolder = view.findViewById(R.id.card_placeImageUrl)
         cardOfDestination = view.findViewById(R.id.cardOfDestination)
 

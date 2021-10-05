@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -20,16 +21,14 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.ktx.Firebase
-import com.project22.myapplication.MainActivity
 import com.project22.myapplication.R
 import com.project22.myapplication.adapters.ChatViewHolder
 import com.project22.myapplication.model.Chat
 import com.project22.myapplication.screens.ChatScreen
-import com.project22.myapplication.screens.TravelDestination
 import kotlinx.android.synthetic.main.activity_chat_screen.*
 
 import kotlinx.android.synthetic.main.fragment_chats.*
-import kotlinx.android.synthetic.main.fragment_home.*
+
 
 class ChatFragment : Fragment() {
 
@@ -59,54 +58,67 @@ class ChatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
-
-
         firestoreDB = FirebaseFirestore.getInstance()
 
 
         val mLayoutManager = LinearLayoutManager(activity?.applicationContext)
         chatListRecyclerView.layoutManager = mLayoutManager
         chatListRecyclerView.itemAnimator = DefaultItemAnimator()
+        chatListRecyclerView.adapter = adapter
+
 
         loadDestinationList()
 
-        firestoreListener = firestoreDB!!.collection("users/"+ auth.currentUser?.uid.toString()+"/chats")
-            .addSnapshotListener(EventListener { documentSnapshots, e ->
-                if (e != null) {
-                    Log.e(TAG, "Listen failed!", e)
-                    return@EventListener
-                }
+        firestoreListener =
+            firestoreDB!!.collection("users/" + auth.currentUser?.uid.toString() + "/chats")
+                .addSnapshotListener(EventListener { documentSnapshots, e ->
 
-                chatList = mutableListOf<Chat>()
-
-                if (documentSnapshots != null) {
-                    for (doc in documentSnapshots) {
-                        val chat = doc.toObject(Chat::class.java)
-                        chat.id = doc.id
-                        Log.d("TEXT", chat.id.toString())
-
-                        chatList.add(chat)
+                    if (e != null) {
+                        Log.e(TAG, "Listen failed!", e)
+                        return@EventListener
                     }
-                }
 
-                adapter!!.notifyDataSetChanged()
-                chatListRecyclerView.adapter = adapter
-            })
+                    chatList = mutableListOf<Chat>()
+
+                    if (documentSnapshots != null) {
+                        for (doc in documentSnapshots) {
+                            val chat = doc.toObject(Chat::class.java)
+                            chat.id = doc.id
+                            Log.d("TEXT", chat.id.toString())
+
+                            chatList.add(chat)
+                        }
+
+                    }
+                    try {
+                        adapter!!.notifyDataSetChanged()
+                        chatListRecyclerView.adapter = adapter
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+
+                })
 
     }
 
     private fun loadDestinationList() {
 
-        val query = firestoreDB!!.collection("users/"+ auth.currentUser?.uid.toString()+"/chats")
+        val query = firestoreDB!!.collection("users/" + auth.currentUser?.uid.toString() + "/chats")
 
         val response = FirestoreRecyclerOptions.Builder<Chat>()
             .setQuery(query, Chat::class.java)
             .build()
 
         adapter = object : FirestoreRecyclerAdapter<Chat, ChatViewHolder>(response) {
+
+
+//            override fun onDataChanged() {
+//                super.onDataChanged()
+//                chatListRecyclerView.isVisible = adapter?.itemCount != 0
+//            }
+
+
             override fun onBindViewHolder(holder: ChatViewHolder, position: Int, model: Chat) {
                 val dest = chatList[position]
 
@@ -120,15 +132,16 @@ class ChatFragment : Fragment() {
                 }
 
                 holder.cardOfChatView.setOnClickListener {
-                    Log.d("TEXT",dest.id.toString())
+                    Log.d("TEXT", dest.id.toString())
                     val intent = Intent(context?.applicationContext, ChatScreen::class.java)
-                    intent.putExtra("chatId",dest.id.toString())
+                    intent.putExtra("chatId", dest.id.toString())
                     startActivity(intent)
 
                 }
 //
 //                holder.delete.setOnClickListener { deleteNote(note.id!!) }
             }
+
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
                 val view = LayoutInflater.from(parent.context)
@@ -145,7 +158,8 @@ class ChatFragment : Fragment() {
         adapter!!.notifyDataSetChanged()
         chatListRecyclerView.adapter = adapter
     }
-    public override fun onStart() {
+
+    override fun onStart() {
         super.onStart()
 
         adapter!!.startListening()

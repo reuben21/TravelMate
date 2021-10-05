@@ -84,6 +84,8 @@
 
                             />
 
+
+
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cardOfDestination"
                             android:layout_width="match_parent"
@@ -153,6 +155,8 @@
 
                         </com.google.android.material.card.MaterialCardView>
 
+
+
                         <TextView
                             android:id="@+id/fromOriginTextView"
 
@@ -217,6 +221,39 @@
                             android:textSize="22sp"
 
                             />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardOfTravelProof"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:layout_below="@+id/fromDestinationTextViewFill"
+                            android:layout_margin="20dp"
+
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal">
+
+
+                                <ImageView
+                                    android:id="@+id/travelImageProof"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/shrute_farms"
+                                    android:scaleType="centerCrop"
+                                    />
+
+
+
+
+
+
+                            </LinearLayout>
+
+                        </com.google.android.material.card.MaterialCardView>
 
                         <Button
                             android:id="@+id/buttonJoinChatGroup"

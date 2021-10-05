@@ -91,6 +91,18 @@ class TravelDestination : AppCompatActivity() {
                 .placeholder(R.drawable.travel)
                 .into(singleScreenImage)
         }
+        this.applicationContext?.let {
+            Glide.with(it)
+                .load(placeImageUrl)
+                .placeholder(R.drawable.travel)
+                .into(displayProfileImage)
+        }
+        this.applicationContext?.let {
+            Glide.with(it)
+                .load(ticketImageUrl)
+                .placeholder(R.drawable.travel)
+                .into(travelImageProof)
+        }
         fromOriginTextViewFill.text = originName
         fromDestinationTextViewFill.text = destinationName
         singleScreenUserName.text = creatorName
@@ -121,6 +133,27 @@ class TravelDestination : AppCompatActivity() {
             "chatId" to chatId,
             "chatImageHolder" to placeImageUrl
         )
+        val textMessage = hashMapOf(
+            "id" to ref2.id,
+            "message" to " ${firstNameDB} ${lastNameDB} created this Personal Chat ",
+            "createdAt" to Timestamp(Date()),
+            "senderId" to auth.currentUser?.uid,
+            "senderName" to "${firstNameDB} ${lastNameDB}",
+            "messageType" to "3",
+
+            )
+        val textMessage2 = hashMapOf(
+            "id" to ref2.id,
+            "message" to " ${firstNameDB} ${lastNameDB} joined this Group Chat ",
+            "createdAt" to Timestamp(Date()),
+            "senderId" to auth.currentUser?.uid,
+            "senderName" to "${firstNameDB} ${lastNameDB}",
+            "messageType" to "3",
+
+            )
+        val travellerCount = hashMapOf(
+            "travellers" to travellersHolder.toInt() + 1
+        )
         if(auth.currentUser?.uid == creatorId) {
             buttonJoinChatGroup.text = "Creator"
             buttonJoinChatGroup.setOnClickListener {
@@ -144,15 +177,11 @@ class TravelDestination : AppCompatActivity() {
                         // Respond to neutral button press
                     }
                     .setNegativeButton("No") { dialog, which ->
-                        val textMessage = hashMapOf(
-                            "id" to ref2.id,
-                            "message" to " ${firstNameDB} ${lastNameDB} created this Personal Chat ",
-                            "createdAt" to Timestamp(Date()),
-                            "senderId" to auth.currentUser?.uid,
-                            "senderName" to "${firstNameDB} ${lastNameDB}",
-                            "messageType" to "3",
 
-                            )
+                        db.collection("destination").document(chatId).update(travellerCount as Map<String, Any>)
+                            .addOnSuccessListener {
+
+                            }
                         db.collection("chats").document(ref2.id)
                             .collection("messages")
                             .document(ref2.id).set(textMessage)
@@ -192,31 +221,41 @@ class TravelDestination : AppCompatActivity() {
                     .setPositiveButton("Yes") { dialog, which ->
                         // Respond to positive button press
                         //YES
-                        db.collection("users").document(auth.currentUser?.uid.toString())
-                            .collection("chats")
-                            .document(chatId).set(
-                                chatDetails
+                        db.collection("destination").document(chatId).update(travellerCount as Map<String, Any>)
+                            .addOnSuccessListener {
 
-                            ).addOnSuccessListener {
-
-
+                            }
+                        db.collection("chats").document(chatId)
+                            .collection("messages")
+                            .document().set(textMessage2)
+                            .addOnSuccessListener {
                                 db.collection("users").document(auth.currentUser?.uid.toString())
-                            .collection("location")
-                            .document(ref.id).set(location).addOnSuccessListener {
+                                    .collection("chats")
+                                    .document(chatId).set(
+                                        chatDetails
 
-                                        Toast.makeText(
-                                            baseContext,
-                                            "You have been added to the Group Chat",
-                                            Toast.LENGTH_LONG
-                                        ).show()
+                                    ).addOnSuccessListener {
 
-                            }.addOnFailureListener {
 
+                                        db.collection("users").document(auth.currentUser?.uid.toString())
+                                            .collection("location")
+                                            .document(ref.id).set(location).addOnSuccessListener {
+
+                                                Toast.makeText(
+                                                    baseContext,
+                                                    "You have been added to the Group Chat",
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+
+                                            }.addOnFailureListener {
+
+                                            }
+
+                                    }.addOnFailureListener {
+
+                                    }
                             }
 
-                            }.addOnFailureListener {
-
-                            }
                         //END YES
                     }
                     .show()

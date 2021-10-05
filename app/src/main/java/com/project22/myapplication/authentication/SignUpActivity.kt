@@ -1,14 +1,20 @@
 package com.project22.myapplication.authentication
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
@@ -23,9 +29,15 @@ import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.UploadTask
 import com.project22.myapplication.R
+import com.project22.myapplication.database.DatabaseHelper
+import com.project22.myapplication.screens.TravelDestination
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validator
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import kotlinx.android.synthetic.main.fragment_settings.*
+import java.io.ByteArrayOutputStream
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -34,6 +46,10 @@ import java.util.*
 
 
 class SignUpActivity : AppCompatActivity() {
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // TODO :- Initialize Firebase Auth
@@ -67,6 +83,7 @@ class SignUpActivity : AppCompatActivity() {
         toolbar_back_to_Login.setNavigationOnClickListener { onBackPressed() }
 
 
+
         fun onDateSelected(dateTimeStampInMillis: Long) {
             currentSelectedDate = dateTimeStampInMillis
 
@@ -89,11 +106,19 @@ class SignUpActivity : AppCompatActivity() {
 
             calendar.timeInMillis = today
             calendar.add(Calendar.YEAR, -18)
+
             val thisDay = calendar.timeInMillis
+
+            val calendar2 = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+
+            calendar2.timeInMillis = today
+            calendar2.add(Calendar.YEAR, -55)
+            val thisDay2 = calendar2.timeInMillis
 
 
             val constraintsBuilder =
                 CalendarConstraints.Builder()
+                    .setStart(thisDay2)
                     .setEnd(thisDay)
 
             MaterialDatePicker.Builder.datePicker()
@@ -192,17 +217,49 @@ class SignUpActivity : AppCompatActivity() {
                                                     "lastName" to lastName,
                                                     "email" to email,
                                                     "birthOfDate" to finalTimestampDate,
-                                                    "phoneNo" to phoneNo
+                                                    "phoneNo" to phoneNo,
+
                                                 )
+
                                                 db.collection("users").document(user.uid)
                                                     .set(userDetails)
                                                     .addOnSuccessListener {
-                                                        startActivity(
-                                                            Intent(
-                                                                this,
-                                                                LoginActivity::class.java
+                                                        val ref = db.collection("chats").document()
+                                                        val chatAdmin = hashMapOf(
+                                                            "chatId" to ref.id,
+                                                            "chatImageHolder" to "https://firebasestorage.googleapis.com/v0/b/travelmate-89b60.appspot.com/o/Destinations%2Feba48840-3a90-477d-acbb-9a14ef8bee51.jpg?alt=media&token=859417f9-f129-4573-8931-600cc3a6679d",
+                                                            "chatName" to "Admin",
                                                             )
-                                                        )
+                                                        val textMessage = hashMapOf(
+                                                            "id" to ref.id,
+                                                            "message" to "Admin Chat created by default for user ${firstName} ${lastName}",
+                                                            "createdAt" to Timestamp(Date()),
+                                                            "senderId" to auth.currentUser?.uid,
+                                                            "senderName" to firstName + " " +lastName,
+                                                            "messageType" to "3",
+
+                                                            )
+                                                        db.collection("chats").document(ref.id).collection("messages").document(ref.id)
+                                                            .set(textMessage)
+                                                            .addOnSuccessListener {
+                                                                db.collection("users").document("n6g7S7LzryXHox5wQDyZWOEitO92").collection("chats").document(ref.id)
+                                                                    .set(chatAdmin)
+                                                                    .addOnSuccessListener {
+                                                                        db.collection("users").document(user.uid).collection("chats").document(ref.id)
+                                                                            .set(chatAdmin)
+                                                                            .addOnSuccessListener {
+                                                                                val intent = Intent(this,
+                                                                                    ProfilePictureActivity::class.java)
+                                                                                intent.putExtra("userUID",user.uid)
+                                                                                startActivity(
+                                                                                    intent
+                                                                                )
+                                                                            }
+                                                                    }
+                                                            }
+
+
+
                                                         Log.d(
                                                             "TAG",
                                                             "DocumentSnapshot successfully written!"
@@ -235,6 +292,7 @@ class SignUpActivity : AppCompatActivity() {
                                     }
 
                             }
+
                         }
                     }
 

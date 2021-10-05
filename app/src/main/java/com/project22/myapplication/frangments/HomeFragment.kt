@@ -25,6 +25,8 @@ import com.project22.myapplication.model.Destination
 import com.project22.myapplication.screens.TravelDestination
 import com.project22.myapplication.screens.TravelDestinationForm
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class HomeFragment : Fragment() {
@@ -97,6 +99,8 @@ class HomeFragment : Fragment() {
 //        firestoreListener!!.remove()
 //    }
 
+
+
     private fun loadDestinationList() {
 
         val query = firestoreDB!!.collection("destination")
@@ -108,9 +112,11 @@ class HomeFragment : Fragment() {
         adapter = object : FirestoreRecyclerAdapter<Destination, DestinationViewHolder>(response) {
             override fun onBindViewHolder(holder: DestinationViewHolder, position: Int, model: Destination) {
                 val dest = destinationList[position]
-
+                val sfd = SimpleDateFormat("dd.MM.yyyy",
+                    Locale.getDefault())
                 holder.placeNameHolder.text = dest.destinationName
-                holder.travellersHolder.text = dest.travellers.toString()
+                holder.travellersHolder.text = "Travelling "+dest.travellers.toString()
+                holder.startDate.text = "leaving " + sfd.format(dest.startDate?.toDate())
                 activity?.applicationContext?.let {
                     Glide.with(it)
                         .load(dest.destinationImageUrl)

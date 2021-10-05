@@ -239,6 +239,7 @@ class ChatScreen : AppCompatActivity() {
 
                                     holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
 
+
                                 }
 
 
@@ -273,6 +274,7 @@ class ChatScreen : AppCompatActivity() {
                                     Log.d("TextMessageSenderViewHolder", mess.message.toString())
                                     holder.text_view_message.text = mess.message
                                     holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
+                                    holder.text_view_user_name.text = mess.senderName
 
                                 }
 
@@ -288,6 +290,7 @@ class ChatScreen : AppCompatActivity() {
                                     Log.d("TextMessageReceiverHolder", mess.message.toString())
                                     holder.text_view_message.text = mess.message
                                     holder.text_view_time.text = sfd.format(mess.createdAt?.toDate())
+                                    holder.text_view_user_name.text = mess.senderName
                                 }
                             }
 

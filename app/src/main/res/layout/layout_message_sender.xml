@@ -3,31 +3,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_message_sender"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
-    <TextView
-        android:id="@+id/textMessage"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="I am doing ok"
-        android:padding="8dp"
-        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginBottom="2dp"
-
-        android:textSize="15dp"
-        android:textColor="#FFFFFF"
         android:background="@drawable/message_sender_bubble"
-        android:layout_alignParentRight="true" />
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/textMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="end"
+
+
+            android:padding="10dp"
+            android:textColor="#FFFFFF"
+            android:textSize="15dp"
+            tools:text="I am doing ok" />
+
+        <TextView
+            android:id="@+id/textMessageUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+
+
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:textColor="#FFFFFF"
+            android:textSize="12dp"
+            tools:text="reuben coutinho" />
+    </LinearLayout>
+
     <TextView
         android:id="@+id/textMessageTime"
         android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textMessage"
+        android:layout_alignBottom="@+id/linearLayout1"
         android:layout_gravity="bottom"
-        android:layout_toLeftOf="@id/textMessage"
+        android:layout_toLeftOf="@id/linearLayout1"
         android:text="TextView"
         android:textSize="12sp"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
 
 </RelativeLayout>
