@@ -173,18 +173,18 @@ class TravelFragment : Fragment(), OnMapReadyCallback {
                                 document.data?.get("originLongitude").toString().toDouble()),
                                 Location(document.data?.get("destinationLatitude").toString().toDouble(),
                                     document.data?.get("destinationLongitude").toString().toDouble())
-                            )
+                            )/1000
 
-                            Log.d("DATA",document.data?.get("originLatitude").toString())
+
                             val origin = LatLng(document.data?.get("originLatitude").toString().toDouble(),
                                 document.data?.get("originLongitude").toString().toDouble())
                             val destination = LatLng(document.data?.get("destinationLatitude").toString().toDouble(),
                                 document.data?.get("destinationLongitude").toString().toDouble())
 
 
-
+                            Log.d("DATA",d.toString())
                             if (googleMap != null) {
-                                if (d>1000) {
+                                if (d.toDouble()>=1300) {
                                     drawCurveOnMap(googleMap,origin,destination,1.0)
                                 } else {
                                     drawCurveOnMap(googleMap,origin,destination,0.5)
