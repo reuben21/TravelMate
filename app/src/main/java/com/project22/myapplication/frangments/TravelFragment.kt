@@ -197,14 +197,9 @@ class TravelFragment : Fragment(), OnMapReadyCallback {
                     }}
 
 
-            val homeLatLng = LatLng(latitude, longitude)
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
-            map.addMarker(
-                MarkerOptions()
-                    .position(homeLatLng)
-                    .icon(bitmapDescriptorFromVector(R.drawable.travel))
-
-            )
+//            val homeLatLng = LatLng(latitude, longitude)
+//            map.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, zoomLevel))
+//
 
 
             enableMyLocation()
