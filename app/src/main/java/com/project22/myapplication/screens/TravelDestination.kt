@@ -154,6 +154,16 @@ class TravelDestination : AppCompatActivity() {
         val travellerCount = hashMapOf(
             "travellers" to travellersHolder.toInt() + 1
         )
+        val organiser = hashMapOf(
+            "userId" to auth.currentUser?.uid.toString(),
+            "user" to firstNameDB +" "+lastNameDB,
+            "profileImageUrl" to "${profileImageUrlDB}",
+        )
+        val organiser2 = hashMapOf(
+            "userId" to creatorId,
+            "user" to creatorName,
+            "profileImageUrl" to "${placeImageUrl}",
+        )
         if(auth.currentUser?.uid == creatorId) {
             buttonJoinChatGroup.text = "Creator"
             buttonJoinChatGroup.setOnClickListener {
@@ -180,42 +190,51 @@ class TravelDestination : AppCompatActivity() {
 
                         db.collection("destination").document(chatId).update(travellerCount as Map<String, Any>)
                             .addOnSuccessListener {
+                                db.collection("chats").document(ref2.id).collection("users").document(ref.id)
+                                    .set(organiser)
+                                    .addOnSuccessListener {
+                                        db.collection("chats").document(ref2.id).collection("users").document(ref.id)
+                                            .set(organiser2)
+                                            .addOnSuccessListener {
+                                                db.collection("chats").document(ref2.id)
+                                                    .collection("messages")
+                                                    .document(ref2.id).set(textMessage)
+                                                    .addOnSuccessListener {
+                                                        db.collection("users").document(auth.currentUser?.uid.toString())
+                                                            .collection("chats")
+                                                            .document(ref2.id).set(
+                                                                chatDetailsCreator
 
-                            }
-                        db.collection("chats").document(ref2.id)
-                            .collection("messages")
-                            .document(ref2.id).set(textMessage)
-                            .addOnSuccessListener {
-                                db.collection("users").document(auth.currentUser?.uid.toString())
-                                    .collection("chats")
-                                    .document(ref2.id).set(
-                                        chatDetailsCreator
+                                                            ).addOnSuccessListener {
+                                                                db.collection("users").document(creatorId)
+                                                                    .collection("chats")
+                                                                    .document(ref2.id).set(
+                                                                        chatDetailsUser
 
-                                    ).addOnSuccessListener {
-                                        db.collection("users").document(creatorId)
-                                            .collection("chats")
-                                            .document(ref2.id).set(
-                                                chatDetailsUser
+                                                                    ).addOnSuccessListener {
 
-                                            ).addOnSuccessListener {
+                                                                        db.collection("users").document(auth.currentUser?.uid.toString())
+                                                                            .collection("location")
+                                                                            .document(ref.id).set(location).addOnSuccessListener {
 
-                                                db.collection("users").document(auth.currentUser?.uid.toString())
-                                                    .collection("location")
-                                                    .document(ref.id).set(location).addOnSuccessListener {
+                                                                                Toast.makeText(
+                                                                                    baseContext,
+                                                                                    "You have been added to the Personal Chat",
+                                                                                    Toast.LENGTH_LONG
+                                                                                ).show()
 
-                                                        Toast.makeText(
-                                                            baseContext,
-                                                            "You have been added to the Personal Chat",
-                                                            Toast.LENGTH_LONG
-                                                        ).show()
+                                                                            }.addOnFailureListener {
 
-                                                    }.addOnFailureListener {
+                                                                            }
 
+                                                                    }
+                                                            }
                                                     }
-
                                             }
+
                                     }
-                        }
+                            }
+
 
                     }
                     .setPositiveButton("Yes") { dialog, which ->
@@ -223,38 +242,41 @@ class TravelDestination : AppCompatActivity() {
                         //YES
                         db.collection("destination").document(chatId).update(travellerCount as Map<String, Any>)
                             .addOnSuccessListener {
+                                db.collection("chats").document(ref2.id).collection("users").document(ref.id)
+                                    .set(organiser).addOnSuccessListener {
+                                        db.collection("chats").document(chatId)
+                                            .collection("messages")
+                                            .document().set(textMessage2)
+                                            .addOnSuccessListener {
+                                                db.collection("users").document(auth.currentUser?.uid.toString())
+                                                    .collection("chats")
+                                                    .document(chatId).set(
+                                                        chatDetails
 
-                            }
-                        db.collection("chats").document(chatId)
-                            .collection("messages")
-                            .document().set(textMessage2)
-                            .addOnSuccessListener {
-                                db.collection("users").document(auth.currentUser?.uid.toString())
-                                    .collection("chats")
-                                    .document(chatId).set(
-                                        chatDetails
-
-                                    ).addOnSuccessListener {
+                                                    ).addOnSuccessListener {
 
 
-                                        db.collection("users").document(auth.currentUser?.uid.toString())
-                                            .collection("location")
-                                            .document(ref.id).set(location).addOnSuccessListener {
+                                                        db.collection("users").document(auth.currentUser?.uid.toString())
+                                                            .collection("location")
+                                                            .document(ref.id).set(location).addOnSuccessListener {
 
-                                                Toast.makeText(
-                                                    baseContext,
-                                                    "You have been added to the Group Chat",
-                                                    Toast.LENGTH_LONG
-                                                ).show()
+                                                                Toast.makeText(
+                                                                    baseContext,
+                                                                    "You have been added to the Group Chat",
+                                                                    Toast.LENGTH_LONG
+                                                                ).show()
 
-                                            }.addOnFailureListener {
+                                                            }.addOnFailureListener {
 
+                                                            }
+
+                                                    }.addOnFailureListener {
+
+                                                    }
                                             }
-
-                                    }.addOnFailureListener {
-
                                     }
                             }
+
 
                         //END YES
                     }

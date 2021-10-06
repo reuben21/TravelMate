@@ -24,6 +24,7 @@ import com.project22.myapplication.adapters.DestinationViewHolder
 import com.project22.myapplication.model.Destination
 import com.project22.myapplication.screens.TravelDestination
 import com.project22.myapplication.screens.TravelDestinationForm
+import kotlinx.android.synthetic.main.fragment_chats.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -85,9 +86,14 @@ class HomeFragment : Fragment() {
                         destinationList.add(destination)
                     }
                 }
+                try {
+                    adapter!!.notifyDataSetChanged()
+                    destinationListRecyclerView.adapter = adapter
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
 
-                adapter!!.notifyDataSetChanged()
-                destinationListRecyclerView.adapter = adapter
+
             })
     }
 

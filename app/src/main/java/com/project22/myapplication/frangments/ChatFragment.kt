@@ -135,6 +135,8 @@ class ChatFragment : Fragment() {
                     Log.d("TEXT", dest.id.toString())
                     val intent = Intent(context?.applicationContext, ChatScreen::class.java)
                     intent.putExtra("chatId", dest.id.toString())
+                    intent.putExtra("chatName", dest.chatName.toString())
+                    intent.putExtra("chatImageHolder", dest.chatImageHolder.toString())
                     startActivity(intent)
 
                 }

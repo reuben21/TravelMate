@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelMate">
         <activity
+            android:name=".screens.chat_profile_screen"
+            android:exported="true" />
+        <activity
             android:name=".authentication.ProfilePictureActivity"
             android:exported="true" />
         <activity

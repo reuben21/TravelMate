@@ -76,9 +76,27 @@ class ChatScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_screen)
         val chatId = intent?.getStringExtra("chatId").toString()
+        val chatName= intent?.getStringExtra("chatName").toString()
+        val chatImageHolder= intent?.getStringExtra("chatImageHolder").toString()
         chatIdGlobal = chatId
 
+        toolbar_for_chat_screen.title = chatName
+        toolbar_for_chat_screen.setNavigationOnClickListener { onBackPressed() }
+        toolbar_for_chat_screen.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.chatProfileMenuButton -> {
+                    Log.d("CHAT SCREEN","PRINTING")
+                    val intent = Intent(this,chat_profile_screen::class.java)
+                    intent.putExtra("chatId",chatId)
+                    intent.putExtra("chatName",chatName)
+                    intent.putExtra("chatImageHolder",chatImageHolder)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
 
+        }
         val dbHelper = DatabaseHelper(this)
         val res = dbHelper.allData
         while (res.moveToNext()) {

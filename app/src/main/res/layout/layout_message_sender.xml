@@ -43,7 +43,7 @@
             android:paddingRight="5dp"
             android:textColor="#FFFFFF"
             android:textSize="12dp"
-            tools:text="reuben coutinho" />
+            tools:text="reuben coutinho coutinho" />
     </LinearLayout>
 
     <TextView

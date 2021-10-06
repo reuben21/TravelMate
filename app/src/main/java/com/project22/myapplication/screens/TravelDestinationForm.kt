@@ -253,8 +253,16 @@ class TravelDestinationForm : AppCompatActivity() {
                                         val chatDetails = hashMapOf(
                                             "chatName" to chatName,
                                             "chatId" to ref.id,
-                                            "chatImageHolder" to destinationImageUrl
+                                            "chatImageHolder" to destinationImageUrl,
+                                            "organiser" to listOf("${firstNameDB} ${lastNameDB}","${profileImageUrlDB}"),
+
                                         )
+
+                                        val organiser = hashMapOf(
+                                            "chatId" to ref.id,
+                                            "user" to firstNameDB +" "+lastNameDB,
+                                            "profileImageUrl" to "${profileImageUrlDB}",
+                                            )
 
 
 
@@ -264,56 +272,67 @@ class TravelDestinationForm : AppCompatActivity() {
                                                 db.collection("chats").document(ref.id)
                                                     .set(chatDetails)
                                                     .addOnSuccessListener {
-                                                        val ref2 =
-                                                            db.collection("chats").document(ref.id)
-                                                                .collection("messages").document()
-                                                        val textMessage = hashMapOf(
-                                                            "id" to ref2.id,
-                                                            "message" to " ${firstNameDB} ${lastNameDB} created this chat ",
-                                                            "createdAt" to Timestamp(Date()),
-                                                            "senderId" to auth.currentUser?.uid,
-                                                            "senderName" to "${firstNameDB} ${lastNameDB}",
-                                                            "messageType" to "3",
-
-                                                            )
-                                                        db.collection("users").document(auth.currentUser?.uid.toString())
-                                                            .collection("chats").document(ref.id)
-                                                            .set(chatDetails)
+                                                        db.collection("chats").document(ref.id).collection("users").document(ref.id)
+                                                            .set(organiser)
                                                             .addOnSuccessListener {
-                                                                db.collection("chats").document(ref.id)
-                                                                    .collection("messages")
-                                                                    .document(ref2.id).set(
-                                                                        textMessage
+                                                                val ref2 =
+                                                                    db.collection("chats").document(ref.id)
+                                                                        .collection("messages").document()
+                                                                val textMessage = hashMapOf(
+                                                                    "id" to ref2.id,
+                                                                    "message" to " ${firstNameDB} ${lastNameDB} created this chat ",
+                                                                    "createdAt" to Timestamp(Date()),
+                                                                    "senderId" to auth.currentUser?.uid,
+                                                                    "senderName" to "${firstNameDB} ${lastNameDB}",
+                                                                    "messageType" to "3",
 
-                                                                    ).addOnSuccessListener {
-                                                                        val location = hashMapOf(
-                                                                            "id" to ref.id,
-                                                                            "senderId" to auth.currentUser?.uid,
-                                                                            "originLatitude" to originNameLatitude,
-                                                                            "originLongitude" to originNameLongitude,
-                                                                            "destinationLatitude" to destinationNameLatitude,
-                                                                            "destinationLongitude" to destinationNameLongitude,
-                                                                            "startDate" to Timestamp(Date(startDateVar)),
-                                                                            "endDate" to Timestamp(Date(endDateVar)),
-
-                                                                            )
-                                                                        db.collection("users").document(auth.currentUser?.uid.toString())
-                                                                            .collection("location")
-                                                                            .document(ref.id).set(
-                                                                                location
+                                                                    )
+                                                                db.collection("users").document(auth.currentUser?.uid.toString())
+                                                                    .collection("chats").document(ref.id)
+                                                                    .set(chatDetails)
+                                                                    .addOnSuccessListener {
+                                                                        db.collection("chats").document(ref.id)
+                                                                            .collection("messages")
+                                                                            .document(ref2.id).set(
+                                                                                textMessage
 
                                                                             ).addOnSuccessListener {
-                                                                                startActivity(
-                                                                                    Intent(
-                                                                                        this,
-                                                                                        MainActivity::class.java
-                                                                                    )
+                                                                                val location = hashMapOf(
+                                                                                    "id" to ref.id,
+                                                                                    "senderId" to auth.currentUser?.uid,
+                                                                                    "originLatitude" to originNameLatitude,
+                                                                                    "originLongitude" to originNameLongitude,
+                                                                                    "destinationLatitude" to destinationNameLatitude,
+                                                                                    "destinationLongitude" to destinationNameLongitude,
+                                                                                    "startDate" to Timestamp(Date(startDateVar)),
+                                                                                    "endDate" to Timestamp(Date(endDateVar)),
 
+                                                                                    )
+                                                                                db.collection("users").document(auth.currentUser?.uid.toString())
+                                                                                    .collection("location")
+                                                                                    .document(ref.id).set(
+                                                                                        location
+
+                                                                                    ).addOnSuccessListener {
+                                                                                        startActivity(
+                                                                                            Intent(
+                                                                                                this,
+                                                                                                MainActivity::class.java
+                                                                                            )
+
+                                                                                        )
+                                                                                    }
+
+
+
+                                                                            }
+                                                                            .addOnFailureListener { e ->
+                                                                                Log.w(
+                                                                                    "TAG",
+                                                                                    "Error writing document",
+                                                                                    e
                                                                                 )
                                                                             }
-
-
-
                                                                     }
                                                                     .addOnFailureListener { e ->
                                                                         Log.w(
@@ -322,23 +341,17 @@ class TravelDestinationForm : AppCompatActivity() {
                                                                             e
                                                                         )
                                                                     }
-                                                            }
-                                                            .addOnFailureListener { e ->
-                                                                Log.w(
-                                                                    "TAG",
-                                                                    "Error writing document",
-                                                                    e
+
+
+                                                                startActivity(
+                                                                    Intent(
+                                                                        this,
+                                                                        MainActivity::class.java
+                                                                    )
+
                                                                 )
                                                             }
 
-
-                                                        startActivity(
-                                                            Intent(
-                                                                this,
-                                                                MainActivity::class.java
-                                                            )
-
-                                                        )
 
                                                     }
                                                     .addOnFailureListener { e ->
