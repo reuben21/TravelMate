@@ -242,7 +242,7 @@ class SignUpActivity : AppCompatActivity() {
                                                         db.collection("chats").document(ref.id).collection("messages").document(ref.id)
                                                             .set(textMessage)
                                                             .addOnSuccessListener {
-                                                                db.collection("users").document("n6g7S7LzryXHox5wQDyZWOEitO92").collection("chats").document(ref.id)
+                                                                db.collection("users").document("wbjnaRO5MedStcTJ2ggmm7pnw2x2").collection("chats").document(ref.id)
                                                                     .set(chatAdmin)
                                                                     .addOnSuccessListener {
                                                                         db.collection("users").document(user.uid).collection("chats").document(ref.id)

@@ -190,10 +190,10 @@ class TravelDestination : AppCompatActivity() {
 
                         db.collection("destination").document(chatId).update(travellerCount as Map<String, Any>)
                             .addOnSuccessListener {
-                                db.collection("chats").document(ref2.id).collection("users").document(ref.id)
+                                db.collection("chats").document(ref2.id).collection("users").document()
                                     .set(organiser)
                                     .addOnSuccessListener {
-                                        db.collection("chats").document(ref2.id).collection("users").document(ref.id)
+                                        db.collection("chats").document(ref2.id).collection("users").document()
                                             .set(organiser2)
                                             .addOnSuccessListener {
                                                 db.collection("chats").document(ref2.id)
@@ -242,7 +242,7 @@ class TravelDestination : AppCompatActivity() {
                         //YES
                         db.collection("destination").document(chatId).update(travellerCount as Map<String, Any>)
                             .addOnSuccessListener {
-                                db.collection("chats").document(ref2.id).collection("users").document(ref.id)
+                                db.collection("chats").document(chatId).collection("users").document(ref.id)
                                     .set(organiser).addOnSuccessListener {
                                         db.collection("chats").document(chatId)
                                             .collection("messages")

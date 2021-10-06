@@ -107,7 +107,7 @@ class LoginActivity : AppCompatActivity() {
                                                     document.data?.get("phoneNo").toString(),
                                                 )
                                                 startActivity(Intent(this, MainActivity::class.java))
-                                                finish();
+
                                             }catch (e: Exception){
 
                                                 e.printStackTrace()

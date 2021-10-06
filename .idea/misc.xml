@@ -52,6 +52,7 @@
         <entry key="app/src/main/res/layout/layout_message_receiver.xml" value="0.5" />
         <entry key="app/src/main/res/layout/layout_message_sender.xml" value="0.5" />
         <entry key="app/src/main/res/layout/single_chat_item.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/layout/single_user_item.xml" value="0.23072916666666668" />
         <entry key="app/src/main/res/menu/top_app_bar_chat_screen.xml" value="0.67" />
       </map>
     </option>

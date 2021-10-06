@@ -259,7 +259,7 @@ class TravelDestinationForm : AppCompatActivity() {
                                         )
 
                                         val organiser = hashMapOf(
-                                            "chatId" to ref.id,
+                                            "userId" to auth.currentUser?.uid.toString(),
                                             "user" to firstNameDB +" "+lastNameDB,
                                             "profileImageUrl" to "${profileImageUrlDB}",
                                             )
@@ -285,7 +285,6 @@ class TravelDestinationForm : AppCompatActivity() {
                                                                     "senderId" to auth.currentUser?.uid,
                                                                     "senderName" to "${firstNameDB} ${lastNameDB}",
                                                                     "messageType" to "3",
-
                                                                     )
                                                                 db.collection("users").document(auth.currentUser?.uid.toString())
                                                                     .collection("chats").document(ref.id)
